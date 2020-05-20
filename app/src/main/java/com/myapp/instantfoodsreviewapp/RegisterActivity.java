@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     public void confirmInput(View v) {
-        if (!validateEmail() | !validatePassword() | !validatePassword()) {
+        if (!validateEmail() | !validatePassword() | !validateNickName()) {
             return;
         }
     }

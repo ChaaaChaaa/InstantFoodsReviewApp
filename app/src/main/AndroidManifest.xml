@@ -19,7 +19,10 @@
         
         <activity android:name=".RegisterActivity"
             android:parentActivityName=".LoginActivity">
+        </activity>
 
+        <activity android:name=".EmailLoginActivity"
+            android:parentActivityName=".LoginActivity">
         </activity>
     </application>
 

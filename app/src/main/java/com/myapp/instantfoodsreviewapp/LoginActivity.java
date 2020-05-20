@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = null;
         switch (view.getId()) {
             case R.id.login_button:
+                intent = new Intent(this,EmailLoginActivity.class);
                 break;
             case R.id.tv_register_email:
                 intent = new Intent(this, RegisterActivity.class);
