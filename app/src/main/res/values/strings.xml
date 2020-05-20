@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">InstantFoodsReviewApp</string>
+    <string name="email_login">이메일로 로그인</string>
+    <string name="register">이메일 가입하기</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+    <string name="nickname">닉네임</string>
+    <string name="duplication">중복 확인</string>
+    <string name="confirm">확인</string>
+</resources>
