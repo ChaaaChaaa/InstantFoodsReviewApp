@@ -11,4 +11,7 @@
     <string name="duplication">중복 확인</string>
     <string name="confirm">확인</string>
     <string name="login">로그인</string>
+
+    <string name="welcome">로그인하셨습니다.</string>
+    <string name="logout">LOGOUT</string>
 </resources>

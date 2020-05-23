@@ -20,6 +20,15 @@
             android:textColor="#000"
             android:textSize="30sp" />
 
+        <ProgressBar
+            android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="58dp"
+            android:visibility="gone"
+            android:layout_gravity="center"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_login_email"
             android:layout_width="match_parent"
@@ -28,8 +37,10 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="abcd@eeeee.fff"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
@@ -44,8 +55,10 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="123456789"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
