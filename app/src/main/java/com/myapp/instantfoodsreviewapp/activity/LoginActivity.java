@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp;
+package com.myapp.instantfoodsreviewapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {

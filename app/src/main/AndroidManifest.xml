@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,14 +18,14 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".RegisterActivity"
-            android:parentActivityName=".LoginActivity">
+        <activity android:name=".activity.RegisterActivity"
+            android:parentActivityName=".activity.LoginActivity">
         </activity>
 
-        <activity android:name=".EmailLoginActivity"
-            android:parentActivityName=".LoginActivity">
+        <activity android:name=".activity.EmailLoginActivity"
+            android:parentActivityName=".activity.LoginActivity">
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".activity.MainActivity"/>
     </application>
 
 </manifest>

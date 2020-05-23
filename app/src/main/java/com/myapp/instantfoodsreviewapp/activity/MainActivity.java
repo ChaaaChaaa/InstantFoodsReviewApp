@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp;
+package com.myapp.instantfoodsreviewapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.myapp.instantfoodsreviewapp.utils.Const;
+import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
 
 import java.util.Objects;

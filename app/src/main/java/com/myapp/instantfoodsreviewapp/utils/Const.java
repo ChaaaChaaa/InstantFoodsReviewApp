@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp;
+package com.myapp.instantfoodsreviewapp.utils;
 
 import com.google.android.material.textfield.TextInputLayout;
 

@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp;
+package com.myapp.instantfoodsreviewapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.myapp.instantfoodsreviewapp.utils.Const;
+import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityRegisterBinding;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
