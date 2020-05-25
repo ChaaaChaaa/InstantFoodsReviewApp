@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private TextView getNickName;
     private Button logoutButton;
     private ActivityMainBinding activityMainBinding;
-
     private UserPreference userPreference;
 
     @Override
@@ -31,18 +30,18 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         getNickName = activityMainBinding.getNickName;
         logoutButton = activityMainBinding.logoutButton;
         logoutButton.setOnClickListener(this);
-        bringNickName();
+        //bringNickName();
     }
 
-    void bringNickName() {
-        String nickName = Objects.requireNonNull(getIntent().getExtras()).getString("loginEmail");
-
-        if (!Const.isNullOrEmptyString(nickName)) {
-            getNickName.setText(nickName);
-        } else {
-            getNickName.setText("입력받은 값이 없습니다.");
-        }
-    }
+//    void bringNickName() {
+//        String nickName = Objects.requireNonNull(getIntent().getExtras()).getString("loginEmail");
+//
+//        if (!Const.isNullOrEmptyString(nickName)) {
+//            getNickName.setText(nickName);
+//        } else {
+//            getNickName.setText("입력받은 값이 없습니다.");
+//        }
+//    }
 
     public void userLogOut(View view) {
         userPreference.setLoggedIn(getApplicationContext(),false);

@@ -13,13 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityRegisterBinding;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,19 +31,11 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity implements Button.OnClickListener {
     private String TAG = RegisterActivity.class.getSimpleName();
 
-    private TextInputLayout textInputEmail;
-    private TextInputLayout textInputPassword;
-    private TextInputLayout textInputNickName;
     private Button confirmButton;
     private ActivityRegisterBinding registerBinding;
 
     ProgressBar progressBar;
 
-    RetrofitInterface retrofitInterface;
-
-    private String registerEmail;
-    private String registerPassword;
-    private String registerNickName;
 
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
@@ -57,9 +52,6 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     private void init() {
-        textInputEmail = registerBinding.textInputEmail;
-        textInputPassword = registerBinding.textInputPassword;
-        textInputNickName = registerBinding.textInputNickname;
         confirmButton = registerBinding.btnConfirm;
         progressBar = registerBinding.registerProgress;
 
@@ -74,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     private boolean validateEmail() {
-        String emailInput = userEmail.getText().toString().trim();
+        String emailInput = Objects.requireNonNull(userEmail.getText()).toString().trim();
         if (emailInput.isEmpty()) {
             userEmail.setError("이메일 주소를 입력해주세요");
             return false;
@@ -90,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     private boolean validatePassword() {
-        String emailInput = userPassword.getText().toString().trim();
+        String emailInput = Objects.requireNonNull(userPassword.getText()).toString().trim();
         if (emailInput.isEmpty()) {
             userPassword.setError("비밀번호를 입력해주세요");
             return false;
@@ -101,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     private boolean validateNickName() {
-        String nickNameInput = userNickName.getText().toString().trim();
+        String nickNameInput = Objects.requireNonNull(userNickName.getText()).toString().trim();
         if (nickNameInput.isEmpty()) {
             userNickName.setError("닉네임을 입력해주세요");
             return false;
@@ -116,37 +108,24 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
     public void confirmInput(View v) {
         if (!validateEmail() | !validatePassword() | !validateNickName()) {
-            return;
         } else {
             doRegister();
         }
     }
 
-//    public UserRegisterData createRegisterRequest() {
-//        UserRegisterData userRegisterData = new UserRegisterData();
-//        userRegisterData.setEmail(textInputEmail.getEditText().getText().toString());
-//        userRegisterData.setNickName(textInputNickName.getEditText().getText().toString());
-//        userRegisterData.setPassword(textInputPassword.getEditText().getText().toString());
-//        return userRegisterData;
-//    }
-
     void doRegister() {
-        //  userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
-
-
-
-        registerEmail = userEmail.getText().toString();
-        registerNickName = userNickName.getText().toString();
-        registerPassword = userPassword.getText().toString();
+        String registerEmail = Objects.requireNonNull(userEmail.getText()).toString();
+        String registerNickName = Objects.requireNonNull(userNickName.getText()).toString();
+        String registerPassword = Objects.requireNonNull(userPassword.getText()).toString();
 
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<UserRegisterData> call = retrofitInterface.regist(registerEmail,registerNickName,registerPassword);
+        Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
 
         if (!Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
             showLoading(true);
             call.enqueue(new Callback<UserRegisterData>() {
                 @Override
-                public void onResponse(Call<UserRegisterData> call, Response<UserRegisterData> response) {
+                public void onResponse(@NotNull Call<UserRegisterData> call, @NotNull Response<UserRegisterData> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, EmailLoginActivity.class);
@@ -160,34 +139,10 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
                 }
 
                 @Override
-                public void onFailure(Call<UserRegisterData> call, Throwable t) {
+                public void onFailure(@NotNull Call<UserRegisterData> call, @NotNull Throwable t) {
                     Log.e("fail error", t.getLocalizedMessage());
                 }
             });
-//            restMethods.regist(registerEmail, registerNickName, registerPassword).enqueue(new Callback<UserRegisterData>() {
-//              //Log.i("로그","55" );
-//                @Override
-//                public void onResponse(Call<UserRegisterData> call, Response<UserRegisterData> response) {
-//                    Log.v("로그","55" );
-//                    if (response.isSuccessful()) {
-//                        Log.v("로그","66" );
-//                        Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(RegisterActivity.this, EmailLoginActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                        Log.i(TAG, "Responser: " + response.body());
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
-//                    }
-//                    showLoading(false);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<UserRegisterData> call, Throwable t) {
-//                    Log.v("로그","77" );
-//                    Log.e("fail error", t.getLocalizedMessage());
-//                }
-//            });
         }
     }
 

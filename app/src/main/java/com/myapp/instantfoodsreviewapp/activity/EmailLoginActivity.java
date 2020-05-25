@@ -23,6 +23,8 @@ import com.myapp.instantfoodsreviewapp.model.UserLoginData;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -74,7 +76,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initListener() {
-        loginButton.setOnClickListener(this::onClick);
+        loginButton.setOnClickListener(this);
         checkBox.setOnClickListener(this::onCheckboxClicked);
     }
     public void checkAutoLogin() {
@@ -91,8 +93,8 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.autoLoginCheck:
                 if (checkBox.isChecked()) {
-                    userEmail = loginEmail.getText().toString();
-                    userPwd = loginPassword.getText().toString();
+                    userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
+                    userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
                     userPreference.setLoggedIn(getApplicationContext(), true);
                 } else {
                     userPreference.clearUserLogin(this);
@@ -105,15 +107,12 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()) {
             Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_LONG).show();
-            return;
         } else if (loginPassword.getText().toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요", Toast.LENGTH_LONG).show();
             loginPassword.setError("Password Blank");
-            return;
 
         } else {
             doLogin();
-            return;
         }
     }
 
@@ -146,7 +145,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 @Override
-                public void onFailure(Call<UserLoginData> call, Throwable t) {
+                public void onFailure(@NotNull Call<UserLoginData> call, Throwable t) {
                     Log.e("fail error", t.getLocalizedMessage());
                 }
             });
