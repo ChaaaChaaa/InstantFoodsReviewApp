@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityEmailLoginBinding;
@@ -33,11 +36,16 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     private TextInputLayout textLoginPassword;
     private ProgressBar progressBar;
     private Button loginButton;
+    private CheckBox checkBox;
+
+
     private ActivityEmailLoginBinding activityEmailLoginBinding;
     private RetrofitInterface retrofitInterface;
+    private UserPreference userPreference;
 
     private String userEmail;
-    private static EmailLoginActivity instance;
+    private String userPwd;
+
 
     private TextInputEditText loginEmail;
     private TextInputEditText loginPassword;
@@ -49,6 +57,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         initClient();
         initEmailLogin();
         initListener();
+        checkAutoLogin();
     }
 
     public void initClient() {
@@ -60,37 +69,59 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         textLoginEmail = activityEmailLoginBinding.textLoginEmail;
         textLoginPassword = activityEmailLoginBinding.textLoginPassword;
         progressBar = activityEmailLoginBinding.loginProgress;
+        checkBox = activityEmailLoginBinding.autoLoginCheck;
         loginEmail = activityEmailLoginBinding.loginEmail;
         loginPassword = activityEmailLoginBinding.loginPassword;
     }
 
-    private void initListener(){
-        loginButton.setOnClickListener(this);
+    private void initListener() {
+        loginButton.setOnClickListener(this::onClick);
+        checkBox.setOnClickListener(this::onCheckboxClicked);
+    }
+    public void checkAutoLogin() {
+        if (userPreference.getLoggedStatus(getApplicationContext())) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        } else {
+            return;
+        }
+    }
+
+
+    public void onCheckboxClicked(View view) {
+        switch (view.getId()) {
+            case R.id.autoLoginCheck:
+                if (checkBox.isChecked()) {
+                    userEmail = loginEmail.getText().toString();
+                    userPwd = loginPassword.getText().toString();
+                    userPreference.setLoggedIn(getApplicationContext(), true);
+                } else {
+                    userPreference.clearUserLogin(this);
+                }
+                break;
+        }
     }
 
     @Override
     public void onClick(View view) {
-        if(!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()){
-            Toast.makeText(getApplicationContext(),"이메일 형식이 잘못되었습니다.",Toast.LENGTH_LONG).show();
+        if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()) {
+            Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_LONG).show();
             return;
-        }
-        else if (textLoginPassword.getEditText().toString().length() == 0) {
+        } else if (loginPassword.getText().toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요", Toast.LENGTH_LONG).show();
-            textLoginPassword.setError("Password Blank");
+            loginPassword.setError("Password Blank");
             return;
 
         } else {
             doLogin();
+            return;
         }
-
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
 
     void doLogin() {
         userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
-        String userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
+        userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
         if (!Const.isNullOrEmptyString(userEmail, userPwd)) {
             showLoading(true);
             retrofitInterface.login(userEmail, userPwd).enqueue(new Callback<UserLoginData>() {
@@ -143,9 +174,5 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         } else {
             progressBar.setVisibility(View.GONE);
         }
-    }
-
-    public static EmailLoginActivity getInstance() {
-        return instance;
     }
 }

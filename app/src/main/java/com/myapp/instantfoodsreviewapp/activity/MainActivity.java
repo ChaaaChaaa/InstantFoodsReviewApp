@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private TextView getNickName;
     private Button logoutButton;
     private ActivityMainBinding activityMainBinding;
+
+    private UserPreference userPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     }
 
     public void userLogOut(View view) {
+        userPreference.setLoggedIn(getApplicationContext(),false);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

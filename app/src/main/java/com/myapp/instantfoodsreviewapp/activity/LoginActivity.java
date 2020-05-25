@@ -16,12 +16,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button loginButton;
     private TextView loginTextView;
     private ActivityLoginBinding loginBinding;
+    private EmailLoginActivity emailLoginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         init();
+
 
     }
 
