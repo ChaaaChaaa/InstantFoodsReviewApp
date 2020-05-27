@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityRegisterBinding;

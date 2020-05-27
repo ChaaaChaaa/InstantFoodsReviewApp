@@ -5,40 +5,53 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class UserPreference {
+    public static UserPreference prf = new UserPreference();
+
     private static final String USER_PREFERENCES = "USER_PREFERENCES";
     private static final String LOGGED_IN_PREF = "logged_in_status";
     private static SharedPreferences userSharedPreferences;
     private static SharedPreferences.Editor sharedPreferencesEditor;
 
-    private static SharedPreferences getPreference(Context context){
-       return context.getSharedPreferences(USER_PREFERENCES, Activity.MODE_PRIVATE);
-       // this.sharedPreferencesEditor = userSharedPreferences.edit();
+    public static UserPreference getInstance() {
+        return prf;
     }
 
-    private static SharedPreferences.Editor getPreferenceEditor(Context context){
-        if(userSharedPreferences == null){
-            userSharedPreferences = getPreference(context);
-        }
+    public void setContext(Context context) {
+        userSharedPreferences = getPreference(context);
+        sharedPreferencesEditor = getPreferenceEditor(context);
+    }
+
+    private SharedPreferences getPreference(Context context) {
+        return context.getSharedPreferences(USER_PREFERENCES, Activity.MODE_PRIVATE);
+    }
+
+    private SharedPreferences.Editor getPreferenceEditor(Context context) {
         return userSharedPreferences.edit();
     }
 
-    public static void setLoggedIn(Context context, boolean loggedIn){
-        userSharedPreferences = getPreference(context);
-        sharedPreferencesEditor = getPreferenceEditor(context);
-        sharedPreferencesEditor.putBoolean(LOGGED_IN_PREF,loggedIn);
+    public void setLoggedIn(Context context, boolean loggedIn) {
+        sharedPreferencesEditor.putBoolean(LOGGED_IN_PREF, loggedIn);
         sharedPreferencesEditor.apply();
     }
 
-    public static boolean getLoggedStatus(Context context){
-        return getPreference(context).getBoolean(LOGGED_IN_PREF,false);
+    public boolean getLoggedStatus() {
+        return userSharedPreferences.getBoolean(LOGGED_IN_PREF, false);
     }
 
-    public static void clearUserLogin(Context context){
-        sharedPreferencesEditor = getPreferenceEditor(context);
+    public void clearUserLogin() {
         sharedPreferencesEditor.clear();
         sharedPreferencesEditor.commit();
     }
 
+    public void putString(String key, String value) {
+
+        sharedPreferencesEditor.putString(key, value);
+        sharedPreferencesEditor.commit();
+    }
+
+    public String getString(String key) {
+        return userSharedPreferences.getString(key, "");
+    }
 
 
 }

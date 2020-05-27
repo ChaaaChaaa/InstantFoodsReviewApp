@@ -15,7 +15,9 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityEmailLoginBinding;
@@ -30,6 +32,8 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_TOKEN;
 
 public class EmailLoginActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = EmailLoginActivity.class.getSimpleName();
@@ -46,6 +50,8 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
     private String userEmail;
     private String userPwd;
+    private String sendToken;
+    private boolean isLogin = true;
 
 
     private TextInputEditText loginEmail;
@@ -80,7 +86,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         checkBox.setOnClickListener(this::onCheckboxClicked);
     }
     public void checkAutoLogin() {
-        if (userPreference.getLoggedStatus(getApplicationContext())) {
+        if (userPreference.getLoggedStatus()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         } else {
@@ -95,9 +101,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 if (checkBox.isChecked()) {
                     userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
                     userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
+
                     userPreference.setLoggedIn(getApplicationContext(), true);
                 } else {
-                    userPreference.clearUserLogin(this);
+                    userPreference.clearUserLogin();
                 }
                 break;
         }
@@ -126,6 +133,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<UserLoginData> call, Response<UserLoginData> response) {
                     if (response.isSuccessful()) {
+                        Log.e("로그","555");
+                        userPreference.putString( KEY_TOKEN,sendToken);
+
+                        doStore();
                         UserLoginData loginData = response.body();
                         Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
@@ -141,6 +152,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                     } else {
                         Toast.makeText(getApplication(), "로그인 실패", Toast.LENGTH_SHORT).show();
                     }
+
                     showLoading(false);
                 }
 
@@ -173,4 +185,29 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
+
+    void doStore(){
+        //retrofitInterface  = RetrofitClient.getRestMethods().
+        //userPreference.getString(this,sendToken);
+
+       // sendToken =  UserPreference.getInstance();
+        retrofitInterface.account(sendToken,userEmail,userPwd).enqueue(new Callback<UserAccountData>() {
+           //Call<UserAccountData> userAccountDataCall = userPreference.getString(this,sendToken);
+            @Override
+            public void onResponse(Call<UserAccountData> call, Response<UserAccountData> response) {
+                if(response.isSuccessful()){
+                    Log.e("로그","222");
+                    UserAccountData accountData = response.body();
+                    Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserAccountData> call, Throwable t) {
+                Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
