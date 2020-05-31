@@ -10,15 +10,24 @@ public class UserPreference {
     private static SharedPreferences userSharedPreferences;
     private static SharedPreferences.Editor sharedPreferencesEditor;
 
+
+    private static UserPreference ownPreference = new UserPreference();
+
+    public static UserPreference getInstance(){
+        return ownPreference;
+    }
+
+    public void setContext(Context context){
+        userSharedPreferences = getPreference(context);
+        sharedPreferencesEditor = getPreferenceEditor(context);
+    }
+
+
     private static SharedPreferences getPreference(Context context){
        return context.getSharedPreferences(USER_PREFERENCES, Activity.MODE_PRIVATE);
-       // this.sharedPreferencesEditor = userSharedPreferences.edit();
     }
 
     private static SharedPreferences.Editor getPreferenceEditor(Context context){
-        if(userSharedPreferences == null){
-            userSharedPreferences = getPreference(context);
-        }
         return userSharedPreferences.edit();
     }
 
@@ -34,11 +43,18 @@ public class UserPreference {
     }
 
     public static void clearUserLogin(Context context){
-        sharedPreferencesEditor = getPreferenceEditor(context);
+       // sharedPreferencesEditor = getPreferenceEditor(context);
         sharedPreferencesEditor.clear();
         sharedPreferencesEditor.commit();
     }
 
+    public void putString(String key, String value) {
+        sharedPreferencesEditor.putString(key, value);
+        sharedPreferencesEditor.commit();
+    }
 
+    public String getString(String key) {
+        return userSharedPreferences.getString(key, "");
+    }
 
 }

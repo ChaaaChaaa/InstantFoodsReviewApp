@@ -1,6 +1,7 @@
 package com.myapp.instantfoodsreviewapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -15,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
@@ -31,6 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_EMAIL;
+import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_PASSWORD;
+import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_TOKEN;
+
 public class EmailLoginActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = EmailLoginActivity.class.getSimpleName();
     private TextInputLayout textLoginEmail;
@@ -46,6 +52,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
     private String userEmail;
     private String userPwd;
+    private String sendToken;
 
 
     private TextInputEditText loginEmail;
@@ -126,7 +133,20 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<UserLoginData> call, Response<UserLoginData> response) {
                     if (response.isSuccessful()) {
-                        UserLoginData loginData = response.body();
+
+                       //doStore();
+                        //UserLoginData loginData = response.body();
+                        //userPreference.putString(KEY_EMAIL,userEmail);
+                        //userPreference.putString(KEY_PASSWORD,userPwd);
+                        //String token = UserPreference.getInstance().getString();
+
+
+
+
+                        userPreference.putString( KEY_TOKEN,sendToken);
+                        doStore();
+
+
                         Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
 
@@ -172,5 +192,29 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         } else {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    void doStore() {
+
+      //  retrofitInterface  = RetrofitClient.getRestMethods().
+        String getToken =  userPreference.getString(sendToken);
+
+        //sendToken =  UserPreference.getInstance();
+        retrofitInterface.account(getToken).enqueue(new Callback<UserAccountData>() {
+           // Call<UserAccountData> userAccountDataCall = userPreference.getString(sendToken);
+            @Override
+            public void onResponse(Call<UserAccountData> call, Response<UserAccountData> response) {
+                if (response.isSuccessful()) {
+                    Log.e("로그", "222");
+                    UserAccountData accountData = response.body();
+                    Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserAccountData> call, Throwable t) {
+                Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

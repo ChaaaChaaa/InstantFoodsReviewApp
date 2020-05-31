@@ -10,6 +10,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface RetrofitInterface {
 
@@ -21,8 +22,7 @@ public interface RetrofitInterface {
     @POST("v1/user/login")
     Call<UserLoginData> login(@Field("email") String email, @Field("password") String password);
 
-    @FormUrlEncoded
-   // @Header("key : authorization","token")
+
     @GET("v1/user/account")
-    Call<UserAccountData> account(@Header("authorization") String token, @Field("email") String email, @Field("nickname") String nickname);
+    Call<UserAccountData> account(@Header("authorization") String user_token);
 }
