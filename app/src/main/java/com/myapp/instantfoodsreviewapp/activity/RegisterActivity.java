@@ -21,6 +21,7 @@ import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -28,6 +29,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class RegisterActivity extends AppCompatActivity implements Button.OnClickListener {
     private String TAG = RegisterActivity.class.getSimpleName();
@@ -120,10 +122,10 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         String registerPassword = Objects.requireNonNull(userPassword.getText()).toString();
 
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
 
-        if (!Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
+        if (Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
             showLoading(true);
+            Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
             call.enqueue(new Callback<UserRegisterData>() {
                 @Override
                 public void onResponse(@NotNull Call<UserRegisterData> call, @NotNull Response<UserRegisterData> response) {

@@ -5,10 +5,10 @@ public class Const {
     public static boolean isNullOrEmptyString( String... msgs) {
         for (String item : msgs) {
             if (item == null || item.isEmpty()) {
-                return true;
+                return false; //낫널일땐 펄스로 수정함
             }
         }
-        return false;
+        return true; // 이즈낫널이니까, 낫널이 아닐땐 트루
     }
 
     //model : 이메일 형식 체크

@@ -3,6 +3,7 @@ package com.myapp.instantfoodsreviewapp.restapi;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.UserLoginData;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
+import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -19,7 +20,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("v1/user/login")
-    Call<UserLoginData> login(@Field("email") String email, @Field("password") String password);
+    Call<ApiResultDto> login(@Field("email") String email, @Field("password") String password);
 
     @FormUrlEncoded
    // @Header("key : authorization","token")
