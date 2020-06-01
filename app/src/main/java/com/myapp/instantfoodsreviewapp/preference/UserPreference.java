@@ -31,13 +31,6 @@ public class UserPreference {
         return userSharedPreferences.edit();
     }
 
-    public static void setLoggedIn(Context context, boolean loggedIn){
-        userSharedPreferences = getPreference(context);
-        sharedPreferencesEditor = getPreferenceEditor(context);
-        sharedPreferencesEditor.putBoolean(LOGGED_IN_PREF,loggedIn);
-        sharedPreferencesEditor.apply();
-    }
-
     public static boolean getLoggedStatus(Context context){
         return getPreference(context).getBoolean(LOGGED_IN_PREF,false);
     }
@@ -56,5 +49,4 @@ public class UserPreference {
     public String getString(String key) {
         return userSharedPreferences.getString(key, "");
     }
-
 }
