@@ -11,6 +11,10 @@ import androidx.databinding.DataBindingUtil;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityLoginBinding;
+import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
+import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
+
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private Button loginButton;
@@ -47,6 +51,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         startActivity(intent);
     }
+
+
 
 
 }
