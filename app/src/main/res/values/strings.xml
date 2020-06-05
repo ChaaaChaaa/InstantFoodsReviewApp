@@ -15,4 +15,11 @@
 
     <string name="welcome">로그인하셨습니다.</string>
     <string name="logout">LOGOUT</string>
+    <string name="title">제목을 적어주세요</string>
+    <string name="write_review">리뷰쓰기</string>
+    <string name="pick_rate">평점을 선택해 주세요</string>
+    <string name="good_point">좋았던 점</string>
+    <string name="detail_review_good">어떤 맛이었는지 느낀점을 작성해주세요</string>
+    <string name="bad_point">아쉬운 점</string>
+    <string name="detail_review_bad">맛에 부족했던 점 혹은 불편했던 점을 작성해 주세요</string>
 </resources>

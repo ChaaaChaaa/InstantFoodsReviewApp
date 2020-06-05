@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initPreference();
-        getNickName = activityMainBinding.getNickName;
-        logoutButton = activityMainBinding.logoutButton;
         logoutButton.setOnClickListener(this);
         getUser();
     }
