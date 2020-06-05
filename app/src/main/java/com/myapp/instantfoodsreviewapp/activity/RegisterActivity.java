@@ -44,6 +44,8 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
 
+    private String token  = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,18 +1,13 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
+
 import android.util.Log;
 
-import com.myapp.instantfoodsreviewapp.BuildConfig;
 
 import org.jetbrains.annotations.NotNull;
 
 
-import java.io.IOException;
-
-import okhttp3.Headers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,7 +27,7 @@ public class RetrofitClient {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
+                .addInterceptor(new BasicAuthInterceptor())
                 .build();
     }
 
@@ -47,10 +42,10 @@ public class RetrofitClient {
         return httpLoggingInterceptor;
     }
 
-    public static RetrofitInterface getRestMethods(){
+    public static RetrofitInterface getRestMethods() {
         return buildHTTPClient();
     }
-
+//
 //    Interceptor headerAuthorizationInterceptor = new Interceptor() {
 //        @NotNull
 //        @Override
@@ -61,4 +56,17 @@ public class RetrofitClient {
 //            return chain.proceed(request);
 //        }
 //    };
+
+//    public void sendNetworkRequest(String token){
+//        OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
+//        okhttpBuilder.addInterceptor(new Interceptor() {
+//            @NotNull
+//            @Override
+//            public Response intercept(@NotNull Chain chain) throws IOException {
+//                Request request = chain.request();
+//                Request.Builder newRequest = request.newBuilder().header("Authorization","secret-key");
+//                return chain.proceed(newRequest.build());
+//            }
+//        });
+//    }
 }
