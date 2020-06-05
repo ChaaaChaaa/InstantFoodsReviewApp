@@ -26,6 +26,6 @@ public interface RetrofitInterface {
    // @Header("key : authorization","token")
 
     @GET("v1/user/account")
-    Call<UserAccountData> account();
-    //Call<UserAccountData> account(@Header("authorization") String token);
+    //Call<UserAccountData> account();
+    Call<UserAccountData> account(@Header("authorization") String token);
 }

@@ -74,7 +74,9 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void initClient() {
-        retrofitInterface = RetrofitClient.buildHTTPClient();
+        retrofitInterface = RetrofitClient.buildHTTPClient(
+
+        );
     }
 
     private void initEmailLogin() {

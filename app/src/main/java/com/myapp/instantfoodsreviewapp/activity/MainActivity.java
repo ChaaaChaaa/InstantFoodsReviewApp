@@ -80,10 +80,12 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private void getUser() {
        // String realToken;
         getToken = userPreference.getString(Config.KEY_TOKEN);
-        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
+        //RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         //Call<UserAccountData> call = retrofitInterface.account(getToken););
-        Call<UserAccountData> call = retrofitClient.buildHTTPClient().account();
+       // Call<UserAccountData> call = retrofitClient.buildHTTPClient().account();
 
+        RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
+        Call<UserAccountData> call = retrofitInterface.account(getToken);
 
       //  retrofitClient.sendNetworkRequest(getToken);
 
@@ -99,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
                     getNickName.setText(nickName);
 
 
-//                UserPreference userPreference = new UserPreference(getApplicationContext());
-//                if(getToken == null){
-//                    getToken = userPreference.getString("TOKEN");
-//                }
+                UserPreference userPreference = new UserPreference();
+                if(getToken != null){
+                     userPreference.putString(Config.KEY_TOKEN,getToken);
+                }
 
 
                     Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
