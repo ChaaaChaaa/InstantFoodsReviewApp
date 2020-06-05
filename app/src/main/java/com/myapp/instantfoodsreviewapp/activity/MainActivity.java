@@ -80,10 +80,11 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         getToken = userPreference.getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         //Call<UserAccountData> call = retrofitInterface.account(getToken););
-        Call<UserAccountData> call = retrofitClient.buildHTTPClient().account();
+        Call<UserAccountData> call = retrofitClient.buildHTTPClient().account(getToken);
 
 
       //  retrofitClient.sendNetworkRequest(getToken);
+
 
 
        // UserAccountData userAccountData = new UserAccountData();
