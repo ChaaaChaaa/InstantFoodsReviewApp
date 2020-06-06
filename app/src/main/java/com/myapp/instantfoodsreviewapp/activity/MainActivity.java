@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -78,41 +80,42 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     }
 
     private void getUser() {
-       // String realToken;
+
         getToken = userPreference.getString(Config.KEY_TOKEN);
-        //RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        //Call<UserAccountData> call = retrofitInterface.account(getToken););
-       // Call<UserAccountData> call = retrofitClient.buildHTTPClient().account();
 
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-        Call<UserAccountData> call = retrofitInterface.account(getToken);
+        Call<ApiResultDto> call = retrofitInterface.account(getToken);
 
-      //  retrofitClient.sendNetworkRequest(getToken);
+        call.enqueue(new Callback<ApiResultDto>() {
 
-
-       // UserAccountData userAccountData = new UserAccountData();
-        //String nickName = userPreference.getString("")
-        call.enqueue(new Callback<UserAccountData>() {
-
-            public void onResponse(Call<UserAccountData> call, Response<UserAccountData> response) {
+            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                 if (response.isSuccessful()) {
-                    String nickName =response.body().getNickname();
-                   // Log.i(TAG, "Responser: " + response.body());
-                    getNickName.setText(nickName);
+                    ApiResultDto dto = response.body();
+                    JsonObject resultData = dto.getResultData(); //실제 데이터부를 json으로 받고
+                    if(resultData!=null){
+                        //받은 json을 내가만든 UserAccountData 클래스형태로 convert
+                        UserAccountData userAccountData = new Gson().fromJson(resultData,UserAccountData.class);
+                        //String nickName =response.body().getNickname();
+                        // Log.i(TAG, "Responser: " + response.body());
+                        getNickName.setText(userAccountData.getNickname());
+                    }
+                    else{
+                        Log.e("getUser","Account null ");
+
+                    }
+
 
 
                 UserPreference userPreference = new UserPreference();
                 if(getToken != null){
                      userPreference.putString(Config.KEY_TOKEN,getToken);
                 }
-
-
                     Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<UserAccountData> call, Throwable t) {
+            public void onFailure(Call<ApiResultDto> call, Throwable t) {
                 Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
             }
         });

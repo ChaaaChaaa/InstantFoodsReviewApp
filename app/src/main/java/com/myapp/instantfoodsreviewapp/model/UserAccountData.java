@@ -5,11 +5,11 @@ public class UserAccountData {
     private String nickname;
     private int uid;
 
-    UserAccountData(String email, String nickname, int uid) {
-        this.email = email;
-        this.nickname = nickname;
-        this.uid = uid;
-    }
+//    UserAccountData(String email, String nickname, int uid) {
+//        this.email = email;
+//        this.nickname = nickname;
+//        this.uid = uid;
+//    }
 
     public String getEmail() {
         return email;

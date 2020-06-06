@@ -24,10 +24,15 @@ public class RetrofitClient {
     }
 
     private static OkHttpClient getClient() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor headerInterceptor = new HttpLoggingInterceptor();
+        headerInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+        HttpLoggingInterceptor bodyInterceptor = new HttpLoggingInterceptor();
+        bodyInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
-                .addInterceptor(new BasicAuthInterceptor())
+                .addInterceptor(headerInterceptor)
+                .addInterceptor(bodyInterceptor)
+                //.addInterceptor(new BasicAuthInterceptor())
                 .build();
     }
 
@@ -45,28 +50,4 @@ public class RetrofitClient {
     public static RetrofitInterface getRestMethods() {
         return buildHTTPClient();
     }
-//
-//    Interceptor headerAuthorizationInterceptor = new Interceptor() {
-//        @NotNull
-//        @Override
-//        public okhttp3.Response intercept(@NotNull Chain chain) throws IOException {
-//            okhttp3.Request request = chain.request();
-//            Headers headers = request.headers().newBuilder().add("Authorization",authToken).build();
-//            request = request.newBuilder().headers(headers).build();
-//            return chain.proceed(request);
-//        }
-//    };
-
-//    public void sendNetworkRequest(String token){
-//        OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
-//        okhttpBuilder.addInterceptor(new Interceptor() {
-//            @NotNull
-//            @Override
-//            public Response intercept(@NotNull Chain chain) throws IOException {
-//                Request request = chain.request();
-//                Request.Builder newRequest = request.newBuilder().header("Authorization","secret-key");
-//                return chain.proceed(newRequest.build());
-//            }
-//        });
-//    }
 }

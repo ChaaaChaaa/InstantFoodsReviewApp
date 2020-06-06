@@ -7,7 +7,7 @@ public class ApiResultDto {
     @SerializedName("resultCode")
     private int resultCode;
     @SerializedName("resultData")
-    private JsonObject resultData;
+    private JsonObject resultData; //json으로 받기에
     @SerializedName("message")
     private String message;
 
