@@ -24,10 +24,16 @@ public class RetrofitClient {
     }
 
     private static OkHttpClient getClient() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        HttpLoggingInterceptor headerInterceptor = new HttpLoggingInterceptor();
+        headerInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+        HttpLoggingInterceptor bodyInterceptor = new HttpLoggingInterceptor();
+        bodyInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         return new OkHttpClient.Builder()
-                .addInterceptor(new BasicAuthInterceptor())
+                .addInterceptor(headerInterceptor)
+                .addInterceptor(bodyInterceptor)
+                //.addInterceptor(new BasicAuthInterceptor())
                 .build();
     }
 

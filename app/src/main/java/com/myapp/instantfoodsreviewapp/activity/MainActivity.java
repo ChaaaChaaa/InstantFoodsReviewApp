@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -78,38 +80,27 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private void getUser() {
        // String realToken;
         getToken = userPreference.getString(Config.KEY_TOKEN);
-        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
+        RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
         //Call<UserAccountData> call = retrofitInterface.account(getToken););
-        Call<UserAccountData> call = retrofitClient.buildHTTPClient().account(getToken);
+        Call<ApiResultDto> call = retrofitInterface.account(getToken);
+        call.enqueue(new Callback<ApiResultDto>() {
+            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
 
-
-      //  retrofitClient.sendNetworkRequest(getToken);
-
-
-
-       // UserAccountData userAccountData = new UserAccountData();
-        //String nickName = userPreference.getString("")
-        call.enqueue(new Callback<UserAccountData>() {
-
-            public void onResponse(Call<UserAccountData> call, Response<UserAccountData> response) {
                 if (response.isSuccessful()) {
-                    String nickName =response.body().getNickname();
-                   // Log.i(TAG, "Responser: " + response.body());
-                    getNickName.setText(nickName);
+                    ApiResultDto dto = response.body();
+                    JsonObject resultData = dto.getResultData();
 
-
-//                UserPreference userPreference = new UserPreference(getApplicationContext());
-//                if(getToken == null){
-//                    getToken = userPreference.getString("TOKEN");
-//                }
-
+                    if(resultData != null){
+                        UserAccountData userAccountData = new Gson().fromJson(resultData,UserAccountData.class);
+                        getNickName.setText(userAccountData.getNickname());
+                    }
 
                     Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<UserAccountData> call, Throwable t) {
+            public void onFailure(Call<ApiResultDto> call, Throwable t) {
                 Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
             }
         });

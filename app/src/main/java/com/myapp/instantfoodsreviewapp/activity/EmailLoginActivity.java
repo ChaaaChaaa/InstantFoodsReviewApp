@@ -15,10 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-<<<<<<< HEAD
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
-=======
->>>>>>> [UPDATE] to use token in main activity
+import com.myapp.instantfoodsreviewapp.activity.MainActivity;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
@@ -65,10 +62,6 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         activityEmailLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_email_login);
         initConfigValue();
-<<<<<<< HEAD
-        initClient();
-=======
->>>>>>> [UPDATE] to use token in main activity
         initEmailLogin();
         initListener();
         checkAutoLogin();
@@ -81,14 +74,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         userPreference.setContext(this);
     }
 
-    public void initConfigValue(){
-        //객체지향 함수 쌩기초 공부가 필요함.
-        //현재 객체 생성에 대한 개념자체가 적립되지 않은 것으로 보임.
-        userPreference = new UserPreference();
-        userPreference.setContext(this);
-    }
     public void initClient() {
-        retrofitInterface = RetrofitClient.buildHTTPClient();
+        retrofitInterface = RetrofitClient.buildHTTPClient(
+
+        );
     }
 
     private void initEmailLogin() {
@@ -120,25 +109,9 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.autoLoginCheck:
                 if (checkBox.isChecked()) {
-<<<<<<< HEAD
-                    //필요 없는 작업
-                   /* userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
-                    userPwd = Objects.requireNonNull(loginPassword.getText()).toString();*/
-
-                    userPreference.setLoggedIn(getApplicationContext(), true);
-                } else {
-                    //필요 없는 작업
-                    // 이걸 클리어 하게 되면 , 모든 프리퍼런스 값이 다 클리어됨
-                   // userPreference.clearUserLogin();
-
-                    // 단순히 false로 replace해주면 됨.
-                    userPreference.setLoggedIn(getApplicationContext(), false);
-
-=======
                     userPreference.setLoggedIn(getApplicationContext(), true);
                 } else {
                     userPreference.setLoggedIn(getApplicationContext(), false);
->>>>>>> [UPDATE] to use token in main activity
                 }
                 break;
         }
@@ -163,31 +136,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
         if (Const.isNullOrEmptyString(userEmail, userPwd)) {
             showLoading(true);
-<<<<<<< HEAD
-            //공통 디티오로 <> 안에 값 바꿈
-=======
->>>>>>> [UPDATE] to use token in main activity
             retrofitInterface.login(userEmail, userPwd).enqueue(new Callback<ApiResultDto>() {
                 @Override
                 public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
-<<<<<<< HEAD
-                        Log.e("로그","555");
-                        userPreference.putString( KEY_TOKEN,sendToken);
-
-                        //얘는 .. Main으로 넘어가서 호출하세요~
-                        //doStore();
-                        ApiResultDto loginData = response.body();
-                        String token = loginData.getResultData().get("user_token").getAsString();
-                        if(Const.isNullOrEmptyString(token)){
-                            userPreference.putString("TOKEN",token);
-                            String checkToken = userPreference.getString("TOKEN");
-                            Log.e("UserToken ",checkToken);
-                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("loginEmail", userEmail);
-=======
                         userPreference.putString(KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
                         String token = loginData.getResultData().get("user_token").getAsString();
@@ -196,21 +148,16 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                             String checkToken = userPreference.getString(Config.KEY_TOKEN);
                             Log.e("UserToken", checkToken);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
+                           // Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(EmailLoginActivity.this, ReviewActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(Config.KEY_TOKEN, token);
->>>>>>> [UPDATE] to use token in main activity
                             intent.putExtras(bundle);
 
                             startActivity(intent);
                             finish();
 
                             Log.i(TAG, "Response:" + response.body());
-<<<<<<< HEAD
-                        }
-                        else{
-=======
->>>>>>> [UPDATE] to use token in main activity
 
                         }
 

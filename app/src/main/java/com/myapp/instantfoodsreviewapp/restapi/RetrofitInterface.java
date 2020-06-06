@@ -21,14 +21,11 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("v1/user/login")
     Call<ApiResultDto> login(@Field("email") String email, @Field("password") String password);
-<<<<<<< HEAD
-=======
 
->>>>>>> [UPDATE] to use token in main activity
 
-   // @Header("key : authorization","token")
+
 
     @GET("v1/user/account")
    // Call<UserAccountData> account();
-    Call<UserAccountData> account(@Header("authorization") String token);
+    Call<ApiResultDto> account(@Header("authorization") String token);
 }
