@@ -15,4 +15,7 @@
 
     <string name="welcome">로그인하셨습니다.</string>
     <string name="logout">LOGOUT</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

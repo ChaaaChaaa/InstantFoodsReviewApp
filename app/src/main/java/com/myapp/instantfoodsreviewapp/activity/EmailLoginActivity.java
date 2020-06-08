@@ -1,7 +1,6 @@
 package com.myapp.instantfoodsreviewapp.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -16,12 +15,12 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
+import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityEmailLoginBinding;
-import com.myapp.instantfoodsreviewapp.model.UserLoginData;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 
@@ -33,8 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_EMAIL;
-import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_PASSWORD;
 import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_TOKEN;
 
 public class EmailLoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,6 +49,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
     private String userEmail;
     private String userPwd;
+
     private String sendToken;
 
 
@@ -62,14 +60,23 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityEmailLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_email_login);
-        initClient();
+        initConfigValue();
         initEmailLogin();
         initListener();
         checkAutoLogin();
+        initClient();
+    }
+
+
+    public void initConfigValue() {
+        userPreference = new UserPreference();
+        userPreference.setContext(this);
     }
 
     public void initClient() {
-        retrofitInterface = RetrofitClient.buildHTTPClient();
+        retrofitInterface = RetrofitClient.buildHTTPClient(
+
+        );
     }
 
     private void initEmailLogin() {
@@ -86,8 +93,9 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         loginButton.setOnClickListener(this);
         checkBox.setOnClickListener(this::onCheckboxClicked);
     }
+
     public void checkAutoLogin() {
-        if (userPreference.getLoggedStatus(getApplicationContext())) {
+        if (userPreference.getLoggedStatus()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         } else {
@@ -100,11 +108,9 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.autoLoginCheck:
                 if (checkBox.isChecked()) {
-                    userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
-                    userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
                     userPreference.setLoggedIn(getApplicationContext(), true);
                 } else {
-                    userPreference.clearUserLogin(this);
+                    userPreference.setLoggedIn(getApplicationContext(), false);
                 }
                 break;
         }
@@ -127,45 +133,41 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
     void doLogin() {
         userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
         userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
-        if (!Const.isNullOrEmptyString(userEmail, userPwd)) {
+        if (Const.isNullOrEmptyString(userEmail, userPwd)) {
             showLoading(true);
-            retrofitInterface.login(userEmail, userPwd).enqueue(new Callback<UserLoginData>() {
+            retrofitInterface.login(userEmail, userPwd).enqueue(new Callback<ApiResultDto>() {
                 @Override
-                public void onResponse(Call<UserLoginData> call, Response<UserLoginData> response) {
+                public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
+                        userPreference.putString(KEY_TOKEN, sendToken);
+                        ApiResultDto loginData = response.body();
+                        String token = loginData.getResultData().get("user_token").getAsString();
+                        if ((Const.isNullOrEmptyString(token))) {
+                            userPreference.putString(Config.KEY_TOKEN, token);
+                            String checkToken = userPreference.getString(Config.KEY_TOKEN);
+                            Log.e("UserToken", checkToken);
+                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Config.KEY_TOKEN, token);
+                            intent.putExtras(bundle);
 
-                       //doStore();
-                        //UserLoginData loginData = response.body();
-                        //userPreference.putString(KEY_EMAIL,userEmail);
-                        //userPreference.putString(KEY_PASSWORD,userPwd);
-                        //String token = UserPreference.getInstance().getString();
+                            startActivity(intent);
+                            finish();
 
+                            Log.i(TAG, "Response:" + response.body());
 
+                        }
 
-
-                        userPreference.putString( KEY_TOKEN,sendToken);
-                        doStore();
-
-
-                        Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("loginEmail", userEmail);
-                        intent.putExtras(bundle);
-
-                        startActivity(intent);
-                        finish();
-
-                        Log.i(TAG, "Response:" + response.body());
                     } else {
                         Toast.makeText(getApplication(), "로그인 실패", Toast.LENGTH_SHORT).show();
                     }
+
                     showLoading(false);
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<UserLoginData> call, Throwable t) {
+                public void onFailure(@NotNull Call<ApiResultDto> call, Throwable t) {
                     Log.e("fail error", t.getLocalizedMessage());
                 }
             });
@@ -176,13 +178,14 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
 
     private void checkNullOrEmpty() {
-        if (Const.isNullOrEmptyString(Objects.requireNonNull(textLoginEmail.getEditText()).toString())) {
+        if (!Const.isNullOrEmptyString(Objects.requireNonNull(textLoginEmail.getEditText()).toString())) {
             textLoginEmail.setError("아이디가 입력되지 않았습니다.");
             return;
         }
 
-        if (Const.isNullOrEmptyString(Objects.requireNonNull(textLoginPassword.getEditText()).toString())) {
+        if (!Const.isNullOrEmptyString(Objects.requireNonNull(textLoginPassword.getEditText()).toString())) {
             textLoginPassword.setError("비밀번호가 입력되지 않았습니다.");
+            return;
         }
     }
 
@@ -192,29 +195,5 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         } else {
             progressBar.setVisibility(View.GONE);
         }
-    }
-
-    void doStore() {
-
-      //  retrofitInterface  = RetrofitClient.getRestMethods().
-        String getToken =  userPreference.getString(sendToken);
-
-        //sendToken =  UserPreference.getInstance();
-        retrofitInterface.account(getToken).enqueue(new Callback<UserAccountData>() {
-           // Call<UserAccountData> userAccountDataCall = userPreference.getString(sendToken);
-            @Override
-            public void onResponse(Call<UserAccountData> call, Response<UserAccountData> response) {
-                if (response.isSuccessful()) {
-                    Log.e("로그", "222");
-                    UserAccountData accountData = response.body();
-                    Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserAccountData> call, Throwable t) {
-                Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
