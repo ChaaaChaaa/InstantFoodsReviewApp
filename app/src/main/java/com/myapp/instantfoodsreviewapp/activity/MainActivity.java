@@ -1,18 +1,19 @@
 package com.myapp.instantfoodsreviewapp.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,8 +21,15 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
+import com.myapp.instantfoodsreviewapp.fragment.DumplingFragment;
+import com.myapp.instantfoodsreviewapp.fragment.FriedRiceFragment;
 import com.myapp.instantfoodsreviewapp.fragment.HomeFragment;
 import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
+import com.myapp.instantfoodsreviewapp.fragment.NoodleFragment;
+import com.myapp.instantfoodsreviewapp.fragment.PizzaFragment;
+import com.myapp.instantfoodsreviewapp.fragment.StewFragment;
+import com.myapp.instantfoodsreviewapp.fragment.ViewPagerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
@@ -30,11 +38,8 @@ import com.myapp.instantfoodsreviewapp.restapi.BasicAuthInterceptor;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
-import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView drawer;
     private DrawerLayout drawerLayout;
+    // private ViewPagerAdapter viewPagerAdapter;
+    //  private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +69,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //bindView();
         toolbar = activityMainBinding.toolbar;
         setSupportActionBar(toolbar);
+        //setViewPager();
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+
+        drawerLayout = activityMainBinding.drawerLayout;
+        // drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
 
@@ -79,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
+
         //getNickName = activityMainBinding.getNickName;
         //logoutButton = activityMainBinding.logoutButton;
 //        logoutButton.setOnClickListener(this);
@@ -91,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        getNickName = header.findViewById(R.id.getNickName);
 //
 //    }
+
+//    private void setViewPager(){
+//        viewPager = activityMainBinding.viewpager;
+//        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+//    }
+
 
     @Override
     public void onBackPressed() {
@@ -161,6 +178,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
+            case R.id.nav_stew:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StewFragment()).commit();
+                break;
+            case R.id.nav_noodle:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NoodleFragment()).commit();
+                break;
+
+            case R.id.nav_ddokbokki:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DdokbokkiFragment()).commit();
+                break;
+            case R.id.nav_dumpling:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DumplingFragment()).commit();
+                break;
+            case R.id.nav_friedRice:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FriedRiceFragment()).commit();
+                break;
+            case R.id.nav_pizza:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PizzaFragment()).commit();
+                break;
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
