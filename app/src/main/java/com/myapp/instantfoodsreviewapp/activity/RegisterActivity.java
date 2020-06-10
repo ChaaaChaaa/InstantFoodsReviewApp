@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
     ProgressBar progressBar;
 
-
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
@@ -125,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
 
-        if (!Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
+        if (Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
             showLoading(true);
             call.enqueue(new Callback<UserRegisterData>() {
                 @Override
