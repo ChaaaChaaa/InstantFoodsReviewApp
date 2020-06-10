@@ -8,10 +8,11 @@ public class ListItem {
     private int imageStar1;
     private int imageStar2;
     private int imageStar3;
+    private FoodCategoryList foodType;
 
-    public ListItem(int imageFood, String foodCategory, String foodName, String reviewContent, int imageStar1, int imageStar2, int imageStar3){
+    public ListItem(int imageFood, FoodCategoryList foodType, String foodName, String reviewContent, int imageStar1, int imageStar2, int imageStar3){
         this.imageFood = imageFood;
-        this.foodCategory = foodCategory;
+        this.foodType = foodType;
         this.foodName = foodName;
         this.reviewContent = reviewContent;
         this.imageStar1 = imageStar1;
@@ -45,5 +46,13 @@ public class ListItem {
 
     public int getImageStar3() {
         return imageStar3;
+    }
+
+    public FoodCategoryList getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(FoodCategoryList foodType) {
+        this.foodType = foodType;
     }
 }
