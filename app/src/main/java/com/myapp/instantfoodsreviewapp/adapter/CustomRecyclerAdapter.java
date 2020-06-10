@@ -1,6 +1,7 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,33 +68,32 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 //    }
 //
 //
-//    @Override
-//    public int getItemViewType(int position) {
-//        ListItem listItem = listItems.get(position);
-//        if (listItem.getFoodType() == foodCategoryList.STEW) {
-//            return TYPE_ONE;
-//        } else if (listItem.getFoodType() == foodCategoryList.DDOKBOKKI) {
-//            return TYPE_TWO;
-//        } else {
-//            return -1;
-//        }
-//    }
-
-
-
-
+    @Override
+    public int getItemViewType(int position) {
+        ListItem listItem = listItems.get(position);
+        if (listItem.getFoodType() == foodCategoryList.STEW) {
+            Log.d("one","one");
+            return TYPE_ONE;
+        } else if (listItem.getFoodType() == foodCategoryList.DDOKBOKKI) {
+            Log.d("two","two");
+            return TYPE_TWO;
+        } else {
+            Log.d("test","test");
+            return -1;
+        }
+    }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
 
-        if(foodCategoryList == FoodCategoryList.STEW){
+        if(viewType == TYPE_ONE){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_stew,parent,false);
             return new StewViewHolder(view);
         }
 
-        else if(foodCategoryList == FoodCategoryList.DDOKBOKKI){
+        else if(viewType == TYPE_TWO){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_ddokbokki,parent,false);
             return new DdokbokkiViewHolder(view);
         }
