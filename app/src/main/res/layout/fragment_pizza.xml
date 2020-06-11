@@ -5,9 +5,12 @@
     tools:context="com.myapp.instantfoodsreviewapp.fragment.PizzaFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_pizza"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="피자" />
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        android:background="@color/yellow"/>
 
 </FrameLayout>
