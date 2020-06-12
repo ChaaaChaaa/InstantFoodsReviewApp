@@ -137,12 +137,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getNickName = header.findViewById(R.id.getNickName);
     }
 
-//    public void userLogOut() {
-//        userPreference.setLoggedIn(getApplicationContext(), false);
-//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    public void userLogOut() {
+        userPreference.setLoggedIn(getApplicationContext(), false);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
 
@@ -221,6 +221,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_write_review:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WriteReviewFragment()).commit();
+                break;
+            case R.id.nav_logout:
+                userLogOut();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
