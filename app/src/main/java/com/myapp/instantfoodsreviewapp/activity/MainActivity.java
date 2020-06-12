@@ -8,13 +8,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String getToken;
     private RetrofitClient retrofitClient;
     private BasicAuthInterceptor basicAuthInterceptor;
+    private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
-    private NavigationView drawer;
+    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private LinearLayout llDrawerHeader;
     // private ViewPagerAdapter viewPagerAdapter;
     //  private ViewPager viewPager;
 
@@ -66,47 +72,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initPreference();
-        //bindView();
-        toolbar = activityMainBinding.toolbar;
-        setSupportActionBar(toolbar);
+        init();
+        setNavigationView();
+        setToolbar();
+        bindView();
+
         //setViewPager();
-
-
-        drawerLayout = activityMainBinding.drawerLayout;
-        // drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
-
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
 
-
-        //getNickName = activityMainBinding.getNickName;
-        //logoutButton = activityMainBinding.logoutButton;
-//        logoutButton.setOnClickListener(this);
         getUser();
     }
 
-//    private void bindView(){
-//        View header = drawer .getHeaderView(0);
-//        drawerLayout = header.findViewById(R.id.drawer_layout);
-//        getNickName = header.findViewById(R.id.getNickName);
-//
-//    }
+
+
 
 //    private void setViewPager(){
 //        viewPager = activityMainBinding.viewpager;
 //        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 //    }
+
+    private void init(){
+        drawerLayout = activityMainBinding.drawerLayout;
+        // drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+    }
+
+    private void setNavigationView(){
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.addDrawerListener(toggle);
+    }
+
+    private void setToolbar(){
+        toolbar = activityMainBinding.toolbar;
+        setSupportActionBar(toolbar);
+    }
 
 
     @Override
@@ -123,17 +130,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userPreference.setContext(this);
     }
 
-//    public void userLogOut(View view) {
+    private void bindView(){
+        View header = navigationView.getHeaderView(0);
+        llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
+       // drawerLayout = header.findViewById(R.id.drawer_layout);
+        getNickName = header.findViewById(R.id.getNickName);
+    }
+
+//    public void userLogOut() {
 //        userPreference.setLoggedIn(getApplicationContext(), false);
 //        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //        startActivity(intent);
 //        finish();
 //    }
 
-//    @Override
-//    public void onClick(View view) {
-//        userLogOut(view);
-//    }
+
 
     private void getUser() {
 
@@ -153,7 +164,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         UserAccountData userAccountData = new Gson().fromJson(resultData, UserAccountData.class);
                         //String nickName =response.body().getNickname();
                         // Log.i(TAG, "Responser: " + response.body());
-//                        getNickName.setText(userAccountData.getNickname());
+                       // String test = userAccountData.getNickname();
+                        getNickName.setText(userAccountData.getNickname());
+
+
+                        //UserPreference userPrefs = new UserPreference();
+                        //userPrefs.setContext(userAccountData.getNickname());
                     } else {
                         Log.e("getUser", "Account null ");
 
