@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,25 +18,29 @@ import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAdapter.RecyclerViewHolder> {
-    private static final int TYPE_ONE = 1;
-    private static final int TYPE_TWO = 2;
+public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAdapter.RecyclerViewHolder>
+       implements Filterable  {
+
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
 
-    private ArrayList<ListItem> listItems;
+    private List<ListItem> listItems;
+    private List<ListItem> listItemsFull;
     private FoodCategoryList foodCategoryList;
-    Context context;
+    private Context context;
 
-    public CustomRecyclerAdapter(Activity context,ArrayList<ListItem> listItem) {
+    public CustomRecyclerAdapter(Context context, List<ListItem> listItems) {
         this.context = context;
-        this.listItems = listItem;
+        this.listItems = listItems;
+        listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
     }
 
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new RecyclerViewHolder(view);
     }
 
@@ -42,11 +48,11 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         holder.imageFood.setImageResource(listItems.get(position).getImageFood());
         holder.foodCategory.setText(listItems.get(position).getFoodCategory());
-        holder. foodName.setText(listItems.get(position).getFoodName());
+        holder.foodName.setText(listItems.get(position).getFoodName());
         holder.reviewContent.setText(listItems.get(position).getReviewContent());
         holder.imageStar1.setImageResource(listItems.get(position).getImageStar1());
-        holder. imageStar2.setImageResource(listItems.get(position).getImageStar2());
-        holder. imageStar3.setImageResource(listItems.get(position).getImageStar3());
+        holder.imageStar2.setImageResource(listItems.get(position).getImageStar2());
+        holder.imageStar3.setImageResource(listItems.get(position).getImageStar3());
     }
 
     @Override
@@ -56,6 +62,12 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
         }
         return 0;
     }
+
+//    @Override
+//    public Filter getFilter() {
+//        return null;
+//    }
+
 
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -72,10 +84,10 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            initStew();
+            init();
         }
 
-        private void initStew() {
+        private void init() {
             imageFood = itemView.findViewById(R.id.image_food);
             foodCategory = itemView.findViewById(R.id.tv_food_category);
             foodName = itemView.findViewById(R.id.tv_food_name);
@@ -85,5 +97,41 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
             imageStar3 = itemView.findViewById(R.id.image_star3);
         }
     }
+
+    @Override
+    public Filter getFilter() {
+        return itemFilter;
+    }
+
+
+    private Filter itemFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<ListItem> filteredList = new ArrayList<>();
+            if(charSequence == null || charSequence.length() == 0){
+                filteredList.addAll(listItemsFull);
+            }
+            else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for(ListItem item : listItemsFull){
+                    if(item.getFoodName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            listItems.clear();
+            listItems.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
 
 }

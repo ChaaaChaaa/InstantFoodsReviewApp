@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -15,16 +17,21 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
 import com.myapp.instantfoodsreviewapp.fragment.DumplingFragment;
 import com.myapp.instantfoodsreviewapp.fragment.FriedRiceFragment;
@@ -32,6 +39,7 @@ import com.myapp.instantfoodsreviewapp.fragment.HomeFragment;
 import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
 import com.myapp.instantfoodsreviewapp.fragment.NoodleFragment;
 import com.myapp.instantfoodsreviewapp.fragment.PizzaFragment;
+import com.myapp.instantfoodsreviewapp.fragment.SearchFragment;
 import com.myapp.instantfoodsreviewapp.fragment.StewFragment;
 import com.myapp.instantfoodsreviewapp.fragment.ViewPagerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
@@ -66,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayout llDrawerHeader;
     // private ViewPagerAdapter viewPagerAdapter;
     //  private ViewPager viewPager;
+    private CustomRecyclerAdapter adapterCustom;
+    private Fragment fragment = null;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setNavigationView();
         setToolbar();
         bindView();
-
+       // displayView(0);
         //setViewPager();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
+      //  adapterCustom = new CustomRecyclerAdapter(adapterCustom.);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -92,25 +104,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
 //    private void setViewPager(){
 //        viewPager = activityMainBinding.viewpager;
 //        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
 //    }
 
-    private void init(){
+    private void init() {
         drawerLayout = activityMainBinding.drawerLayout;
         // drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
     }
 
-    private void setNavigationView(){
+    private void setNavigationView() {
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.addDrawerListener(toggle);
     }
 
-    private void setToolbar(){
+    private void setToolbar() {
         toolbar = activityMainBinding.toolbar;
         setSupportActionBar(toolbar);
     }
@@ -130,10 +140,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userPreference.setContext(this);
     }
 
-    private void bindView(){
+    private void bindView() {
         View header = navigationView.getHeaderView(0);
         llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
-       // drawerLayout = header.findViewById(R.id.drawer_layout);
+        // drawerLayout = header.findViewById(R.id.drawer_layout);
         getNickName = header.findViewById(R.id.getNickName);
     }
 
@@ -143,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
         finish();
     }
-
 
 
     private void getUser() {
@@ -164,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         UserAccountData userAccountData = new Gson().fromJson(resultData, UserAccountData.class);
                         //String nickName =response.body().getNickname();
                         // Log.i(TAG, "Responser: " + response.body());
-                       // String test = userAccountData.getNickname();
+                        // String test = userAccountData.getNickname();
                         getNickName.setText(userAccountData.getNickname());
 
 
@@ -190,6 +199,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu searchMenu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.search_menu, searchMenu);
+//        MenuItem searchItem = searchMenu.findItem(R.id.action_search);
+//        SearchView searchView = (SearchView) searchItem.getActionView();
+//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                adapterCustom.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//        return true;
+//    }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -226,7 +259,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 userLogOut();
                 break;
         }
+   //     displayView(0);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    private void displayView(int position){
+//        String fragmentTags = "";
+//        if(position == 0){
+//            fragment = new SearchFragment();
+//        }
+//
+//        if(fragment != null){
+//            fragmentManager.beginTransaction().replace(R.id.content_frame,fragment,fragmentTags).commit();
+//        }
+//    }
 }

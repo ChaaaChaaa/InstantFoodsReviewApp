@@ -2,13 +2,19 @@ package com.myapp.instantfoodsreviewapp.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
@@ -21,37 +27,36 @@ import java.util.List;
 
 public class StewFragment extends Fragment {
     private RecyclerView recyclerViewStew;
-    private RecyclerView.Adapter adapterStew;
+    private CustomRecyclerAdapter adapterStew;
     private LinearLayoutManager layoutManagerStew;
-    private ArrayList<ListItem> stewList = new ArrayList<>();
+   // private SearchFragment searchFragment;
+    private List<ListItem> stewList = new ArrayList<>();
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_stew, null);
-
-
+        View rootView = inflater.inflate(R.layout.fragment_stew, container, false);
+       // View rootView = inflater.inflate(R.layout.fragment_stew, null);
+        setHasOptionsMenu(true);
        // ArrayList<ListItem> stewList = new ArrayList<>();
         recyclerViewStew = rootView.findViewById(R.id.recycler_stew);
-
-
         recyclerViewStew.setHasFixedSize(true);
         layoutManagerStew = new LinearLayoutManager(getActivity());
-        adapterStew = new CustomRecyclerAdapter(getActivity(),stewList);
         recyclerViewStew.setLayoutManager(layoutManagerStew);
-        initStew(stewList);
-
-        //CustomRecyclerAdapter customRecyclerAdapter = new CustomRecyclerAdapter(stewList,FoodCategoryList.STEW);
-        recyclerViewStew.setAdapter(adapterStew);
-
-
-
+        initStew();
+        showRecyclerView();
+       // searchFragment = new SearchFragment(adapterStew);
         return rootView;
     }
 
-    private void initStew(ArrayList stewList) {
+    private void showRecyclerView(){
+        adapterStew = new CustomRecyclerAdapter(getActivity(),stewList);
+        recyclerViewStew.setAdapter(adapterStew);
+    }
+
+    private void initStew() {
         stewList.add(new ListItem(R.drawable.stew_peacock, FoodCategoryList.STEW,
                 "[피코크] 진한 육개장 500g",
                 "피코크 진한 육개장은 두 식구가 먹기에 딱 적절한 양입니다. 저는 신혼부부인데 남편이랑 주말에 점심으로 해 먹었습니다. (해 먹었다기엔 너무 거창하고 그냥 데워 먹은거네요..) 1~2인분이라고 되어있는데 햇반이랑 먹으면 2인이 적당히 배부르게 잘 먹을 수 있을 것 같습니다.",
@@ -80,6 +85,31 @@ public class StewFragment extends Fragment {
                 R.drawable.ic_star_blank,
                 R.drawable.ic_star_blank));
     }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {
+        // super.onCreateOptionsMenu(searchMenu, inflater);
+        inflater.inflate(R.menu.search_menu,searchMenu);
+        MenuItem searchItem = searchMenu.findItem(R.id.action_search);
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setQueryHint("Search");
+        //SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(adapterStew != null){
+                    adapterStew.getFilter().filter(newText);
+                }
 
+                return true;
+            }
+        });
+        searchItem.setActionView(searchView);
+        super.onCreateOptionsMenu(searchMenu,inflater);
+    }
 }
