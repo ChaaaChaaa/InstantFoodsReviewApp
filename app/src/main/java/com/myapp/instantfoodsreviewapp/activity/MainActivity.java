@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Call<ApiResultDto> call = retrofitInterface.account(getToken);
 
         call.enqueue(new Callback<ApiResultDto>() {
-
             public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                 if (response.isSuccessful()) {
                     ApiResultDto dto = response.body();
@@ -199,29 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu searchMenu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.search_menu, searchMenu);
-//        MenuItem searchItem = searchMenu.findItem(R.id.action_search);
-//        SearchView searchView = (SearchView) searchItem.getActionView();
-//        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                adapterCustom.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-//        return true;
-//    }
-
 
 
     @Override
@@ -259,19 +235,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 userLogOut();
                 break;
         }
-   //     displayView(0);
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-//    private void displayView(int position){
-//        String fragmentTags = "";
-//        if(position == 0){
-//            fragment = new SearchFragment();
-//        }
-//
-//        if(fragment != null){
-//            fragmentManager.beginTransaction().replace(R.id.content_frame,fragment,fragmentTags).commit();
-//        }
-//    }
 }
