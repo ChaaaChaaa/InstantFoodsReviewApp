@@ -248,13 +248,13 @@
             app:layout_constraintTop_toBottomOf="@+id/image_version_info"
             app:srcCompat="@drawable/ic_nickname_change" />
 
-        <Button
-            android:id="@+id/btn_change_nickname"
+        <TextView
+            android:id="@+id/tv_change_password"
             android:layout_width="130dp"
             android:layout_height="35dp"
             android:background="#FFC107"
             android:gravity="center"
-            android:text="닉네임 변경하기   "
+            android:text="비밀번호 변경하기   "
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/image_change_nickname"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"

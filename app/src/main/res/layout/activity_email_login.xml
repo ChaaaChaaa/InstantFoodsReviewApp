@@ -42,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="abcd@eeeee.fff"
+                android:backgroundTint="#FFC107"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
@@ -60,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="123456789"
+                android:backgroundTint="#FFC107"
+                android:maxEms="10"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 

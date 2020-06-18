@@ -85,11 +85,18 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     }
 
     private boolean validatePassword() {
-        String emailInput = Objects.requireNonNull(userPassword.getText()).toString().trim();
-        if (emailInput.isEmpty()) {
+        String passwordInput = Objects.requireNonNull(userPassword.getText()).toString().trim();
+        if (passwordInput.isEmpty()) {
             userPassword.setError("비밀번호를 입력해주세요");
             return false;
-        } else {
+        }
+        else if(passwordInput.length() > 15 || passwordInput.length() < 5 ){
+            userPassword.setError("비밀번호를 길이가 잘못되었습니다.");
+            return false;
+        }
+
+
+        else {
             userPassword.setError(null);
             return true;
         }
