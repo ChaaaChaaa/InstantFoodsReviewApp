@@ -60,7 +60,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
     public void openChangePasswordDialog() {
         ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
-        changePasswordDialog.customDialog.show();
+        changePasswordDialog.show(getFragmentManager(),"change password dialog");
 //        getFragmentManager()
 //                .beginTransaction()
 //                .replace(R.id.fragment_container, new ChangePasswordDialog()).commit();

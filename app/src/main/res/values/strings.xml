@@ -19,8 +19,18 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="ddokbokki">ddokbokki</string>
+
+
+    <!-- setting password -->
+    <string name="change_password">Change Password</string>
     <string name="current_password">현재 비밀번호 :</string>
     <string name="new_password">새 비밀번호 :</string>
     <string name="ok">OK</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="success_change_password">"비밀번호를 변경하셨습니다."</string>
+    <string name="blank_password">"비밀번호를 입력하세요"</string>
+    <string name="wrong_length_password">"비밀번호 길이가 안맞습니다."</string>
+    <string name="duplicate_password">"새로운 비밀번호를 입력해 주세요"</string>
+
+
 </resources>
