@@ -38,4 +38,8 @@ public interface RetrofitInterface {
                               @Field("original_password") String originPassword,
                               @Field("request_password") String requestPassword);
 
+
+    @POST("v1/user/secession")
+    Call<ApiResultDto> secession(@Header("authorization") String token);
+
 }

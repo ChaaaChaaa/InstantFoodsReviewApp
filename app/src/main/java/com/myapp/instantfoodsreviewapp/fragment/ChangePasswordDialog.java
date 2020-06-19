@@ -2,7 +2,6 @@ package com.myapp.instantfoodsreviewapp.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.model.ChangePasswordData;
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
@@ -42,7 +40,7 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_change_password_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_change_password, null);
         init(view);
         initPreference();
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())

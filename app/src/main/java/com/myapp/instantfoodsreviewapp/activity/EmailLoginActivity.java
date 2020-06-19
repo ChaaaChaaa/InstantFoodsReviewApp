@@ -139,7 +139,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
-                        userPreference.putString(KEY_TOKEN, sendToken);
+                        userPreference.putString(Config.KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
                         String token = loginData.getResultData().get("user_token").getAsString();
                         if ((Const.isNullOrEmptyString(token))) {

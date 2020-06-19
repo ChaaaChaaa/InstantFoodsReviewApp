@@ -19,6 +19,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private TextView currentNickName;
     private TextView getEmail;
     private TextView btnChangePassword;
+    private TextView btnSecession;
 
     @Nullable
     @Override
@@ -41,8 +42,8 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private void initButton(View view) {
         btnChangePassword = view.findViewById(R.id.tv_change_password);
         btnChangePassword.setOnClickListener(this);
-
-
+        btnSecession = view.findViewById(R.id.tv_secession);
+        btnSecession.setOnClickListener(this);
     }
 
     private void getUserInfo() {
@@ -55,15 +56,19 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             case R.id.tv_change_password:
                 openChangePasswordDialog();
                 break;
+            case R.id.tv_secession:
+                openSecessionDialog();
+                break;
         }
     }
 
-    public void openChangePasswordDialog() {
+    private void openChangePasswordDialog() {
         ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
-        changePasswordDialog.show(getFragmentManager(),"change password dialog");
-//        getFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, new ChangePasswordDialog()).commit();
+        changePasswordDialog.show(getFragmentManager(), "change password dialog");
+    }
 
+    private void openSecessionDialog() {
+        SecessionDialog secessionDialog = new SecessionDialog();
+        secessionDialog.show(getFragmentManager(), "secession dialog");
     }
 }
