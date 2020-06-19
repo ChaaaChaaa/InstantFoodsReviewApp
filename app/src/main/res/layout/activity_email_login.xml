@@ -44,6 +44,7 @@
                 android:text="test123@testtesttest.com"
                 android:backgroundTint="#FFC107"
                 android:hint="@string/email"
+                android:maxLines="1"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -62,7 +63,9 @@
                 android:layout_height="wrap_content"
                 android:text="123456"
                 android:backgroundTint="#FFC107"
-                android:maxEms="10"
+                android:minEms="5"
+                android:maxLines="1"
+                android:maxEms="15"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
