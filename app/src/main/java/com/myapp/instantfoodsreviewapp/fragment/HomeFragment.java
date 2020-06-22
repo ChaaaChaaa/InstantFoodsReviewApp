@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
@@ -94,9 +95,8 @@ public class HomeFragment extends Fragment implements CardView.OnClickListener {
                 fragmentTransactionStew.addToBackStack(null);
                 fragmentTransactionStew.commit();
                 break;
-
         }
-    }
 
+    }
 
 }
