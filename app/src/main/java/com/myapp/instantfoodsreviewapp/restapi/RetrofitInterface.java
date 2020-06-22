@@ -42,4 +42,10 @@ public interface RetrofitInterface {
     @POST("v1/user/secession")
     Call<ApiResultDto> secession(@Header("authorization") String token);
 
+
+    @FormUrlEncoded
+    @PUT("v1/user/nickname")
+    Call<ApiResultDto> nickname(@Header("authorization") String token,
+                                @Field("nickname") String newNickName);
+
 }

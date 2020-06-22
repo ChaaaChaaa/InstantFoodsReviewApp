@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.myapp.instantfoodsreviewapp.R;
@@ -43,16 +44,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = null;
         switch (view.getId()) {
             case R.id.login_button:
-                intent = new Intent(this,EmailLoginActivity.class);
+                intent = new Intent(this, EmailLoginActivity.class);
+
                 break;
             case R.id.tv_register_email:
                 intent = new Intent(this, RegisterActivity.class);
                 break;
         }
         startActivity(intent);
+        finish();
     }
-
-
 
 
 }

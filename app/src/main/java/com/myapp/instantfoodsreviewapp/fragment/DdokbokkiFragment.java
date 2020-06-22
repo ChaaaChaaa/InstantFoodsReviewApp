@@ -46,10 +46,13 @@ public class DdokbokkiFragment extends Fragment {
         return rootView;
     }
 
+
+
     private void showRecyclerView() {
         adapterDdokbokki = new CustomRecyclerAdapter(getActivity(), ddokbokkiList);
         recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
     }
+
 
     private void initDdokbokki() {
 

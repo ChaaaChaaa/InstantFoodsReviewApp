@@ -90,19 +90,21 @@
         <ImageView
             android:id="@+id/review_image"
             android:layout_width="26dp"
-            android:layout_height="23dp"
+            android:layout_height="0dp"
             android:layout_marginStart="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_myreview"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_review_count" />
+            app:layout_constraintTop_toTopOf="@+id/profile_view"
+            app:srcCompat="@drawable/ic_review_post" />
 
         <TextView
             android:id="@+id/tv_myreview"
             android:layout_width="0dp"
             android:layout_height="14dp"
             android:layout_marginStart="5dp"
+            android:layout_marginBottom="32dp"
             android:text=" 내 리뷰"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
@@ -191,8 +193,8 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="@+id/image_change_nickname"
-            app:layout_constraintTop_toBottomOf="@+id/image_change_nickname"
+            app:layout_constraintStart_toStartOf="@+id/image_change_password"
+            app:layout_constraintTop_toBottomOf="@+id/image_change_password"
             app:srcCompat="@drawable/ic_notification" />
 
         <TextView
@@ -238,7 +240,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/image_change_nickname"
+            android:id="@+id/image_change_password"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="20dp"
@@ -256,10 +258,10 @@
             android:gravity="center"
             android:text="비밀번호 변경하기   "
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/image_change_nickname"
+            app:layout_constraintBottom_toBottomOf="@+id/image_change_password"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/image_change_nickname" />
+            app:layout_constraintStart_toEndOf="@+id/image_change_password" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
@@ -267,6 +269,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="600dp" />
+
+        <ImageButton
+            android:id="@+id/btn_change_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#AE8406"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_setting_nickname"
+            app:layout_constraintEnd_toEndOf="@+id/profile_view"
+            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintStart_toEndOf="@+id/tv_setting_nickname"
+            app:layout_constraintTop_toTopOf="@+id/tv_setting_nickname"
+            app:srcCompat="@drawable/ic_change_nickname" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

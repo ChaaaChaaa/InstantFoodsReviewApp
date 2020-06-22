@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.BuildConfig;
 import com.myapp.instantfoodsreviewapp.R;
+import com.myapp.instantfoodsreviewapp.dialog.ChangeNickNameDialog;
+import com.myapp.instantfoodsreviewapp.dialog.ChangePasswordDialog;
+import com.myapp.instantfoodsreviewapp.dialog.SecessionDialog;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -33,6 +37,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private TextView btnChangePassword;
     private TextView btnSecession;
     private UserPreference userPreference;
+    private ImageButton btnChangeNickname;
 
     @Nullable
     @Override
@@ -52,6 +57,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         currentNickName = view.findViewById(R.id.tv_setting_nickname);
         getEmail = view.findViewById(R.id.tv_setting_email);
 
+
     }
 
     private void initButton(View view) {
@@ -59,9 +65,11 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         btnChangePassword.setOnClickListener(this);
         btnSecession = view.findViewById(R.id.tv_secession);
         btnSecession.setOnClickListener(this);
+        btnChangeNickname = view.findViewById(R.id.btn_change_nickname);
+        btnChangeNickname.setOnClickListener(this);
     }
 
-    private void initPreference(){
+    private void initPreference() {
         userPreference = new UserPreference();
         userPreference.setContext(getContext());
     }
@@ -73,11 +81,11 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         call.enqueue(new Callback<ApiResultDto>() {
             @Override
             public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ApiResultDto dto = response.body();
                     JsonObject resultData = dto.getResultData();
-                    if(resultData != null){
-                        UserAccountData userAccountData = new Gson().fromJson(resultData,UserAccountData.class);
+                    if (resultData != null) {
+                        UserAccountData userAccountData = new Gson().fromJson(resultData, UserAccountData.class);
                         getEmail.setText(userAccountData.getEmail());
                         currentNickName.setText(userAccountData.getNickname());
                     }
@@ -99,8 +107,13 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             case R.id.tv_change_password:
                 openChangePasswordDialog();
                 break;
+
             case R.id.tv_secession:
                 openSecessionDialog();
+                break;
+
+            case R.id.btn_change_nickname:
+                openChangeNickNameDialog();
                 break;
         }
     }
@@ -114,6 +127,15 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         SecessionDialog secessionDialog = new SecessionDialog();
         secessionDialog.show(getFragmentManager(), "secession dialog");
     }
+
+    private void openChangeNickNameDialog() {
+        ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog();
+        changeNickNameDialog.show(getFragmentManager(),"change nickname dialog");
+
+    }
+
+
+
 
 
 }

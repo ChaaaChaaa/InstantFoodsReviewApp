@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp.fragment;
+package com.myapp.instantfoodsreviewapp.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -12,9 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.activity.EmailLoginActivity;
+import com.myapp.instantfoodsreviewapp.activity.LoginActivity;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
@@ -41,8 +41,14 @@ public class SecessionDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         initPreference();
                         doSecession();
-                        Intent intent = new Intent(getActivity(), EmailLoginActivity.class);
+
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        dialog.dismiss();
                         startActivity(intent);
+                        getActivity().finish();
+
                     }
                 })
                 .setPositiveButton("아니요", new DialogInterface.OnClickListener() {

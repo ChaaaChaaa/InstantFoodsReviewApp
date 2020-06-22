@@ -42,13 +42,14 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
 
-    private String token  = null;
+    private String token = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+
         init();
         confirmButton.setOnClickListener(this);
 
@@ -73,12 +74,10 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         if (emailInput.isEmpty()) {
             userEmail.setError("이메일 주소를 입력해주세요");
             return false;
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()){
-            Toast.makeText(getApplicationContext(),"이메일 형식이 잘못되었습니다.",Toast.LENGTH_LONG).show();
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(userEmail.getText().toString()).matches()) {
+            Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else {
+        } else {
             userEmail.setError(null);
             return true;
         }
@@ -89,14 +88,10 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         if (passwordInput.isEmpty()) {
             userPassword.setError("비밀번호를 입력해주세요");
             return false;
-        }
-        else if(passwordInput.length() > 15 || passwordInput.length() < 5 ){
+        } else if (passwordInput.length() > 15 || passwordInput.length() < 5) {
             userPassword.setError("비밀번호를 길이가 잘못되었습니다.");
             return false;
-        }
-
-
-        else {
+        } else {
             userPassword.setError(null);
             return true;
         }
@@ -163,4 +158,6 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
+
+
 }

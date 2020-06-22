@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp.fragment;
+package com.myapp.instantfoodsreviewapp.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

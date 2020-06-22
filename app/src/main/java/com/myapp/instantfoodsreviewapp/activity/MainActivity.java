@@ -16,7 +16,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,6 +55,8 @@ import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
 
+import java.io.IOError;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
+    //각 activity와 fragment에 다 backpress를 이렇게 적용해야 하는걸까?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setNavigationView();
         setToolbar();
         bindView();
-       // displayView(0);
+        // displayView(0);
         //setViewPager();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
-      //  adapterCustom = new CustomRecyclerAdapter(adapterCustom.);
+        //  adapterCustom = new CustomRecyclerAdapter(adapterCustom.);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -125,14 +130,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
     }
 
+    private static long backKeyPressedTime = 0;
+    private boolean userPressedBackAgain;
+    private static final int TIME_INTERVAL = 2000;
+    private Toast toast;
 
     @Override
     public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+//        if ((backKeyPressedTime + TIME_INTERVAL >= System.currentTimeMillis()) || count>0) {
+//            // toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+//            // toast.show();
+//            getSupportFragmentManager().popBackStack();
+//            finishLaunchActivity();
+//            toast.cancel();
+//        }
+//
+
+
+        else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count == 0) {
+            //toast.cancel();
+            getSupportFragmentManager().popBackStack();
+            finishLaunchActivity();
+            //toast.cancel();
+            super.onBackPressed();
+        } else {
+            toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            super.onBackPressed();
+            backKeyPressedTime = System.currentTimeMillis();
+        }
+
+
+    }
+
+    private void finishLaunchActivity() {
+        Intent launchNextActivity = new Intent(Intent.ACTION_MAIN);
+        launchNextActivity.addCategory(Intent.CATEGORY_HOME);
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); //현재테스크 모두 비움
+        launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(launchNextActivity); //새로 태크스 만들어 실행
+        finish();
     }
 
     public void initPreference() {
@@ -204,32 +245,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_stew:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StewFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new StewFragment())
+                        .addToBackStack("stew fragment")
+                        .commit();
                 break;
             case R.id.nav_noodle:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NoodleFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new NoodleFragment())
+                        .addToBackStack("noodle fragment")
+                        .commit();
                 break;
 
             case R.id.nav_ddokbokki:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DdokbokkiFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new DdokbokkiFragment())
+                        .addToBackStack("ddokbokki fragment")
+                        .commit();
                 break;
             case R.id.nav_dumpling:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DumplingFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new DumplingFragment())
+                        .addToBackStack("dumpling fragment")
+                        .commit();
                 break;
             case R.id.nav_friedRice:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FriedRiceFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new FriedRiceFragment())
+                        .addToBackStack("fired rice fragment")
+                        .commit();
                 break;
             case R.id.nav_pizza:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PizzaFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new PizzaFragment())
+                        .addToBackStack("pizza fragment")
+                        .commit();
                 break;
             case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new HomeFragment())
+                        .addToBackStack("my home fragment")
+                        .commit();
                 break;
             case R.id.nav_my_page:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyPageFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MyPageFragment())
+                        .addToBackStack("my page fragment")
+                        .commit();
                 break;
             case R.id.nav_write_review:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WriteReviewFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new WriteReviewFragment())
+                        .addToBackStack("write review fragment")
+                        .commit();
                 break;
             case R.id.nav_logout:
                 userLogOut();

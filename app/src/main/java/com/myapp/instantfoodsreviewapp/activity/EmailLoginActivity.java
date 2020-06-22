@@ -151,7 +151,6 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                             Bundle bundle = new Bundle();
                             bundle.putString(Config.KEY_TOKEN, token);
                             intent.putExtras(bundle);
-
                             startActivity(intent);
                             finish();
 
@@ -196,4 +195,6 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
+
+
 }
