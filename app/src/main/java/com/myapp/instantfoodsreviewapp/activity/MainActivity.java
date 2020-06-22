@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //  private ViewPager viewPager;
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
+    private FragmentManager fragmentManager;
 
 
 
@@ -141,11 +142,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         }
 
-        else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count == 0) {
-             getSupportFragmentManager().popBackStack();
+        else if (count >0){
+            for(int i=0; i<count; i++){
+                getSupportFragmentManager().popBackStackImmediate();
+            }
+        }
+
+        else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count <1) {
+            // getSupportFragmentManager().popBackStack();
             finishLaunchActivity();
             super.onBackPressed();
-        } else {
+        }
+        else {
             toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
             super.onBackPressed();
@@ -162,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(launchNextActivity); //새로 태크스 만들어 실행
         finish();
+    }
+
+    private boolean flagFragmentStack(){
+        return (fragment != null) &&(fragment.getChildFragmentManager().getBackStackEntryCount()>0);
     }
 
     public void initPreference() {
@@ -265,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager = getSupportFragmentManager();
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment, fragment.getTag())
