@@ -48,4 +48,8 @@ public interface RetrofitInterface {
     Call<ApiResultDto> nickname(@Header("authorization") String token,
                                 @Field("nickname") String newNickName);
 
+    @FormUrlEncoded
+    @POST("v1/user/primage")
+    Call<ApiResultDto>  primage(@Header("authorization") String token);
+
 }
