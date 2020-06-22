@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,8 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private TextView btnSecession;
     private UserPreference userPreference;
     private ImageButton btnChangeNickname;
+    private ImageButton btnChangePicture;
+    private ImageView profilePicture;
 
     @Nullable
     @Override
@@ -56,8 +59,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         currentVersion.setText(versionName);
         currentNickName = view.findViewById(R.id.tv_setting_nickname);
         getEmail = view.findViewById(R.id.tv_setting_email);
-
-
+        profilePicture = view.findViewById(R.id.profile_image);
     }
 
     private void initButton(View view) {
@@ -67,6 +69,8 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         btnSecession.setOnClickListener(this);
         btnChangeNickname = view.findViewById(R.id.btn_change_nickname);
         btnChangeNickname.setOnClickListener(this);
+        btnChangePicture = view.findViewById(R.id.btn_choose_picture);
+        btnChangePicture.setOnClickListener(this);
     }
 
     private void initPreference() {
@@ -115,6 +119,10 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             case R.id.btn_change_nickname:
                 openChangeNickNameDialog();
                 break;
+
+            case R.id.btn_choose_picture:
+                break;
+
         }
     }
 
@@ -130,12 +138,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
     private void openChangeNickNameDialog() {
         ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog();
-        changeNickNameDialog.show(getFragmentManager(),"change nickname dialog");
-
+        changeNickNameDialog.show(getFragmentManager(), "change nickname dialog");
     }
-
-
-
-
-
 }

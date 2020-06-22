@@ -281,6 +281,17 @@
             app:layout_constraintStart_toEndOf="@+id/tv_setting_nickname"
             app:layout_constraintTop_toTopOf="@+id/tv_setting_nickname"
             app:srcCompat="@drawable/ic_change_nickname" />
+
+        <ImageButton
+            android:id="@+id/btn_choose_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/photo_background"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+            app:layout_constraintEnd_toEndOf="@+id/profile_image"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/ic_photo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
