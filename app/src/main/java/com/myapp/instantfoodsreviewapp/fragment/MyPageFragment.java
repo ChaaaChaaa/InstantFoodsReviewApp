@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.dialog.ChangeNickNameDialog;
 import com.myapp.instantfoodsreviewapp.dialog.ChangePasswordDialog;
 import com.myapp.instantfoodsreviewapp.dialog.SecessionDialog;
+import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -138,6 +140,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
     private void openChangeNickNameDialog() {
         ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog();
+        TransferDataCallback<String> resultNickNameCallBack = new TransferDataCallback<String>() {
+            @Override
+            public void transfer(String changeNickName) {
+                currentNickName.setText(changeNickName);
+                //Toast.makeText(getContext(),changeNickName,Toast.LENGTH_SHORT).show();
+            }
+        };
+        changeNickNameDialog.setResultCallback(resultNickNameCallBack);
         changeNickNameDialog.show(getFragmentManager(), "change nickname dialog");
     }
 }

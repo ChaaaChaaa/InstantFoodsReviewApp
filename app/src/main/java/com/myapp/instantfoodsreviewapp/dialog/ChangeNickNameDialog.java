@@ -33,13 +33,14 @@ import retrofit2.Response;
 public class ChangeNickNameDialog extends AppCompatDialogFragment {
     private String newNickName;
     private TextInputEditText editNewNickname;
+    private TransferDataCallback<String> resultCallback;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.dialog_change_nickname, null);
         init(view);
         initPreference();
-        getUserNickName();
+       // getUserNickName();
         AlertDialog nicknameDialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle("Change Nickname")
@@ -47,6 +48,7 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        String changedNickName = editNewNickname.getText().toString();
                         dismiss();
                     }
                 })
@@ -110,6 +112,7 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
                     JsonObject resultData = apiResultDto.getResultData();
                     if (resultData != null) {
                         ChangeNickNameData changeNickNameData = new Gson().fromJson(resultData, ChangeNickNameData.class);
+                        resultCallback.transfer(changeNickNameData.getNewNickName());
 
                     } else {
                         Log.e("new nickname", "new nickname is null");
@@ -127,4 +130,11 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
     }
 
 
+    public TransferDataCallback<String> getResultCallback() {
+        return resultCallback;
+    }
+
+    public void setResultCallback(TransferDataCallback<String> resultCallback) {
+        this.resultCallback = resultCallback;
+    }
 }

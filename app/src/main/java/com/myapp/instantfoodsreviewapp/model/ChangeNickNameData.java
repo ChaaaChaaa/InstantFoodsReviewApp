@@ -1,9 +1,11 @@
 package com.myapp.instantfoodsreviewapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ChangeNickNameData {
-    private String newNickName;
+    private String changed_nickname;
 
     public String getNewNickName() {
-        return newNickName;
+        return changed_nickname;
     }
 }
