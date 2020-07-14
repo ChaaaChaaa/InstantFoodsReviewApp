@@ -1,11 +1,11 @@
 package com.myapp.instantfoodsreviewapp.model;
 
 public class ChangePasswordData {
-    private String orizin_password;
+    private String original_password;
     private String request_password;
 
-    public String getOrizin_password() {
-        return orizin_password;
+    public String getOrigin_password() {
+        return original_password;
     }
 
     public String getRequest_password() {

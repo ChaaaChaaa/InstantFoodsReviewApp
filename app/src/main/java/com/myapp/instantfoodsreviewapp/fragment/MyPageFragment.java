@@ -80,6 +80,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         userPreference.setContext(getContext());
     }
 
+
     private void getUserInfo() {
         String getToken = userPreference.getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
@@ -103,8 +104,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
             }
         });
-
-
     }
 
     @Override

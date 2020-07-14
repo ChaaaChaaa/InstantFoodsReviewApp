@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     public static RetrofitInterface buildHTTPClient() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.mogacko.kro.kr/")
+                .baseUrl("http://www.ppizil.kro.kr/review/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getClient())
                 .build();

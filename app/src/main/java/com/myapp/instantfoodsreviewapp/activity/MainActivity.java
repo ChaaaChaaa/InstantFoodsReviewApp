@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
         Call<ApiResultDto> call = retrofitInterface.account(getToken);
 
+
         call.enqueue(new Callback<ApiResultDto>() {
             public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                 if (response.isSuccessful()) {

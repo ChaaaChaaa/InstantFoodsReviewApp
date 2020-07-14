@@ -5,14 +5,17 @@ import com.myapp.instantfoodsreviewapp.model.UserLoginData;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface RetrofitInterface {
@@ -48,8 +51,10 @@ public interface RetrofitInterface {
     Call<ApiResultDto> nickname(@Header("authorization") String token,
                                 @Field("nickname") String newNickName);
 
-    @FormUrlEncoded
-    @POST("v1/user/primage")
-    Call<ApiResultDto>  primage(@Header("authorization") String token);
+    @Multipart
+    @POST("v1/user/pimage")
+    Call<ApiResultDto>  pimage(@Header("authorization") String token,
+                               @Part MultipartBody.Part file1,
+                               @Part MultipartBody.Part file2);
 
 }
