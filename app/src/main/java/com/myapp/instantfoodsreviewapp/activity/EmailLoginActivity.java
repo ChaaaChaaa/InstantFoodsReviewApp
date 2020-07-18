@@ -139,13 +139,18 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
-                        userPreference.putString(Config.KEY_TOKEN, sendToken);
+                       //userPreference.putString(Config.KEY_TOKEN, sendToken);
+                       //Log.e("tokenTest1"," "+ userPreference.getString(Config.KEY_TOKEN));
+
+                        //UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
                         String token = loginData.getResultData().get("user_token").getAsString();
                         if ((Const.isNullOrEmptyString(token))) {
-                            userPreference.putString(Config.KEY_TOKEN, token);
+                            //userPreference.putString(Config.KEY_TOKEN, token);
+                            UserPreference.getInstance().putString(Config.KEY_TOKEN, token);
+                           // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                             String checkToken = userPreference.getString(Config.KEY_TOKEN);
-                            Log.e("UserToken", checkToken);
+                            Log.e("tokenTest2", checkToken);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
                             Bundle bundle = new Bundle();
@@ -167,7 +172,8 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onFailure(@NotNull Call<ApiResultDto> call, Throwable t) {
-                    Log.e("fail error", t.getLocalizedMessage());
+                    Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+
                 }
             });
         } else {

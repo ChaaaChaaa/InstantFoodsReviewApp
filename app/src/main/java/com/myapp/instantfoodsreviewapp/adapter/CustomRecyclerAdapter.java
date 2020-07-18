@@ -70,6 +70,7 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
 
 
 
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         //private ArrayList<ListItem> stewList= new ArrayList<>();
 

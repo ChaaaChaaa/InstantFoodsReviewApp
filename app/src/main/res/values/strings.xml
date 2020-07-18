@@ -33,5 +33,15 @@
     <string name="duplicate_password">"새로운 비밀번호를 입력해 주세요"</string>
     <string name="new_nickname">변경할 닉네임</string>
 
+    <!-- setting profile picture -->
+    <string name="pick_picture_method">프로필 사진</string>
+    <string name="take_photo">카메라로 사진 찍기</string>
+    <string name="pick_gallery">앨범에서 사진 고르기</string>
+    <string name="picture_cancel">취소</string>
 
+    <string-array name="picture_method_array">
+        <item>@string/pick_gallery</item>
+        <item>@string/take_photo</item>
+        <item>@string/picture_cancel</item>
+    </string-array>
 </resources>

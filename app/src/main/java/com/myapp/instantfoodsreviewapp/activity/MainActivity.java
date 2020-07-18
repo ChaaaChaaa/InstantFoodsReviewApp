@@ -10,28 +10,20 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
@@ -41,11 +33,11 @@ import com.myapp.instantfoodsreviewapp.fragment.HomeFragment;
 import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
 import com.myapp.instantfoodsreviewapp.fragment.NoodleFragment;
 import com.myapp.instantfoodsreviewapp.fragment.PizzaFragment;
-import com.myapp.instantfoodsreviewapp.fragment.SearchFragment;
 import com.myapp.instantfoodsreviewapp.fragment.StewFragment;
-import com.myapp.instantfoodsreviewapp.fragment.ViewPagerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
+import com.myapp.instantfoodsreviewapp.model.AccountData;
+import com.myapp.instantfoodsreviewapp.model.User;
+import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.BasicAuthInterceptor;
@@ -54,8 +46,6 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
-
-import java.io.IOError;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
-
 
 
     @Override
@@ -140,20 +129,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-
-        else if (count >0){
-            for(int i=0; i<count; i++){
+        } else if (count > 0) {
+            for (int i = 0; i < count; i++) {
                 getSupportFragmentManager().popBackStackImmediate();
             }
-        }
-
-        else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count <1) {
+        } else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count < 1) {
             // getSupportFragmentManager().popBackStack();
             finishLaunchActivity();
             super.onBackPressed();
-        }
-        else {
+        } else {
             toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
             super.onBackPressed();
@@ -172,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finish();
     }
 
-    private boolean flagFragmentStack(){
-        return (fragment != null) &&(fragment.getChildFragmentManager().getBackStackEntryCount()>0);
+    private boolean flagFragmentStack() {
+        return (fragment != null) && (fragment.getChildFragmentManager().getBackStackEntryCount() > 0);
     }
 
     public void initPreference() {
@@ -195,48 +179,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
     private void getUser() {
 
-        getToken = userPreference.getString(Config.KEY_TOKEN);
-
+        //getToken = userPreference.getString(Config.KEY_TOKEN);
+        getToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-        Call<ApiResultDto> call = retrofitInterface.account(getToken);
+        Call<AccountDto> call = retrofitInterface.account(getToken);
+
+        UserPreference.getInstance().putString(Config.KEY_TOKEN, getToken);
+        Log.e("token", "" + getToken);//null나옴-> 잘나옴
 
 
-        call.enqueue(new Callback<ApiResultDto>() {
+        /*
+        Call<ApiResultDto> apiResultDtoCall = retrofitInterface.pimage(getToken, originFile, thumbnailFile);
+        apiResultDtoCall.enqueue(new Callback<ApiResultDto>() {
+            @Override
             public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
+
                 if (response.isSuccessful()) {
-                    ApiResultDto dto = response.body();
-                    JsonObject resultData = dto.getResultData(); //실제 데이터부를 json으로 받고
-                    if (resultData != null) {
-                        //받은 json을 내가만든 UserAccountData 클래스형태로 convert
-                        UserAccountData userAccountData = new Gson().fromJson(resultData, UserAccountData.class);
-                        //String nickName =response.body().getNickname();
-                        // Log.i(TAG, "Responser: " + response.body());
-                        // String test = userAccountData.getNickname();
-                        getNickName.setText(userAccountData.getNickname());
+                    ApiResultDto apiResultDto = response.body();
+                    JsonObject resultData = apiResultDto.getResultData();
+                    PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
+
+                    String originalImage = IMG_BASE_URL+pImageData.getStoredPath();
+                    UserPreference.getInstance().putString("PROFILE_IMAGE_PATH",pImageData.getStoredPath());
+         */
 
 
-                        //UserPreference userPrefs = new UserPreference();
-                        //userPrefs.setContext(userAccountData.getNickname());
+        call.enqueue(new Callback<AccountDto>() {
+            public void onResponse(Call<AccountDto> call, Response<AccountDto> response) {
+                if (response.isSuccessful()) {
+                    AccountDto accountDto = response.body();
+                    AccountDto.ResultData resultData = accountDto.getResultData();
+
+                   // User user = new Gson().fromJson(String.valueOf(accountDto),User.class);
+
+                    if (resultData  != null) {
+
+                       // String userEmail =  apiResultDto.getResultData().get("email").getAsString();
+                       // String userNickName = apiResultDto.getResultData().get("nickname").getAsString();
+
+                        String userEmail =  accountDto.getResultData().getUser().getEmail();
+                        String userNickName = accountDto.getResultData().getUser().getNickname();
+
+                        UserPreference.getInstance().putString(Config.KEY_EMAIL,userEmail);
+                        UserPreference.getInstance().putString(Config.KEY_NICKNAME,userNickName);
+
+                        Log.e("userEmail", "" + userEmail);
+                        Log.e("userNickName", "" + userNickName);
+
+                        Log.e("userEmail2", "" + UserPreference.getInstance().getString(Config.KEY_EMAIL));
+                        Log.e("userNickName2", "" + UserPreference.getInstance().getString(Config.KEY_NICKNAME));
+
                     } else {
                         Log.e("getUser", "Account null ");
-
                     }
 
 
-                    UserPreference userPreference = new UserPreference();
                     if (getToken != null) {
-                        userPreference.putString(Config.KEY_TOKEN, getToken);
+
+
                     }
                     Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResultDto> call, Throwable t) {
+            public void onFailure(Call<AccountDto> call, Throwable t) {
                 Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
             }
+
+
+
         });
     }
 
@@ -286,8 +302,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
 
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment myPageFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        myPageFragment.onActivityResult(requestCode, resultCode, data);
     }
 
 

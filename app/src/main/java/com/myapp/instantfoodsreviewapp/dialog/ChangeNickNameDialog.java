@@ -112,6 +112,7 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
                     JsonObject resultData = apiResultDto.getResultData();
                     if (resultData != null) {
                         ChangeNickNameData changeNickNameData = new Gson().fromJson(resultData, ChangeNickNameData.class);
+                        UserPreference.getInstance().putString(Config.KEY_NICKNAME,newNickName);
                         resultCallback.transfer(changeNickNameData.getNewNickName());
 
                     } else {

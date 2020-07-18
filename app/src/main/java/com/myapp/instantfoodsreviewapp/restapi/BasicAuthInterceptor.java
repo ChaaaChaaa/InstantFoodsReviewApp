@@ -1,6 +1,5 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 

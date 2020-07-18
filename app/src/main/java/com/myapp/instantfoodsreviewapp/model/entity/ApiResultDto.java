@@ -1,13 +1,15 @@
 package com.myapp.instantfoodsreviewapp.model.entity;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.myapp.instantfoodsreviewapp.model.User;
 
 public class ApiResultDto {
     @SerializedName("resultCode")
     private int resultCode;
     @SerializedName("resultData")
-    private JsonObject resultData; //json으로 받기에
+    private JsonObject resultData;
     @SerializedName("message")
     private String message;
 
@@ -34,4 +36,6 @@ public class ApiResultDto {
     public void setMessage(String message){
         this.message = message;
     }
+
+
 }

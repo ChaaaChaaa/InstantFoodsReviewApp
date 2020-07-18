@@ -1,13 +1,14 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
-import com.myapp.instantfoodsreviewapp.model.UserLoginData;
+
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
+import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -33,7 +34,7 @@ public interface RetrofitInterface {
 
     @GET("v1/user/account")
         //Call<UserAccountData> account();
-    Call<ApiResultDto> account(@Header("authorization") String token);
+    Call<AccountDto> account(@Header("authorization") String token);
 
     @FormUrlEncoded
     @PUT("v1/user/change/pwd")
