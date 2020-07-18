@@ -41,7 +41,7 @@
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="test7@testtesttest.com"
+                android:text="test11@testtesttest.com"
                 android:backgroundTint="#FFC107"
                 android:hint="@string/email"
                 android:maxLines="1"

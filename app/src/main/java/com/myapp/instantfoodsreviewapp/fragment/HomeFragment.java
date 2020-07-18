@@ -24,6 +24,7 @@ public class HomeFragment extends Fragment implements CardView.OnClickListener {
     private ImageView image_pizza;
     private ImageView image_stew;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

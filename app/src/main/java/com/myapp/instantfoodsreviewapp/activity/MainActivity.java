@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,10 +18,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -53,8 +56,12 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private String TAG = EmailLoginActivity.class.getSimpleName();
+    private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    private static final String FILE_SPLIT_PART = "\\.";
 
-    private TextView getNickName;
+    private ImageView navProfileImage;
+    private TextView navNickName;
+
     private Button logoutButton;
     private ActivityMainBinding activityMainBinding;
     private UserPreference userPreference;
@@ -62,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RetrofitClient retrofitClient;
     private BasicAuthInterceptor basicAuthInterceptor;
     private ActionBarDrawerToggle toggle;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
+    private Toolbar mainToolbar;
+    private NavigationView mainNavigationView;
     private DrawerLayout drawerLayout;
-    private LinearLayout llDrawerHeader;
+    private ConstraintLayout llDrawerHeader;
     // private ViewPagerAdapter viewPagerAdapter;
     //  private ViewPager viewPager;
     private CustomRecyclerAdapter adapterCustom;
@@ -82,9 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setNavigationView();
         setToolbar();
         bindView();
+        showNavigationUserInfo();
         // displayView(0);
         //setViewPager();
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
 
@@ -92,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+            mainNavigationView.setCheckedItem(R.id.nav_home);
         }
 
         getUser();
@@ -106,17 +114,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void init() {
         drawerLayout = activityMainBinding.drawerLayout;
-        navigationView = findViewById(R.id.nav_view);
+        mainNavigationView = findViewById(R.id.main_navigation);
+
     }
 
     private void setNavigationView() {
-        navigationView.setNavigationItemSelectedListener(this);
+        mainNavigationView.setNavigationItemSelectedListener(this);
         drawerLayout.addDrawerListener(toggle);
     }
 
     private void setToolbar() {
-        toolbar = activityMainBinding.toolbar;
-        setSupportActionBar(toolbar);
+        mainToolbar = activityMainBinding.mainToolbar;
+        setSupportActionBar(mainToolbar);
     }
 
     private static long backKeyPressedTime = 0;
@@ -166,9 +175,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bindView() {
-        View header = navigationView.getHeaderView(0);
+        View header = mainNavigationView.getHeaderView(0);
         llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
-        getNickName = header.findViewById(R.id.getNickName);
+        navNickName = header.findViewById(R.id.nav_nickname);
+        navProfileImage = header.findViewById(R.id.nav_profile_image);
+    }
+
+    private void showNavigationUserInfo(){
+        String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
+        String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
+        setNavigationImage(convertThumbnailProfileImagePath);
+
+        String getNickName = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
+        navNickName.setText(getNickName);
+
+    }
+
+    private String makeThumbnailPath(String originalImagePath){
+        // String originalImagePath = UserPreference.getInstance().getString("PROFILE_IMAGE_PATH");
+        //Log.e("originalImagePath",""+originalImagePath);
+        String thumbNailPath = "";
+        if(originalImagePath != null && !originalImagePath.isEmpty()){
+            String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
+            thumbNailPath = IMG_BASE_URL+pathNames[0]+"Thumbnail";
+            Log.e("thumbNailPath",""+thumbNailPath);
+        }
+        else{
+            Log.d(TAG, "onFailure()");
+        }
+        Log.e("thumbNailPath2",""+thumbNailPath);
+        return thumbNailPath;
+    }
+
+    private void setNavigationImage(String url){
+        Glide.with(this)
+                .load(url)
+                .override(400, 150)
+                .circleCrop()
+                .into(navProfileImage);
     }
 
     public void userLogOut() {

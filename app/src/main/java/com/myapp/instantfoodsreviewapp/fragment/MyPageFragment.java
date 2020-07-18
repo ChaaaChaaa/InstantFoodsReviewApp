@@ -129,7 +129,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
             thumbNailPath = IMG_BASE_URL+pathNames[0]+"Thumbnail";
             Log.e("thumbNailPath",""+thumbNailPath);
-           // setImageResource(IMG_BASE_URL+thumbNailPath,profilePicture);
         }
         else{
             Log.d(TAG, "onFailure()");
