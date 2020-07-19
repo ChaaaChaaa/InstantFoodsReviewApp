@@ -81,6 +81,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private ImageButton btnChangeNickname;
     private ImageButton btnChangePicture;
     private ImageView profilePicture;
+    private TransferDataCallback<String> resultCallback;
 
     @Nullable
     @Override
@@ -100,43 +101,41 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         currentVersion.setText(versionName);
 
         profilePicture = view.findViewById(R.id.profile_image);
-       // String thumbNailPath = makeThumbnailPath();
+        // String thumbNailPath = makeThumbnailPath();
 //        Log.e("thumbNailPath1",thumbNailPath);
 //        setImageResource(thumbNailPath,profilePicture);
     }
 
-    private void getInfo(View view){
+    private void getInfo(View view) {
         String userNickname = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
-        Log.e("userNickname3",""+userNickname);
+        Log.e("userNickname3", "" + userNickname);
         currentNickName = view.findViewById(R.id.tv_setting_nickname);
 
-       // String thumbNailPath = makeThumbnailPath();
+        // String thumbNailPath = makeThumbnailPath();
         String userProfileImage = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-        Log.e("userProfileImage3",""+userProfileImage);
-       // setImageResource(thumbNailPath,profilePicture);
+        Log.e("userProfileImage3", "" + userProfileImage);
+        // setImageResource(thumbNailPath,profilePicture);
 
         String userEmail = UserPreference.getInstance().getString(Config.KEY_EMAIL);
-        Log.e("userEmail3",""+userEmail);
+        Log.e("userEmail3", "" + userEmail);
         getEmail = view.findViewById(R.id.tv_setting_email);
     }
 
 
-    private String makeThumbnailPath(String originalImagePath){
-       // String originalImagePath = UserPreference.getInstance().getString("PROFILE_IMAGE_PATH");
+    private String makeThumbnailPath(String originalImagePath) {
+        // String originalImagePath = UserPreference.getInstance().getString("PROFILE_IMAGE_PATH");
         //Log.e("originalImagePath",""+originalImagePath);
         String thumbNailPath = "";
-        if(originalImagePath != null && !originalImagePath.isEmpty()){
+        if (originalImagePath != null && !originalImagePath.isEmpty()) {
             String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
-            thumbNailPath = IMG_BASE_URL+pathNames[0]+"Thumbnail";
-            Log.e("thumbNailPath",""+thumbNailPath);
-        }
-        else{
+            thumbNailPath = IMG_BASE_URL + pathNames[0] + "Thumbnail";
+            Log.e("thumbNailPath", "" + thumbNailPath);
+        } else {
             Log.d(TAG, "onFailure()");
         }
-        Log.e("thumbNailPath2",""+thumbNailPath);
+        Log.e("thumbNailPath2", "" + thumbNailPath);
         return thumbNailPath;
     }
-
 
 
     private void initButton(View view) {
@@ -174,16 +173,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                         String userNickName = resultData.getUser().getNickname();
                         currentNickName.setText(userNickName);
                         String userProfilePath = resultData.getUser().getProfilepath();
-                        UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE,userProfilePath);
-                        Log.e("userProfilePath1",""+userProfilePath);
+                        UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfilePath);
+                        Log.e("userProfilePath1", "" + userProfilePath);
                         String storedThumbnail = makeThumbnailPath(userProfilePath);
-                        Log.e("userProfilePath2",""+storedThumbnail);
-                        setImageResource(storedThumbnail,profilePicture);
+                        Log.e("userProfilePath2", "" + storedThumbnail);
+                        setImageResource(storedThumbnail, profilePicture);
 
 
-                    }
-
-                    else {
+                    } else {
                         Toast.makeText(getActivity(), "회원 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -238,17 +235,17 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             @Override
             public void transfer(String changeNickName) {
                 currentNickName.setText(changeNickName);
-                Toast.makeText(getContext(),changeNickName,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), changeNickName, Toast.LENGTH_SHORT).show();
             }
         };
         changeNickNameDialog.setResultCallback(resultNickNameCallBack);
         changeNickNameDialog.show(getFragmentManager(), "change nickname dialog");
     }
 
-    private void setFullImageActivity(){
+    private void setFullImageActivity() {
         Intent sendOriginalImageIntent = new Intent(getActivity(), FullImageActivity.class);
         String originalImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-        sendOriginalImageIntent.putExtra("originalImage",originalImagePath);
+        sendOriginalImageIntent.putExtra("originalImage", originalImagePath);
         startActivity(sendOriginalImageIntent);
     }
 
@@ -308,7 +305,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-
     public Bitmap fixOrientation(Bitmap bitmap) {
         if (bitmap.getWidth() > bitmap.getHeight()) {
             Matrix matrix = new Matrix();
@@ -319,6 +315,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         return bitmap;
     }
 
+    private void transferUpdatePicture(){
+        TransferDataCallback<String> resultProfileImageCallBack = new TransferDataCallback<String>() {
+            @Override
+            public void transfer(String updatePicturePath) {
+
+            }
+        };
+    }
 
 
     @Override
@@ -344,6 +348,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     compressImage(uriPath);
                     setImageResource(imageUri.toString(), profilePicture);
                     updateData(bitmap);
+                   // setResultCallback(resultProfileImageCallBack);
                     break;
 
                 case REQUEST_CAMERA:
@@ -376,14 +381,13 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         }
     }
 
-    private void setImageResource(String url, ImageView imageView){
-        Log.e("Glide"," ");
+    private void setImageResource(String url, ImageView imageView) {
+        Log.e("Glide", " ");
         Glide.with(this)
                 .load(url)
                 .circleCrop()
                 .into(imageView);
     }
-
 
 
     private String getRealPathFromURI(Uri contentUri) {
@@ -400,12 +404,11 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-
     private void updateData(Bitmap bitmap) {
 
-        MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(),bitmap,0);
-        Bitmap thumbnail = Const.resizedThumbnail(bitmap,bitmap.getWidth(),bitmap.getHeight());
-        MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(),thumbnail,1);
+        MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(), bitmap, 0);
+        Bitmap thumbnail = Const.resizedThumbnail(bitmap, bitmap.getWidth(), bitmap.getHeight());
+        MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(), thumbnail, 1);
 
         bitmap.recycle();
         thumbnail.recycle();
@@ -413,43 +416,34 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         String getToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
 
-       Log.e("connect", "000");
+        Log.e("connect", "000");
         Call<ApiResultDto> apiResultDtoCall = retrofitInterface.pimage(getToken, originFile, thumbnailFile);
         Log.e("connect", "111");
         apiResultDtoCall.enqueue(new Callback<ApiResultDto>() {
             @Override
             public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-               Log.e("connect", "222" + response);
+                Log.e("connect", "222" + response);
                 if (response.isSuccessful()) {
-                   Log.e("connect", "333" + response);
+                    Log.e("connect", "333" + response);
                     ApiResultDto apiResultDto = response.body();
                     JsonObject resultData = apiResultDto.getResultData();
 
                     PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
 
-                    String originalImage = IMG_BASE_URL+pImageData.getStoredPath();
-                    UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE,pImageData.getStoredPath());
+                    String originalImage = IMG_BASE_URL + pImageData.getStoredPath();
+                    resultCallback.transfer(pImageData.getStoredPath());
+                    UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
 
-                    Log.e("originalImage",""+originalImage);
-                    Log.e("PROFILE_IMAGE_PATH",""+pImageData.getStoredPath());
-                    Log.e("userpreference",""+UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE));
+                    Log.e("originalImage", "" + originalImage);
+                    Log.e("PROFILE_IMAGE_PATH", "" + pImageData.getStoredPath());
+                    Log.e("userpreference", "" + UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE));
 
-                  String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
-//
-//                    if(originalImagePath != null && originalImagePath.isEmpty()){
-//                        String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
-//                        String thumbNailPath = pathNames[0]+"Thumbnail";
-//                        setImageResource(IMG_BASE_URL+thumbNailPath,profilePicture);
-//                    }
+                    String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
 
                     String convertedThumbnailPath = makeThumbnailPath(originalImagePath);
-                    setImageResource(convertedThumbnailPath,profilePicture);
-
-                   // Toast.makeText(getActivity(),originalImagePath,Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(getActivity(), response.body().toString(), Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getActivity(),"프로필 사진이 없습니다.",Toast.LENGTH_SHORT).show();
+                    setImageResource(convertedThumbnailPath, profilePicture);
+                } else {
+                    Toast.makeText(getActivity(), "프로필 사진이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -459,7 +453,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                 //Logm 으로 하면 자동 Log가 입력이 된다. 이후 TAG 설정을 위해 Logt를 입력하여서 자동 완성 시킨다.
             }
         });
+    }
 
 
+    public TransferDataCallback<String> getResultCallback() {
+        return resultCallback;
+    }
+
+    public void setResultCallback(TransferDataCallback<String> resultCallback) {
+        this.resultCallback = resultCallback;
     }
 }
