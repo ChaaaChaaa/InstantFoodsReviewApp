@@ -1,0 +1,6 @@
+<resources>
+    <!-- margin-->
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="constraintGuide_20dp">20dp</dimen>
+    <dimen name="constraintGuide_29dp">20dp</dimen>
+</resources>
