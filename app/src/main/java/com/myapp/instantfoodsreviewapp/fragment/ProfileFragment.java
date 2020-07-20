@@ -263,56 +263,14 @@
 //
 //    private UserPreference userPreference;
 //
-//    private void updateData(Bitmap bitmap) {
-//
-//        MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(),bitmap,0);
-//        Bitmap thumbnail = Const.resizedThumbnail(bitmap,bitmap.getWidth(),bitmap.getHeight());
-//        MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(),thumbnail,1);
-//
-//        bitmap.recycle();
-//        thumbnail.recycle();
-//
-//        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-//        String getToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
-//
-//        // Log.e("connect00", "lll");
-//        Call<ApiResultDto> apiResultDtoCall = retrofitInterface.pimage(getToken, originFile, thumbnailFile);
-//        // Log.e("connect0", "aaaaa");
-//        apiResultDtoCall.enqueue(new Callback<ApiResultDto>() {
-//            @Override
-//            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-//                //     Log.e("connect1", "aaaa" + response);
-//                if (response.isSuccessful()) {
-//                    //       Log.e("connect1", "vvvv" + response);
-//                    ApiResultDto apiResultDto = response.body();
-//                    JsonObject resultData = apiResultDto.getResultData();
-//
-//                    PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
-//
-//                    String originalImage = IMG_BASE_URL+pImageData.getStoredPath();
-//                    UserPreference.getInstance().putString("PROFILE_IMAGE_PATH",pImageData.getStoredPath());
-//                    String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
-//
-//                    if(originalImagePath != null && originalImagePath.isEmpty()){
-//                        String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
-//                        String thumbNailPath = pathNames[0]+"Thumbnail";
-//                        setImageResource(IMG_BASE_URL+thumbNailPath,profileView);
-//                    }
-//                    Toast.makeText(getActivity(),originalImagePath,Toast.LENGTH_SHORT).show();
-//                    //Toast.makeText(getActivity(), response.body().toString(), Toast.LENGTH_LONG).show();
-//                }
-//                else {
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResultDto> call, Throwable t) {
-//                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
-//                //Logm 으로 하면 자동 Log가 입력이 된다. 이후 TAG 설정을 위해 Logt를 입력하여서 자동 완성 시킨다.
-//            }
-//        });
-//
-//
+//    private void test(){
+//        if(originalImagePath != null && originalImagePath.isEmpty()){
+//            String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
+//            String thumbNailPath = pathNames[0]+"Thumbnail";
+//            setImageResource(IMG_BASE_URL+thumbNailPath,profileView);
+//        }
 //    }
+//
+//
+//
 //}

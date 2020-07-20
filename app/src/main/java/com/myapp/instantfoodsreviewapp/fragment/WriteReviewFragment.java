@@ -68,12 +68,16 @@ public class WriteReviewFragment extends Fragment implements AdapterView.OnItemS
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        Toast.makeText(parent.getContext(), "nothing selected!", Toast.LENGTH_SHORT).show();
     }
 
     private void setWrite() {
-
+        String reviewTitle = textViewReviewTitle.getText().toString();
+        String goodPoint = editTextGoodPoint.getText().toString();
+        String badPoint = editTextBadPoint.getText().toString();
     }
+
+
 
 
 }

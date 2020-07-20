@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/yellow"
-                android:elevation="4dp"
+                android:elevation="@dimen/elevation_4dp"
                 android:src="@drawable/ic_icon_hamburger"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_constraintBottom_toBottomOf="parent"

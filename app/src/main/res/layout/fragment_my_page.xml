@@ -11,7 +11,7 @@
         android:id="@+id/fragment_container_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="@dimen/margin_5dp">
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -19,29 +19,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="10dp" />
+            app:layout_constraintGuide_begin="@dimen/constraintGuide_10dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="29dp" />
+            app:layout_constraintGuide_begin="@dimen/constraintGuide_29dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="29dp" />
+            app:layout_constraintGuide_end="@dimen/constraintGuide_29dp" />
 
         <View
             android:id="@+id/profile_view"
-            android:layout_width="0dp"
-            android:layout_height="141dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="@dimen/height_141dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_48dp"
+            android:layout_marginEnd="@dimen/margin_10dp"
             android:background="#AE8406"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="1.0"
@@ -50,9 +50,9 @@
 
         <ImageView
             android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="@dimen/width_100dp"
+            android:layout_height="@dimen/height_100dp"
+            android:layout_marginBottom="@dimen/margin_10dp"
             android:background="@drawable/profile_background"
             app:layout_constraintBottom_toBottomOf="@+id/profile_view"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -66,10 +66,10 @@
             android:id="@+id/tv_setting_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="@dimen/margin_36dp"
             android:text="TextView"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/profile_view"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -80,7 +80,7 @@
             android:id="@+id/tv_setting_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:text="TextView"
             android:textColor="#EAE3E3"
             app:layout_constraintEnd_toEndOf="@+id/tv_setting_nickname"
@@ -90,10 +90,10 @@
 
         <ImageView
             android:id="@+id/review_image"
-            android:layout_width="26dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="@dimen/width_26dp"
+            android:layout_height="@dimen/height_0dp"
+            android:layout_marginStart="@dimen/margin_24dp"
+            android:layout_marginTop="@dimen/margin_15dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -102,13 +102,13 @@
 
         <TextView
             android:id="@+id/tv_myreview"
-            android:layout_width="0dp"
-            android:layout_height="14dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="@dimen/height_14dp"
+            android:layout_marginStart="@dimen/margin_5dp"
+            android:layout_marginBottom="@dimen/margin_32dp"
             android:text=" 내 리뷰"
             android:textColor="#FFFFFF"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_12sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_review_count"
             app:layout_constraintEnd_toStartOf="@+id/profile_image"
             app:layout_constraintHorizontal_bias="0.0"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="60dp"
             android:textColor="#FFFFFF"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_size_10sp"
             app:layout_constraintBottom_toBottomOf="@+id/profile_view"
             app:layout_constraintEnd_toEndOf="@+id/tv_myreview"
             app:layout_constraintHorizontal_bias="0.653"
@@ -128,14 +128,14 @@
 
         <TextView
             android:id="@+id/tv_setting"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/width_0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_24dp"
             android:fontFamily="sans-serif"
             android:text="Setting"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF"
-            android:textSize="24dp"
+            android:textSize="@dimen/text_size_24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.0"
@@ -144,9 +144,9 @@
 
         <View
             android:id="@+id/view_setting_underline"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="@dimen/width_0dp"
+            android:layout_height="@dimen/height_2dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:background="#AE8406"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -155,9 +155,9 @@
 
         <ImageView
             android:id="@+id/image_version_info"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/width_35dp"
+            android:layout_height="@dimen/height_35dp"
+            android:layout_marginTop="@dimen/margin_20dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.045"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:text="버전 정보 :"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textSize="@dimen/text_size_15sp"
             app:layout_constraintBottom_toBottomOf="@+id/image_version_info"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.062"
@@ -191,9 +191,9 @@
 
         <ImageView
             android:id="@+id/image_notification"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/width_35dp"
+            android:layout_height="@dimen/height_35dp"
+            android:layout_marginTop="@dimen/margin_20dp"
             app:layout_constraintStart_toStartOf="@+id/image_change_password"
             app:layout_constraintTop_toBottomOf="@+id/image_change_password"
             app:srcCompat="@drawable/ic_notification" />
@@ -220,17 +220,17 @@
 
         <ImageView
             android:id="@+id/image_secession"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/width_35dp"
+            android:layout_height="@dimen/height_35dp"
+            android:layout_marginTop="@dimen/margin_20dp"
             app:layout_constraintStart_toStartOf="@+id/image_notification"
             app:layout_constraintTop_toBottomOf="@+id/image_notification"
             app:srcCompat="@drawable/ic_secession" />
 
         <TextView
             android:id="@+id/tv_secession"
-            android:layout_width="130dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/width_130dp"
+            android:layout_height="@dimen/height_35dp"
             android:clickable="false"
             android:gravity="center"
             android:text="탈퇴하기                "
@@ -242,9 +242,9 @@
 
         <ImageView
             android:id="@+id/image_change_password"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/width_35dp"
+            android:layout_height="@dimen/height_35dp"
+            android:layout_marginTop="@dimen/margin_20dp"
             app:layout_constraintEnd_toEndOf="@+id/image_version_info"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/image_version_info"
@@ -253,8 +253,8 @@
 
         <TextView
             android:id="@+id/tv_change_password"
-            android:layout_width="130dp"
-            android:layout_height="35dp"
+            android:layout_width="@dimen/width_130dp"
+            android:layout_height="@dimen/height_35dp"
             android:background="#FFC107"
             android:gravity="center"
             android:text="비밀번호 변경하기   "
@@ -269,7 +269,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="600dp" />
+            app:layout_constraintGuide_begin="@dimen/constraintGuide_60dp" />
 
         <ImageButton
             android:id="@+id/btn_change_nickname"

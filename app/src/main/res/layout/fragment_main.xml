@@ -10,16 +10,16 @@
         android:id="@+id/welcomeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         android:text="@string/welcome"
         android:gravity="center"
         android:textSize="30dp"/>
 
     <Button
         android:id="@+id/logoutButton"
-        android:layout_width="120dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="@dimen/width_35dp"
+        android:layout_height="@dimen/height_60dp"
+        android:layout_marginTop="@dimen/margin_20dp"
         android:text="@string/logout" />
 
 

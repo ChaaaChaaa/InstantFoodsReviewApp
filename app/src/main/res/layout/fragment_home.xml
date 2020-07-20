@@ -12,10 +12,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <GridLayout
-        android:layout_width="300dp"
-        android:layout_height="450dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="35dp"
+        android:layout_width="@dimen/width_300dp"
+        android:layout_height="@dimen/height_450dp"
+        android:layout_marginTop="@dimen/margin_30dp"
+        android:layout_marginLeft="@dimen/margin_35dp"
         android:columnCount="2"
         android:rowCount="3">
 
@@ -29,9 +29,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,9 +41,9 @@
 
                 <ImageView
                     android:id="@+id/image_stew"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingTop="15dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_100dp"
+                    android:paddingTop="@dimen/padding_15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/stew" />
 
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="찌개류"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -65,9 +65,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,9 +77,9 @@
 
                 <ImageView
                     android:id="@+id/image_coldNoodle"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingTop="15dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_100dp"
+                    android:paddingTop="@dimen/padding_15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/coldnoodles" />
 
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="냉면/면류"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -103,9 +103,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,9 +115,9 @@
 
                 <ImageView
                     android:id="@+id/image_ddokbokki"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingTop="15dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_100dp"
+                    android:paddingTop="@dimen/padding_15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ddokbokki" />
 
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="떡볶이"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -140,9 +140,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -152,9 +152,9 @@
 
                 <ImageView
                     android:id="@+id/image_dumpling"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingTop="15dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_100dp"
+                    android:paddingTop="@dimen/padding_15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/dumpling" />
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:text="만두/튀김류"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -179,9 +179,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,8 +191,8 @@
 
                 <ImageView
                     android:id="@+id/image_friedRice"
-                    android:layout_width="100dp"
-                    android:layout_height="95dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_95dp"
                     android:paddingTop="15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/friedrice" />
@@ -202,7 +202,7 @@
                     android:layout_height="wrap_content"
                     android:text="볶음밥/덮밥류"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -216,9 +216,9 @@
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            android:layout_margin="@dimen/margin_8dp"
+            app:cardCornerRadius="@dimen/radius_8dp"
+            app:cardElevation="@dimen/elevation_8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,9 +228,9 @@
 
                 <ImageView
                     android:id="@+id/image_pizza"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:paddingTop="15dp"
+                    android:layout_width="@dimen/width_100dp"
+                    android:layout_height="@dimen/height_100dp"
+                    android:paddingTop="@dimen/padding_15dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/pizza" />
 
@@ -239,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:text="피자/핫도그"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
