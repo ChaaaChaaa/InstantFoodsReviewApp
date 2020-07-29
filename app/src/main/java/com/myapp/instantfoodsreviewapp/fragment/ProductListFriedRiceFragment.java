@@ -24,7 +24,7 @@ import com.myapp.instantfoodsreviewapp.model.ListItem;
 import java.util.ArrayList;
 
 
-public class FriedRiceFragment extends Fragment {
+public class ProductListFriedRiceFragment extends Fragment {
     private ArrayList<ListItem> riceList = new ArrayList<>();
     private RecyclerView recyclerViewRice;
     private CustomRecyclerAdapter adapterRice;
@@ -105,5 +105,9 @@ public class FriedRiceFragment extends Fragment {
         });
         searchItem.setActionView(searchView);
         super.onCreateOptionsMenu(searchMenu,inflater);
+    }
+
+    private void getFriedRiceProductListInfo(){
+
     }
 }

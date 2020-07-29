@@ -58,4 +58,7 @@ public interface RetrofitInterface {
                                @Part MultipartBody.Part file1,
                                @Part MultipartBody.Part file2);
 
+    @GET("v1/product/list")
+    Call<ApiResultDto> list()
+
 }

@@ -63,7 +63,8 @@ import static android.app.Activity.RESULT_CANCELED;
 public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private static final String TAG = "MyPageFragment";
 
-    private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    //private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
     private static final String FILE_SPLIT_PART = "\\.";
 
     private static final int REQUEST_CAMERA = 101;

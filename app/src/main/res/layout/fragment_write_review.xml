@@ -43,24 +43,12 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/constraintGuide_20dp" />
 
-            <Spinner
-                android:id="@+id/spn_food_category"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_review_title"
-                app:layout_constraintEnd_toStartOf="@+id/tv_review_title"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/guideline_left"
-                app:layout_constraintTop_toTopOf="@+id/tv_review_title"
-                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/tv_review_title"
                 android:layout_width="210dp"
                 android:layout_height="50dp"
                 android:hint="브랜드명/제품명"
-                app:layout_constraintBottom_toTopOf="@+id/review_rating_bar"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/spn_food_category"

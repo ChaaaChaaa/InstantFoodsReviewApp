@@ -25,7 +25,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new DumplingFragment();
             case 4:
-                return new FriedRiceFragment();
+                return new ProductListFriedRiceFragment();
             case 5:
                 return new PizzaFragment();
             default:

@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +76,7 @@ public class HomeFragment extends Fragment implements CardView.OnClickListener {
 
             case R.id.image_friedRice:
                 FragmentTransaction fragmentTransactionFriedRice = getFragmentManager().beginTransaction();
-                fragmentTransactionFriedRice.replace(R.id.fragment_container, new FriedRiceFragment());
+                fragmentTransactionFriedRice.replace(R.id.fragment_container, new ProductListFriedRiceFragment());
                 fragmentTransactionFriedRice.addToBackStack(null);
                 fragmentTransactionFriedRice.commit();
                 break;

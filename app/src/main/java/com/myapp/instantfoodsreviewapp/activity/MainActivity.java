@@ -19,29 +19,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
 import com.myapp.instantfoodsreviewapp.fragment.DumplingFragment;
-import com.myapp.instantfoodsreviewapp.fragment.FriedRiceFragment;
+import com.myapp.instantfoodsreviewapp.fragment.ProductListFriedRiceFragment;
 import com.myapp.instantfoodsreviewapp.fragment.HomeFragment;
 import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
 import com.myapp.instantfoodsreviewapp.fragment.NoodleFragment;
 import com.myapp.instantfoodsreviewapp.fragment.PizzaFragment;
 import com.myapp.instantfoodsreviewapp.fragment.StewFragment;
 import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
-import com.myapp.instantfoodsreviewapp.model.AccountData;
-import com.myapp.instantfoodsreviewapp.model.User;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
-import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.BasicAuthInterceptor;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
@@ -226,8 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void getUser() {
-
-        //getToken = userPreference.getString(Config.KEY_TOKEN);
         getToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
         Call<AccountDto> call = retrofitInterface.account(getToken);
@@ -235,35 +226,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         UserPreference.getInstance().putString(Config.KEY_TOKEN, getToken);
         Log.e("token", "" + getToken);//null나옴-> 잘나옴
 
-
-        /*
-        Call<ApiResultDto> apiResultDtoCall = retrofitInterface.pimage(getToken, originFile, thumbnailFile);
-        apiResultDtoCall.enqueue(new Callback<ApiResultDto>() {
-            @Override
-            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-
-                if (response.isSuccessful()) {
-                    ApiResultDto apiResultDto = response.body();
-                    JsonObject resultData = apiResultDto.getResultData();
-                    PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
-
-                    String originalImage = IMG_BASE_URL+pImageData.getStoredPath();
-                    UserPreference.getInstance().putString("PROFILE_IMAGE_PATH",pImageData.getStoredPath());
-         */
-
-
         call.enqueue(new Callback<AccountDto>() {
             public void onResponse(Call<AccountDto> call, Response<AccountDto> response) {
                 if (response.isSuccessful()) {
                     AccountDto accountDto = response.body();
                     AccountDto.ResultData resultData = accountDto.getResultData();
 
-                   // User user = new Gson().fromJson(String.valueOf(accountDto),User.class);
-
                     if (resultData  != null) {
 
-                       // String userEmail =  apiResultDto.getResultData().get("email").getAsString();
-                       // String userNickName = apiResultDto.getResultData().get("nickname").getAsString();
 
                         String userEmail =  accountDto.getResultData().getUser().getEmail();
                         String userNickName = accountDto.getResultData().getUser().getNickname();
@@ -295,8 +265,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
             }
 
-
-
         });
     }
 
@@ -318,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new DumplingFragment();
                 break;
             case R.id.nav_friedRice:
-                fragment = new FriedRiceFragment();
+                fragment = new ProductListFriedRiceFragment();
                 break;
             case R.id.nav_pizza:
                 fragment = new PizzaFragment();
