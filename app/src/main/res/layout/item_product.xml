@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CardView.Light"
 
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="20dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="20dp"
@@ -16,85 +14,80 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_food"
-            android:layout_width="95dp"
-            android:layout_height="95dp"
-            android:src="@drawable/ddok_oddukki"
-            android:scaleType="fitCenter"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toStartOf="@+id/tv_food_name"
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="378dp"
+            android:layout_height="249dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="TextView"
+            android:textSize="24sp"
+            android:textStyle="bold"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@drawable/ic_image" />
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_food_category"
-            android:layout_width="39dp"
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textColor="#151414"
-            card_view:layout_constraintBottom_toTopOf="@+id/image_food"
-            card_view:layout_constraintEnd_toEndOf="@+id/image_food"
-            card_view:layout_constraintStart_toStartOf="@+id/image_food" />
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            card_view:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="46dp" />
 
         <TextView
-            android:id="@+id/tv_food_name"
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="8dp"
-            android:textSize="10sp"
-            card_view:layout_constraintStart_toStartOf="@+id/tv_review_content"
-            card_view:layout_constraintTop_toTopOf="@+id/image_food" />
-
-        <TextView
-            android:id="@+id/tv_review_content"
-            android:layout_width="256dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="4dp"
-            android:maxLength="100"
-            android:maxLines="3"
-            card_view:layout_constraintBottom_toBottomOf="@+id/image_food"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/image_food" />
+            android:layout_marginStart="16dp"
+            android:text="TextView"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="@+id/textView4"
+            card_view:layout_constraintStart_toStartOf="@+id/textView4"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/image_star1"
+            android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="170dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/tv_food_category"
-            card_view:layout_constraintStart_toEndOf="@+id/tv_food_category"
-            card_view:layout_constraintTop_toTopOf="@+id/tv_food_category"
-            card_view:layout_constraintVertical_bias="0.384"
-            card_view:srcCompat="@android:drawable/btn_star_big_on" />
+            android:layout_marginStart="28dp"
+            android:layout_marginBottom="16dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <ImageView
-            android:id="@+id/image_star2"
+            android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/image_star1"
-            card_view:layout_constraintEnd_toStartOf="@+id/image_star3"
-            card_view:layout_constraintStart_toEndOf="@+id/image_star1"
-            card_view:layout_constraintTop_toTopOf="@+id/image_star1"
-            card_view:srcCompat="@android:drawable/btn_star_big_on" />
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="16dp"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:srcCompat="@android:drawable/ic_menu_gallery" />
 
-        <ImageView
-            android:id="@+id/image_star3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="20dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/image_star2"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@+id/image_star2"
-            card_view:layout_constraintTop_toTopOf="@+id/image_star2"
-            card_view:srcCompat="@android:drawable/btn_star_big_on" />
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="348dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            card_view:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="70dp" />
 
-
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="347dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            card_view:layout_constraintEnd_toEndOf="@+id/editText2"
+            card_view:layout_constraintStart_toStartOf="@+id/editText2"
+            tools:layout_editor_absoluteY="156dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
