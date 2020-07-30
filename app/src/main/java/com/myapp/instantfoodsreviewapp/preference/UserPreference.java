@@ -52,4 +52,8 @@ public class UserPreference {
     public String getString(String key) {
         return userSharedPreferences.getString(key, null);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> feature/11

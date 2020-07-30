@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="foods_category_array">
+        <item>볶음밥/컵밥</item>
+        <item>떡볶이</item>
+        <item>라면/즉석 면요리</item>
+        <item>만두/돈까스/치킨/튀김</item>
+        <item>피자/핫도그</item>
+        <item>찌개/죽/스프</item>
+    </string-array>
+</resources>

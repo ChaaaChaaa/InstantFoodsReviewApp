@@ -15,4 +15,33 @@
 
     <string name="welcome">로그인하셨습니다.</string>
     <string name="logout">LOGOUT</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="ddokbokki">ddokbokki</string>
+
+
+    <!-- setting password -->
+    <string name="change_password">Change Password</string>
+    <string name="current_password">현재 비밀번호 :</string>
+    <string name="new_password">새 비밀번호 :</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="success_change_password">"비밀번호를 변경하셨습니다."</string>
+    <string name="blank_password">"비밀번호를 입력하세요"</string>
+    <string name="wrong_length_password">"비밀번호 길이가 안맞습니다."</string>
+    <string name="duplicate_password">"새로운 비밀번호를 입력해 주세요"</string>
+    <string name="new_nickname">변경할 닉네임</string>
+
+    <!-- setting profile picture -->
+    <string name="pick_picture_method">프로필 사진</string>
+    <string name="take_photo">카메라로 사진 찍기</string>
+    <string name="pick_gallery">앨범에서 사진 고르기</string>
+    <string name="picture_cancel">취소</string>
+
+    <string-array name="picture_method_array">
+        <item>@string/pick_gallery</item>
+        <item>@string/take_photo</item>
+        <item>@string/picture_cancel</item>
+    </string-array>
 </resources>

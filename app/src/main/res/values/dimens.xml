@@ -1,0 +1,69 @@
+<resources>
+    <!-- margin-->
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="margin_30dp">30dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
+    <dimen name="margin_35dp">35dp</dimen>
+    <dimen name="margin_36dp">36dp</dimen>
+    <dimen name="margin_48dp">48dp</dimen>
+    <dimen name="margin_58dp">58dp</dimen>
+
+    <dimen name="constraintGuide_10dp">10dp</dimen>
+    <dimen name="constraintGuide_20dp">20dp</dimen>
+    <dimen name="constraintGuide_29dp">29dp</dimen>
+    <dimen name="constraintGuide_60dp">60dp</dimen>
+
+    <!-- padding -->
+    <dimen name="padding_4dp">4dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_15dp">15dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_20dp">20dp</dimen>
+    <dimen name="padding_50dp">50dp</dimen>
+
+    <!-- width -->
+    <dimen name="width_0dp">0dp</dimen>
+    <dimen name="width_26dp">26dp</dimen>
+    <dimen name="width_35dp">35dp</dimen>
+    <dimen name="width_100dp">100dp</dimen>
+    <dimen name="width_120dp">120dp</dimen>
+    <dimen name="width_130dp">130dp</dimen>
+    <dimen name="width_250dp">250dp</dimen>
+    <dimen name="width_300dp">300dp</dimen>
+
+    <!-- height -->
+    <dimen name="height_0dp">0dp</dimen>
+    <dimen name="height_14dp">14dp</dimen>
+    <dimen name="height_35dp">35dp</dimen>
+    <dimen name="height_60dp">60dp</dimen>
+    <dimen name="height_95dp">95dp</dimen>
+    <dimen name="height_100dp">100dp</dimen>
+    <dimen name="height_141dp">141dp</dimen>
+    <dimen name="height_450dp">450dp</dimen>
+    <dimen name="height_2dp">2dp</dimen>
+
+    <!-- test size -->
+    <dimen name="text_size_10sp">10sp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_15sp">15sp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
+    <dimen name="text_size_24sp">24sp</dimen>
+    <dimen name="text_size_30sp">30sp</dimen>
+
+    <!-- radius -->
+    <dimen name="radius_8dp">8dp</dimen>
+
+    <!-- elevation -->
+    <dimen name="elevation_4dp">4dp</dimen>
+    <dimen name="elevation_8dp">8dp</dimen>
+
+
+
+
+</resources>

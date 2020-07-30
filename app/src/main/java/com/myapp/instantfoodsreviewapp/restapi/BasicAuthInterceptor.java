@@ -1,6 +1,9 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
+<<<<<<< HEAD
 import com.myapp.instantfoodsreviewapp.model.UserAccountData;
+=======
+>>>>>>> feature/11
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
@@ -30,4 +33,8 @@ public class BasicAuthInterceptor implements Interceptor {
                 .build();
         return chain.proceed(authenticatedRequest);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> feature/11
