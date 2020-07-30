@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
+import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
 import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
 import com.myapp.instantfoodsreviewapp.fragment.DumplingFragment;
 import com.myapp.instantfoodsreviewapp.fragment.ProductListFriedRiceFragment;
@@ -49,7 +50,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private String TAG = EmailLoginActivity.class.getSimpleName();
-    private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
     private static final String FILE_SPLIT_PART = "\\.";
 
     private ImageView navProfileImage;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
+    private TransferDataCallback<String> imageDrawerAdapter;
+    private  String getProfileImagePath= "";
 
 
     @Override
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setToolbar();
         bindView();
         showNavigationUserInfo();
+
         // displayView(0);
         //setViewPager();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar,
@@ -97,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         getUser();
+        initProfileDrawerImage();
     }
 
 
@@ -108,7 +113,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void init() {
         drawerLayout = activityMainBinding.drawerLayout;
         mainNavigationView = findViewById(R.id.main_navigation);
+    }
 
+
+    private void initProfileDrawerImage(){
+        imageDrawerAdapter = new TransferDataCallback<String>() {
+            @Override
+            public void transfer(String imagePath) {
+                getProfileImagePath = imagePath;
+                Toast.makeText(MainActivity.this, getProfileImagePath, Toast.LENGTH_SHORT).show();
+                String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
+                setNavigationImage(convertThumbnailProfileImagePath);
+            }
+        };
     }
 
     private void setNavigationView() {
@@ -175,9 +192,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showNavigationUserInfo(){
-        String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-        String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
-        setNavigationImage(convertThumbnailProfileImagePath);
+       // String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
+        //String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
+        //setNavigationImage(convertThumbnailProfileImagePath);
 
         String getNickName = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
         navNickName.setText(getNickName);
@@ -296,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_my_page:
                 fragment = new MyPageFragment();
+                ((MyPageFragment)(fragment)).setResultCallback(imageDrawerAdapter);
                 break;
             case R.id.nav_write_review:
                 fragment = new WriteReviewFragment();
