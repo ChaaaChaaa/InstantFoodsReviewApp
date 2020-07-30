@@ -12,7 +12,8 @@ import com.myapp.instantfoodsreviewapp.R;
 
 public class FullImageActivity extends Activity {
     private ImageView fullImageView;
-    private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    // private String IMG_BASE_URL = "http://www.ppizil.kro.kr/review/file/";
+    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
     private String ORIGINAL_IMAGE_NAME = "originalImage";
 
     @Override
@@ -23,16 +24,16 @@ public class FullImageActivity extends Activity {
         setFullImageView();
     }
 
-    private void init(){
+    private void init() {
         fullImageView = findViewById(R.id.full_image_view);
     }
 
-    private void setFullImageView(){
+    private void setFullImageView() {
         Intent getImageIntent = getIntent();
         String getImagePath = getImageIntent.getStringExtra(ORIGINAL_IMAGE_NAME);
-        if(getImagePath != null){
+        if (getImagePath != null) {
             Glide.with(this)
-                    .load(IMG_BASE_URL+getImagePath)
+                    .load(IMG_BASE_URL + getImagePath)
                     .into(fullImageView);
         }
 

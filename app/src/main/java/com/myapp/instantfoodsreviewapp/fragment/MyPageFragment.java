@@ -110,9 +110,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-
-
-
     private void getInfo(View view) {
         String userNickname = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
         Log.e("userNickname3", "" + userNickname);
@@ -179,13 +176,13 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                         getEmail.setText(userEmail);
                         String userNickName = resultData.getUser().getNickname();
                         currentNickName.setText(userNickName);
-                       // String userProfilePath = resultData.getUser().getProfilepath();
-                       // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfilePath);
+                        // String userProfilePath = resultData.getUser().getProfilepath();
+                        // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfilePath);
                         String userProfilePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
 
-                      //  resultCallback.transfer(userProfilePath);
-                      //imageResultCallback.transfer(userProfilePath);
-                      //initProfileImage();
+                        //  resultCallback.transfer(userProfilePath);
+                        //imageResultCallback.transfer(userProfilePath);
+                        //initProfileImage();
 
 
                         Log.e("userProfilePath1", "" + userProfilePath);
@@ -261,7 +258,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
     private void setFullImageActivity() {
-       // initProfileImage();
+        // initProfileImage();
 
         Intent sendOriginalImageIntent = new Intent(getActivity(), FullImageActivity.class);
         String originalImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
@@ -338,8 +335,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e("aaa", requestCode + "," + resultCode);
@@ -363,7 +358,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     compressImage(uriPath);
                     setImageResource(imageUri.toString(), profilePicture);
                     updateData(bitmap);
-                   // setResultCallback(resultProfileImageCallBack);
+                    // setResultCallback(resultProfileImageCallBack);
                     break;
 
                 case REQUEST_CAMERA:
@@ -419,11 +414,11 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-    private void initProfileImage(){
+    private void initProfileImage() {
         imageResultCallback = new TransferDataCallback<String>() {
             @Override
             public void transfer(String userProfilePath) {
-               String storedThumbnail = makeThumbnailPath(userProfilePath);
+                String storedThumbnail = makeThumbnailPath(userProfilePath);
                 setImageResource(storedThumbnail, profilePicture);
             }
         };
@@ -465,13 +460,13 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     Log.e("PROFILE_IMAGE_PATH", "" + pImageData.getStoredPath());
                     Log.e("userpreference", "" + UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE));
 
-                   // String originalImagePath = userPreference.getInstance().getString("KEY_PROFILE_IMAGE");
-                   // String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
+                    // String originalImagePath = userPreference.getInstance().getString("KEY_PROFILE_IMAGE");
+                    // String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
                     imageResultCallback.transfer(pImageData.getStoredPath());
-                   //String convertedThumbnailPath = makeThumbnailPath(originalImagePath);
-                 // setImageResource(convertedThumbnailPath, profilePicture);
+                    //String convertedThumbnailPath = makeThumbnailPath(originalImagePath);
+                    // setImageResource(convertedThumbnailPath, profilePicture);
 
-                    Log.e("path complete", "" );
+                    Log.e("path complete", "");
 
                 } else {
                     Toast.makeText(getActivity(), "프로필 사진이 없습니다.", Toast.LENGTH_SHORT).show();
@@ -485,7 +480,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             }
         });
     }
-
 
 
     public TransferDataCallback<String> getResultCallback() {
