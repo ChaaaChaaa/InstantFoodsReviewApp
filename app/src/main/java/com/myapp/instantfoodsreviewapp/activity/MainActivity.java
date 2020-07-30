@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
-    private TransferDataCallback<String> imageDrawerAdapter;
-    private  String getProfileImagePath= "";
+    private TransferDataCallback<String> profileImageDrawerCallback;
+    private String getProfileImagePath = "";
 
 
     @Override
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setToolbar();
         bindView();
         showNavigationUserInfo();
-
+        //  initProfileDrawerImage();
         // displayView(0);
         //setViewPager();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar,
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         getUser();
-        initProfileDrawerImage();
+
     }
 
 
@@ -116,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void initProfileDrawerImage(){
-        imageDrawerAdapter = new TransferDataCallback<String>() {
+    private void initProfileDrawerImage() {
+        profileImageDrawerCallback = new TransferDataCallback<String>() {
             @Override
             public void transfer(String imagePath) {
                 getProfileImagePath = imagePath;
-                Toast.makeText(MainActivity.this, getProfileImagePath, Toast.LENGTH_SHORT).show();
+                Log.e("getProfileImagePath", " " + getProfileImagePath);
                 String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
                 setNavigationImage(convertThumbnailProfileImagePath);
             }
@@ -185,42 +185,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bindView() {
+        //initProfileDrawerImage();
         View header = mainNavigationView.getHeaderView(0);
         llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
         navNickName = header.findViewById(R.id.nav_nickname);
         navProfileImage = header.findViewById(R.id.nav_profile_image);
     }
 
-    private void showNavigationUserInfo(){
-       // String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
+    private void showNavigationUserInfo() {
+        // String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
         //String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
         //setNavigationImage(convertThumbnailProfileImagePath);
 
         String getNickName = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
         navNickName.setText(getNickName);
+        initProfileDrawerImage();
 
     }
 
-    private String makeThumbnailPath(String originalImagePath){
+    private String makeThumbnailPath(String originalImagePath) {
         // String originalImagePath = UserPreference.getInstance().getString("PROFILE_IMAGE_PATH");
         //Log.e("originalImagePath",""+originalImagePath);
         String thumbNailPath = "";
-        if(originalImagePath != null && !originalImagePath.isEmpty()){
+        if (originalImagePath != null && !originalImagePath.isEmpty()) {
             String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
-            thumbNailPath = IMG_BASE_URL+pathNames[0]+"Thumbnail";
-            Log.e("thumbNailPath",""+thumbNailPath);
-        }
-        else{
+            thumbNailPath = IMG_BASE_URL + pathNames[0] + "Thumbnail";
+            Log.e("thumbNailPath", "" + thumbNailPath);
+        } else {
             Log.d(TAG, "onFailure()");
         }
-        Log.e("thumbNailPath2",""+thumbNailPath);
+        Log.e("thumbNailPath2", "" + thumbNailPath);
         return thumbNailPath;
     }
 
-    private void setNavigationImage(String url){
+    private void setNavigationImage(String url) {
         Glide.with(this)
                 .load(url)
-                .override(400, 150)
+                .override(300, 300)
                 .circleCrop()
                 .into(navProfileImage);
     }
@@ -233,15 +234,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
     private void getUser() {
         getToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
         Call<AccountDto> call = retrofitInterface.account(getToken);
 
         UserPreference.getInstance().putString(Config.KEY_TOKEN, getToken);
-        Log.e("token", "" + getToken);//null나옴-> 잘나옴
+        Log.e("token", "" + getToken);//null나옴-> 잘나옴->null나옴
 
         call.enqueue(new Callback<AccountDto>() {
             public void onResponse(Call<AccountDto> call, Response<AccountDto> response) {
@@ -249,20 +248,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     AccountDto accountDto = response.body();
                     AccountDto.ResultData resultData = accountDto.getResultData();
 
-                    if (resultData  != null) {
+                    if (resultData != null) {
 
 
-                        String userEmail =  accountDto.getResultData().getUser().getEmail();
+                        String userEmail = accountDto.getResultData().getUser().getEmail();
                         String userNickName = accountDto.getResultData().getUser().getNickname();
+                        String userProfileImage = accountDto.getResultData().getUser().getProfilepath();
+                        profileImageDrawerCallback.transfer(userProfileImage);
 
-                        UserPreference.getInstance().putString(Config.KEY_EMAIL,userEmail);
-                        UserPreference.getInstance().putString(Config.KEY_NICKNAME,userNickName);
+                        UserPreference.getInstance().putString(Config.KEY_EMAIL, userEmail);
+                        UserPreference.getInstance().putString(Config.KEY_NICKNAME, userNickName);
+                        UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfileImage);
+                        // String UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
 
                         Log.e("userEmail", "" + userEmail);
                         Log.e("userNickName", "" + userNickName);
+                        Log.e("userProfileImage", "" + userProfileImage);
 
                         Log.e("userEmail2", "" + UserPreference.getInstance().getString(Config.KEY_EMAIL));
                         Log.e("userNickName2", "" + UserPreference.getInstance().getString(Config.KEY_NICKNAME));
+                        Log.e("userProfileImage2", "" + UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE));
 
                     } else {
                         Log.e("getUser", "Account null ");
@@ -313,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_my_page:
                 fragment = new MyPageFragment();
-                ((MyPageFragment)(fragment)).setResultCallback(imageDrawerAdapter);
+                ((MyPageFragment) (fragment)).setResultCallback(profileImageDrawerCallback);
                 break;
             case R.id.nav_write_review:
                 fragment = new WriteReviewFragment();
