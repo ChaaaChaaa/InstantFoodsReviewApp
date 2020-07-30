@@ -82,8 +82,8 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private ImageButton btnChangeNickname;
     private ImageButton btnChangePicture;
     private ImageView profilePicture;
-    private TransferDataCallback<String> resultCallback;
     private TransferDataCallback<String> imageResultCallback;
+    private TransferDataCallback<String> profileImageDrawerCallback;
 
     @Nullable
     @Override
@@ -363,8 +363,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
                 case REQUEST_CAMERA:
                     bitmap = (Bitmap) data.getExtras().get("data");
-
-
                     String uriPathPicture = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, "title", null);
 
                     imageUri = Uri.parse(uriPathPicture);
@@ -463,6 +461,8 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     // String originalImagePath = userPreference.getInstance().getString("KEY_PROFILE_IMAGE");
                     // String originalImagePath = userPreference.getInstance().getString("PROFILE_IMAGE_PATH");
                     imageResultCallback.transfer(pImageData.getStoredPath());
+                    profileImageDrawerCallback.transfer(pImageData.getStoredPath());
+
                     //String convertedThumbnailPath = makeThumbnailPath(originalImagePath);
                     // setImageResource(convertedThumbnailPath, profilePicture);
 
@@ -482,11 +482,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
 
-    public TransferDataCallback<String> getResultCallback() {
-        return resultCallback;
+
+    public TransferDataCallback<String> getProfileImageDrawerCallback() {
+        return profileImageDrawerCallback;
     }
 
-    public void setResultCallback(TransferDataCallback<String> resultCallback) {
-        this.resultCallback = resultCallback;
+    public void setProfileImageDrawerCallback(TransferDataCallback<String> profileImageDrawerCallback) {
+        this.profileImageDrawerCallback = profileImageDrawerCallback;
     }
+
+
 }

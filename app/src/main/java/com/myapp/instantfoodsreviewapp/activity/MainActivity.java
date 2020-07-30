@@ -318,7 +318,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_my_page:
                 fragment = new MyPageFragment();
-                ((MyPageFragment) (fragment)).setResultCallback(profileImageDrawerCallback);
+                //((MyPageFragment) (fragment)).setResultCallback(profileImageDrawerCallback);
+                ((MyPageFragment) (fragment)).setProfileImageDrawerCallback(profileImageDrawerCallback);
                 break;
             case R.id.nav_write_review:
                 fragment = new WriteReviewFragment();
@@ -349,6 +350,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment myPageFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         myPageFragment.onActivityResult(requestCode, resultCode, data);
     }
-
 
 }
