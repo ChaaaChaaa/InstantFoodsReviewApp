@@ -18,6 +18,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitInterface {
 
@@ -58,7 +59,9 @@ public interface RetrofitInterface {
                                @Part MultipartBody.Part file1,
                                @Part MultipartBody.Part file2);
 
-//    @GET("v1/product/list")
-//    Call<ApiResultDto> list()
+    @GET("v1/product/list/{category_id}")
+    Call<ApiResultDto> list (@Path("category_id") String categoryId,
+                             @Query("size") String size,
+                             @Query("page") String page);
 
 }
