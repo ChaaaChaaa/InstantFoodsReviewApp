@@ -4,6 +4,8 @@ package com.myapp.instantfoodsreviewapp.restapi;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
+import com.myapp.instantfoodsreviewapp.model.ProductResponse;
+import com.myapp.instantfoodsreviewapp.model.entity.ProductListDto;
 
 import java.util.List;
 
@@ -60,8 +62,8 @@ public interface RetrofitInterface {
                                @Part MultipartBody.Part file2);
 
     @GET("v1/product/list/{category_id}")
-    Call<ApiResultDto> list (@Path("category_id") String categoryId,
-                             @Query("size") String size,
-                             @Query("page") String page);
+    Call<ProductResponse> list (@Path("category_id") int categoryId,
+                               @Query("size") int size,
+                               @Query("page") int page);
 
 }

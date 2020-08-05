@@ -41,49 +41,49 @@ public class DdokbokkiFragment extends Fragment {
         recyclerViewDdokbokki.setHasFixedSize(true);
         layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
         recyclerViewDdokbokki.setLayoutManager(layoutManagerDdokbokki);
-        initDdokbokki();
-        showRecyclerView();
+       // initDdokbokki();
+        //showRecyclerView();
         return rootView;
     }
 
 
-
-    private void showRecyclerView() {
-        adapterDdokbokki = new CustomRecyclerAdapter(getActivity(), ddokbokkiList);
-        recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
-    }
-
-
-    private void initDdokbokki() {
-
-        ddokbokkiList.add(new ListItem(R.drawable.ddok_oddukki, foodCategoryList.DDOKBOKKI,
-                "CJ 미정당 매콤까르보나라 누들떡볶이400g",
-                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-                R.drawable.ic_star_full,
-                R.drawable.ic_star_full,
-                R.drawable.ic_star_full));
-
-        ddokbokkiList.add(new ListItem(R.drawable.ddok_peacock, foodCategoryList.DDOKBOKKI,
-                "피콕분식 신당동식떡볶이 970g",
-                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-                R.drawable.ic_star_full,
-                R.drawable.ic_star_full,
-                R.drawable.ic_star_half));
-
-        ddokbokkiList.add(new ListItem(R.drawable.ddok_dongwon, foodCategoryList.DDOKBOKKI,
-                "동원 떡볶이의신 신당동 즉석쫄볶이397g",
-                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-                R.drawable.ic_star_full,
-                R.drawable.ic_star_blank,
-                R.drawable.ic_star_blank));
-
-        ddokbokkiList.add(new ListItem(R.drawable.ddok_pulmuone, foodCategoryList.DDOKBOKKI,
-                "[풀무원] 순쌀 떡볶이 480g (2인분)",
-                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-                R.drawable.ic_star_blank,
-                R.drawable.ic_star_blank,
-                R.drawable.ic_star_blank));
-    }
+//
+//    private void showRecyclerView() {
+//        adapterDdokbokki = new CustomRecyclerAdapter(getActivity(), ddokbokkiList);
+//        recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
+//    }
+//
+//
+//    private void initDdokbokki() {
+//
+//        ddokbokkiList.add(new ListItem(R.drawable.ddok_oddukki, foodCategoryList.DDOKBOKKI,
+//                "CJ 미정당 매콤까르보나라 누들떡볶이400g",
+//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
+//                R.drawable.ic_star_full,
+//                R.drawable.ic_star_full,
+//                R.drawable.ic_star_full));
+//
+//        ddokbokkiList.add(new ListItem(R.drawable.ddok_peacock, foodCategoryList.DDOKBOKKI,
+//                "피콕분식 신당동식떡볶이 970g",
+//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
+//                R.drawable.ic_star_full,
+//                R.drawable.ic_star_full,
+//                R.drawable.ic_star_half));
+//
+//        ddokbokkiList.add(new ListItem(R.drawable.ddok_dongwon, foodCategoryList.DDOKBOKKI,
+//                "동원 떡볶이의신 신당동 즉석쫄볶이397g",
+//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
+//                R.drawable.ic_star_full,
+//                R.drawable.ic_star_blank,
+//                R.drawable.ic_star_blank));
+//
+//        ddokbokkiList.add(new ListItem(R.drawable.ddok_pulmuone, foodCategoryList.DDOKBOKKI,
+//                "[풀무원] 순쌀 떡볶이 480g (2인분)",
+//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
+//                R.drawable.ic_star_blank,
+//                R.drawable.ic_star_blank,
+//                R.drawable.ic_star_blank));
+//    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {

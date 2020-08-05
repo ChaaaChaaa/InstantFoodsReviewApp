@@ -44,12 +44,13 @@
             android:id="@+id/tv_food_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="볶음밥/컵밥"
             android:textColor="#151414"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toStartOf="@+id/review_rating_bar"
-            card_view:layout_constraintHorizontal_bias="0.15"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toEndOf="@+id/image_food"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.0" />
@@ -103,17 +104,29 @@
             card_view:layout_constraintTop_toTopOf="@+id/tv_review_content"
             card_view:layout_constraintVertical_bias="0.0" />
 
-        <RatingBar
-            android:id="@+id/review_rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
+        <ImageView
+            android:id="@+id/rating_image"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_star_full"
+            android:tint="@color/yellow"
+            card_view:layout_constraintBottom_toBottomOf="@+id/tv_product_rating"
+            card_view:layout_constraintEnd_toStartOf="@+id/tv_product_rating"
+            card_view:layout_constraintHorizontal_bias="0.9"
+            card_view:layout_constraintStart_toEndOf="@+id/tv_food_category"
+            card_view:layout_constraintTop_toTopOf="@+id/tv_product_rating" />
+
+
+        <TextView
+            android:id="@+id/tv_product_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:numStars="5"
-            android:stepSize=".5"
+            android:text="5.0"
             card_view:layout_constraintBottom_toBottomOf="@+id/tv_food_category"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintHorizontal_bias="0.94"
+            card_view:layout_constraintHorizontal_bias="0.85"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="@+id/tv_food_category"
             card_view:layout_constraintVertical_bias="1.0" />
