@@ -35,16 +35,17 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
     private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
-    private List<ListItem> listItems;
-    private List<ListItem> listItemsFull;
+    private List<Product> listItems;
+    private List<Product> listItemsFull;
     private FoodCategoryList foodCategoryList;
     private Context context;
+    private Product product;
 
-    public CustomRecyclerAdapter(List<ListItem> listItems) {
+    public CustomRecyclerAdapter(List<Product> listItems) {
         super(DIFF_CALLBACK);
         // this.context = context;
-        this.listItems = listItems;
-        listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
+        //this.listItems = listItems;
+       // listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
     }
 
     public CustomRecyclerAdapter() {
@@ -61,34 +62,24 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         return new RecyclerViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Product product = getItem(position);
 
         if (product != null) {
-//            Glide.with(holder.itemView)
-//                    .load(listItems.get(position).getImageFood())
-//                    .into(holder.imageFood);
-            String productImageUri = IMG_BASE_URL+product.getPrImage();
+
+            String productImageUri = IMG_BASE_URL + product.getPrImage();
 
             Glide.with(holder.itemView)
                     .load(productImageUri)
                     .into(holder.imageFood);
 
-            // holder.imageFood.setImageURI();aaaaaaaaaaaaaaaaaaaaaaaaaaa
-            // holder.imageFood.setImageResource(listItems.get(position).getImageFood());
+
             holder.foodCategory.setText(Integer.toString(product.getPrCategory()));
-           // holder.foodCategory.setText(listItems.get(position).getFoodCategory());
-
             holder.foodName.setText(product.getPrTitle());
-           // holder.foodName.setText(listItems.get(position).getFoodName());
-            // holder.reviewContent.setText(listItems.get(position).getReviewContent());
-
             holder.productRating.setText(Integer.toString(product.getPrScore()));
-         //   holder.productRating.setText(listItems.get(position).getProductRating());
-//        holder.imageStar1.setImageResource(listItems.get(position).getImageStar1());
-//        holder.imageStar2.setImageResource(listItems.get(position).getImageStar2());
-//        holder.imageStar3.setImageResource(listItems.get(position).getImageStar3());
         } else {
             Log.e("item is null", " " + holder.itemView);
             // Toast.makeText(listItems,"item is null",Toast.LENGTH_LONG).show();
@@ -149,6 +140,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         }
     }
 
+
     @Override
     public Filter getFilter() {
         return itemFilter;
@@ -158,14 +150,17 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     private Filter itemFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<ListItem> filteredList = new ArrayList<>();
+            ProductDataSource productDataSource = new ProductDataSource();
+           // productDataSource.productList = new ArrayList<>();
+            List<Product> filteredList = productDataSource.productList;
+
             if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(listItemsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
-                for (ListItem item : listItemsFull) {
-                    if (item.getFoodName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
+                for (Product product : listItemsFull) {
+                    if (product.getPrTitle().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(product);
                     }
                 }
             }
@@ -177,6 +172,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
             listItems.clear();
             listItems.addAll((List) filterResults.values);
             notifyDataSetChanged();
