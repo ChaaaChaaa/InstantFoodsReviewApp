@@ -1,19 +1,19 @@
 package com.myapp.instantfoodsreviewapp.model;
 
 public class ListItem {
-    private int imageFood;
-    private String foodCategory;
+    private String imageFood;
+    private int foodCategory;
     private String foodName;
-    private String reviewContent;
-//    private int imageStar1;
+    private Object reviewContent;
+    //    private int imageStar1;
 //    private int imageStar2;
 //    private int imageStar3;
-    private String productRating;
+    private int productRating;
     private FoodCategoryList foodType;
 
-    public ListItem(int imageFood, FoodCategoryList foodType, String foodName, String reviewContent, String productRating){
+    public ListItem(String imageFood, int foodCategory, String foodName, Object reviewContent, int productRating) {
         this.imageFood = imageFood;
-        this.foodType = foodType;
+        this.foodCategory = foodCategory;
         this.foodName = foodName;
         this.reviewContent = reviewContent;
         this.productRating = productRating;
@@ -22,11 +22,11 @@ public class ListItem {
 //        this.imageStar3 = imageStar3;
     }
 
-    public int getImageFood() {
+    public String getImageFood() {
         return imageFood;
     }
 
-    public String getFoodCategory() {
+    public int getFoodCategory() {
         return foodCategory;
     }
 
@@ -34,11 +34,11 @@ public class ListItem {
         return foodName;
     }
 
-    public String getReviewContent() {
+    public Object getReviewContent() {
         return reviewContent;
     }
 
-    public String getProductRating(){
+    public int getProductRating() {
         return productRating;
     }
 

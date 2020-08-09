@@ -41,6 +41,7 @@ public class DdokbokkiFragment extends Fragment {
         recyclerViewDdokbokki.setHasFixedSize(true);
         layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
         recyclerViewDdokbokki.setLayoutManager(layoutManagerDdokbokki);
+
        // initDdokbokki();
         //showRecyclerView();
         return rootView;

@@ -65,6 +65,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         initListener();
         checkAutoLogin();
         initClient();
+
     }
 
 

@@ -26,6 +26,16 @@ public class Product {
     @Expose
     private Object prReviewCount;
 
+    public Product(String productPicture, Integer productCategory, String title, Object reviewCount, int productScore) {
+        prImage = productPicture;
+        prCategory = productCategory;
+        prTitle = title;
+        prReviewCount = reviewCount != null  ? reviewCount : 0;
+        prScore = productScore;
+
+    }
+
+
     public Integer getPrId() {
         return prId;
     }

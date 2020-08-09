@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
@@ -26,22 +29,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomRecyclerAdapter extends PagedListAdapter<Product,CustomRecyclerAdapter.RecyclerViewHolder>
+public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder>
         implements Filterable {
 
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
+    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
     private List<ListItem> listItems;
     private List<ListItem> listItemsFull;
     private FoodCategoryList foodCategoryList;
     private Context context;
 
-//    public CustomRecyclerAdapter(Context context, List<ListItem> listItems) {
-//        super(DIFF_CALLBACK);
-//        this.context = context;
-//        this.listItems = listItems;
-//        listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
-//    }
+    public CustomRecyclerAdapter(List<ListItem> listItems) {
+        super(DIFF_CALLBACK);
+        // this.context = context;
+        this.listItems = listItems;
+        listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
+    }
 
     public CustomRecyclerAdapter() {
         super(DIFF_CALLBACK);
@@ -59,33 +63,52 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product,CustomRecycl
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-        holder.imageFood.setImageResource(listItems.get(position).getImageFood());
-        holder.foodCategory.setText(listItems.get(position).getFoodCategory());
-        holder.foodName.setText(listItems.get(position).getFoodName());
-        holder.reviewContent.setText(listItems.get(position).getReviewContent());
-        holder.productRating.setText(listItems.get(position).getProductRating());
+        Product product = getItem(position);
+
+        if (product != null) {
+//            Glide.with(holder.itemView)
+//                    .load(listItems.get(position).getImageFood())
+//                    .into(holder.imageFood);
+            String productImageUri = IMG_BASE_URL+product.getPrImage();
+
+            Glide.with(holder.itemView)
+                    .load(productImageUri)
+                    .into(holder.imageFood);
+
+            // holder.imageFood.setImageURI();aaaaaaaaaaaaaaaaaaaaaaaaaaa
+            // holder.imageFood.setImageResource(listItems.get(position).getImageFood());
+            holder.foodCategory.setText(Integer.toString(product.getPrCategory()));
+           // holder.foodCategory.setText(listItems.get(position).getFoodCategory());
+
+            holder.foodName.setText(product.getPrTitle());
+           // holder.foodName.setText(listItems.get(position).getFoodName());
+            // holder.reviewContent.setText(listItems.get(position).getReviewContent());
+
+            holder.productRating.setText(Integer.toString(product.getPrScore()));
+         //   holder.productRating.setText(listItems.get(position).getProductRating());
 //        holder.imageStar1.setImageResource(listItems.get(position).getImageStar1());
 //        holder.imageStar2.setImageResource(listItems.get(position).getImageStar2());
 //        holder.imageStar3.setImageResource(listItems.get(position).getImageStar3());
+        } else {
+            Log.e("item is null", " " + holder.itemView);
+            // Toast.makeText(listItems,"item is null",Toast.LENGTH_LONG).show();
+        }
     }
 
     private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Product>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            return oldItem.getPrId().equals(newItem.getPrId());
-        }
+                @Override
+                public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+                    // return oldItem.getPrId().equals(newItem.getPrId());
+                    return oldItem.getPrId() == newItem.getPrId();
+                }
 
-        @SuppressLint("DiffUtilEquals")
-        @Override
-        public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
-
-
-
-
+                @SuppressLint("DiffUtilEquals")
+                @Override
+                public boolean areContentsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
+                    return oldItem.equals(newItem);
+                }
+            };
 
 
 //    @Override

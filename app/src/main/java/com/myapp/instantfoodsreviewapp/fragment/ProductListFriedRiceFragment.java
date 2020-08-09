@@ -3,6 +3,7 @@ package com.myapp.instantfoodsreviewapp.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -51,7 +52,6 @@ public class ProductListFriedRiceFragment extends Fragment {
     private LinearLayoutManager layoutManagerRice;
     private static final String TAG = ProductListFriedRiceFragment.class.getSimpleName();
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +65,37 @@ public class ProductListFriedRiceFragment extends Fragment {
         //showRecyclerView();
         return rootView;
     }
+
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+////        ProductViewModel productViewModel
+////                = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(ProductViewModel.class);
+//
+//
+//
+//        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+//
+////        ProductViewModel productViewModel1
+////                = new ViewModelProvider(this).get(ProductViewModel.class);
+//
+//        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+//            @Override
+//            public void onChanged(PagedList<Product> products) {
+//                Log.e("111 PagedList"," "+products.size());
+//                adapterRice.submitList(products);
+//            }
+//        });
+
+//        adapterRice = new CustomRecyclerAdapter();
+//        productViewModel.productPagedList.observeForever(this,adapterRice::submitList);
+//        recyclerViewRice.setAdapter(adapterRice);
+
+
+//    }
+//    public ProductListFriedRiceFragment(CustomRecyclerAdapter adapterRice){
+//        recyclerViewRice.setAdapter(adapterRice);
+//    }
 
 //    private void showRecyclerView() {
 //        adapterRice = new CustomRecyclerAdapter(getActivity(), riceList);
@@ -99,18 +130,18 @@ public class ProductListFriedRiceFragment extends Fragment {
 //                R.drawable.ic_star_blank,
 //                R.drawable.ic_star_blank,
 //                R.drawable.ic_star_blank));
-
+        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
        adapterRice = new CustomRecyclerAdapter();
-        ProductViewModel productViewModel
-                = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(ProductViewModel.class);
-
-//        ProductViewModel productViewModel1
-//                = new ViewModelProvider(this).get(ProductViewModel.class);
-
-        productViewModel.productPagedList.observe(this, new Observer<PagedList<Product>>() {
+//        ProductViewModel productViewModel
+//                = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(ProductViewModel.class);
+//
+////        ProductViewModel productViewModel1
+////                = new ViewModelProvider(this).get(ProductViewModel.class);
+//
+        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
-
+                Log.e("111 PagedList"," "+products.size()); //0
                 adapterRice.submitList(products);
             }
         });
