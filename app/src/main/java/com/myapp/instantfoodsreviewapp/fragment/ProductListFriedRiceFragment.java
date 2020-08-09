@@ -23,16 +23,9 @@ import android.view.inputmethod.EditorInfo;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
-import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
-
-
-import java.util.ArrayList;
-
-
 public class ProductListFriedRiceFragment extends Fragment {
-    private ArrayList<ListItem> riceList = new ArrayList<>();
     private RecyclerView recyclerViewRice;
     private CustomRecyclerAdapter adapterRice;
     private LinearLayoutManager layoutManagerRice;
@@ -48,7 +41,6 @@ public class ProductListFriedRiceFragment extends Fragment {
         layoutManagerRice = new LinearLayoutManager(getActivity());
         recyclerViewRice.setLayoutManager(layoutManagerRice);
         initRice();
-        //showRecyclerView();
         return rootView;
     }
 
@@ -94,9 +86,7 @@ public class ProductListFriedRiceFragment extends Fragment {
         super.onCreateOptionsMenu(searchMenu, inflater);
     }
 
-    private void getFriedRiceProductListInfo() {
 
-    }
 
 
 }

@@ -22,8 +22,5 @@ public class ProductDataSourceFactory extends DataSource.Factory {
         productLiveDataSource.postValue(productDataSource);
         return productDataSource;
     }
-//
-//    public MutableLiveData<PageKeyedDataSource<Integer,Product>> getProductLiveDataSource(){
-//        return productLiveDataSource;
-//    }
+
 }

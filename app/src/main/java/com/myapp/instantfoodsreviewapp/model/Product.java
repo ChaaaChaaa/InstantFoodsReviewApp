@@ -30,9 +30,15 @@ public class Product {
         prImage = productPicture;
         prCategory = productCategory;
         prTitle = title;
-        prReviewCount = reviewCount != null  ? reviewCount : 0;
+        prReviewCount = checkReviewCount(reviewCount);
         prScore = productScore;
+    }
 
+    private Object checkReviewCount(Object reviewCount) {
+        if (reviewCount == null) {
+            reviewCount = 0;
+        }
+        return reviewCount;
     }
 
 

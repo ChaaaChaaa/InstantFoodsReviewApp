@@ -33,8 +33,6 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     private static final int CATEGORY_ID = 1;
     public ArrayList<Product> productList = new ArrayList<>();
 
-
-
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Product> callback) {
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
