@@ -13,11 +13,8 @@ import com.myapp.instantfoodsreviewapp.model.Product;
 public class ProductDataSourceFactory extends DataSource.Factory {
 
     public MutableLiveData<PageKeyedDataSource<Integer, Product>> productLiveDataSource = new MutableLiveData<>();
-  //  private int currentCategoryId;
 
-//    ProductDataSourceFactory(int currentCategoryId) {
-//        this.currentCategoryId = currentCategoryId;
-//    }
+
 
     @NonNull
     @Override

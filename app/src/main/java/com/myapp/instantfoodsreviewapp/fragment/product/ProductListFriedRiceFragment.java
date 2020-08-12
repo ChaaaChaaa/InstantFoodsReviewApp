@@ -1,5 +1,6 @@
 package com.myapp.instantfoodsreviewapp.fragment.product;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,9 +22,13 @@ import android.view.inputmethod.EditorInfo;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
+import com.myapp.instantfoodsreviewapp.adapter.ProductDataSource;
+import com.myapp.instantfoodsreviewapp.adapter.ProductDataSourceFactory;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 public class ProductListFriedRiceFragment extends Fragment {
     private RecyclerView recyclerViewRice;
@@ -32,6 +37,7 @@ public class ProductListFriedRiceFragment extends Fragment {
     private static final String TAG = ProductListFriedRiceFragment.class.getSimpleName();
     private TransferDataCallback<Integer> categoryCallback;
     private static final Integer RICE_CATEGORY = 1;
+    private UserPreference sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,9 +56,9 @@ public class ProductListFriedRiceFragment extends Fragment {
 
 
     private void initRice() {
-        //categoryCallback.transfer(RICE_CATEGORY); //null 값 들어옴
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, RICE_CATEGORY);
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        adapterRice = new CustomRecyclerAdapter();
+       adapterRice = new CustomRecyclerAdapter();
         productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {

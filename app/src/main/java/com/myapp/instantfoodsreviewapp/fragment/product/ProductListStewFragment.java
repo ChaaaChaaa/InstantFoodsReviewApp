@@ -25,6 +25,8 @@ import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class ProductListStewFragment extends Fragment {
     private CustomRecyclerAdapter adapterStew;
     private LinearLayoutManager layoutManagerStew;
     private List<ListItem> stewList = new ArrayList<>();
-
+    private static final Integer STEW_CATEGORY = 6;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,9 +53,10 @@ public class ProductListStewFragment extends Fragment {
     }
 
     private void initStew() {
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, STEW_CATEGORY);
+        ProductViewModel productViewModelStew = new ViewModelProvider(this).get(ProductViewModel.class);
         adapterStew = new CustomRecyclerAdapter();
-        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+        productViewModelStew.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
                 adapterStew.submitList(products);

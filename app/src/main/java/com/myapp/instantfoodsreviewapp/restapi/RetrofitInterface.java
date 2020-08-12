@@ -1,6 +1,7 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
 
+import com.myapp.instantfoodsreviewapp.model.PostsResponse;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
@@ -65,5 +66,8 @@ public interface RetrofitInterface {
     Call<ProductResponse> list (@Path("category_id") int categoryId,
                                @Query("size") int size,
                                @Query("page") int page);
+    @GET("v1/post/posts")
+    Call<PostsResponse> posts(@Header("authorization") String token, @Query("size") int size,
+                              @Query("page") int page);
 
 }

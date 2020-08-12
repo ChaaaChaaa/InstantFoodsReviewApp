@@ -25,6 +25,8 @@ import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,7 @@ public class ProductListPizzaFragment extends Fragment {
     private RecyclerView recyclerViewPizza;
     private CustomRecyclerAdapter adapterPizza;
     private LinearLayoutManager layoutManagerPizza;
-
+    private static final Integer PIZZA_CATEGORY = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,9 +55,10 @@ public class ProductListPizzaFragment extends Fragment {
     }
 
     private void initPizza() {
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, PIZZA_CATEGORY);
+        ProductViewModel productViewModelPizza = new ViewModelProvider(this).get(ProductViewModel.class);
         adapterPizza = new CustomRecyclerAdapter();
-        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+        productViewModelPizza.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
                 adapterPizza.submitList(products);

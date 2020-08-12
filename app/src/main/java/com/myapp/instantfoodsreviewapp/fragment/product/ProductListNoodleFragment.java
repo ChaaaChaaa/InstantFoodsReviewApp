@@ -25,6 +25,8 @@ import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,7 @@ public class ProductListNoodleFragment extends Fragment {
     private RecyclerView recyclerViewNoodle;
     private CustomRecyclerAdapter adapterNoodle;
     private LinearLayoutManager layoutManagerNoodle;
+    private static final Integer NOODLE_CATEGORY = 3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,9 +55,10 @@ public class ProductListNoodleFragment extends Fragment {
     }
 
     private void initNoodle() {
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, NOODLE_CATEGORY);
+        ProductViewModel productViewModelNoodle = new ViewModelProvider(this).get(ProductViewModel.class);
         adapterNoodle = new CustomRecyclerAdapter();
-        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+        productViewModelNoodle.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
                 adapterNoodle.submitList(products);

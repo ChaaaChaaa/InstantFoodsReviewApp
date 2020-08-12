@@ -35,9 +35,16 @@ public class Post extends Product {
     @Expose
     private Integer prId;
 
-    public Post(String productPicture, Integer productCategory, String title, Object reviewCount, int productScore) {
+    public Post(String productPicture, Integer productCategory, String title, int reviewCount, int productScore) {
         super(productPicture, productCategory, title, reviewCount, productScore);
     }
+
+//    public Post(String postTitle, String goodPostPoint, String badPostPoint, String postPicture){
+//        this.title = postTitle;
+//        this.goodContents = goodPostPoint;
+//        this.badContents = badPostPoint;
+//        this.storedPath = postPicture;
+//    }
 
     public Integer getId() {
         return id;

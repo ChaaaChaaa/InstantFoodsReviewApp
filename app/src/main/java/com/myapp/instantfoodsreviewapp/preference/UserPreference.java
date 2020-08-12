@@ -52,4 +52,13 @@ public class UserPreference {
     public String getString(String key) {
         return userSharedPreferences.getString(key, null);
     }
+
+    public void putInt(String key, int value) {
+        sharedPreferencesEditor.putInt(key, value);
+        sharedPreferencesEditor.commit();
+    }
+
+    public int getInt(String key) {
+        return userSharedPreferences.getInt(key, 0);
+    }
 }

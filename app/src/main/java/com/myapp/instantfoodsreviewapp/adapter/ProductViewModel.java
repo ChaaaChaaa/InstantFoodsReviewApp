@@ -17,7 +17,6 @@ public class ProductViewModel extends ViewModel {
     public LiveData<NetworkStats> networkState;
     private LiveData<PageKeyedDataSource<Integer, Product>> liveDataSource;
 
-    private int currentCategoryId;
 
     public ProductViewModel() {
         ProductDataSourceFactory productDataSourceFactory = new ProductDataSourceFactory();

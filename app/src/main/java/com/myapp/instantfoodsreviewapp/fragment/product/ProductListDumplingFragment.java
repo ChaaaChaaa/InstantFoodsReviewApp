@@ -25,6 +25,8 @@ import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,7 @@ public class ProductListDumplingFragment extends Fragment {
     private RecyclerView recyclerViewDumpling;
     private CustomRecyclerAdapter adapterDumpling;
     private LinearLayoutManager layoutManagerDumpling;
+    private static final Integer DUMPLING_CATEGORY = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,9 +55,10 @@ public class ProductListDumplingFragment extends Fragment {
     }
 
     private void initDumpling() {
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, DUMPLING_CATEGORY);
+        ProductViewModel productViewModelDumpling = new ViewModelProvider(this).get(ProductViewModel.class);
         adapterDumpling = new CustomRecyclerAdapter();
-        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+        productViewModelDumpling.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
                 adapterDumpling.submitList(products);

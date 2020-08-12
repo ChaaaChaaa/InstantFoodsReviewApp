@@ -63,7 +63,7 @@ public class ProductListDto {
         private Integer prCategory;
         @SerializedName("pr_review_count")
         @Expose
-        private Object prReviewCount;
+        private Integer prReviewCount;
 
         public Integer getPrId() {
             return prId;
@@ -113,11 +113,11 @@ public class ProductListDto {
             this.prCategory = prCategory;
         }
 
-        public Object getPrReviewCount() {
+        public Integer getPrReviewCount() {
             return prReviewCount;
         }
 
-        public void setPrReviewCount(Object prReviewCount) {
+        public void setPrReviewCount(Integer prReviewCount) {
             this.prReviewCount = prReviewCount;
         }
 

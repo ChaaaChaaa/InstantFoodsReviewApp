@@ -25,6 +25,8 @@ import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
+import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ public class ProductListDdokbokkiFragment extends Fragment {
     private RecyclerView recyclerViewDdokbokki;
     private CustomRecyclerAdapter adapterDdokbokki;
     private LinearLayoutManager layoutManagerDdokbokki;
-    private FoodCategoryList foodCategoryList;
+    private static final Integer DDOCK_CATEGORY = 2;
     private ArrayList<ListItem> ddokbokkiList = new ArrayList<>();
 
     @Override
@@ -53,9 +55,10 @@ public class ProductListDdokbokkiFragment extends Fragment {
     }
 
     private void initDdokbokki() {
-        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        UserPreference.getInstance().putInt(Config.KEY_CATEGORY, DDOCK_CATEGORY);
+        ProductViewModel productViewModelDdok = new ViewModelProvider(this).get(ProductViewModel.class);
         adapterDdokbokki = new CustomRecyclerAdapter();
-        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+        productViewModelDdok.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
                 adapterDdokbokki.submitList(products);

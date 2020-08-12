@@ -76,14 +76,49 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                     .into(holder.imageFood);
 
 
-            holder.foodCategory.setText(Integer.toString(product.getPrCategory()));
+            String categoryName = setCategoryResult(product.getPrCategory());
+
+
+            holder.foodCategory.setText(categoryName);
             holder.foodName.setText(product.getPrTitle());
             holder.productRating.setText(Integer.toString(product.getPrScore()));
+            holder.productReviewCount.setText(Integer.toString(product.getPrReviewCount()));
         } else {
             Log.e("item is null", " " + holder.itemView);
             // Toast.makeText(listItems,"item is null",Toast.LENGTH_LONG).show();
         }
     }
+
+
+    private String setCategoryResult(int category) {
+        String convertCategory = "";
+        switch (category) {
+            case 1:
+                convertCategory = "볶음밥/컵밥";
+                break;
+            case 2:
+                convertCategory = "떡볶이";
+                break;
+
+            case 3:
+                convertCategory = "라면/즉석 면류";
+                break;
+
+            case 4:
+                convertCategory = "만두/돈까스/치킨/튀김";
+                break;
+
+            case 5:
+                convertCategory = "피자/핫도그";
+                break;
+
+            case 6:
+                convertCategory = "찌개/죽/스프";
+                break;
+        }
+        return convertCategory;
+    }
+
 
     private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Product>() {
@@ -123,6 +158,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         public TextView foodName;
         public TextView reviewContent;
         public TextView productRating;
+        public TextView productReviewCount;
 
 
         public RecyclerViewHolder(@NonNull View itemView) {
@@ -136,6 +172,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             foodName = itemView.findViewById(R.id.tv_food_name);
             reviewContent = itemView.findViewById(R.id.tv_review_content);
             productRating = itemView.findViewById(R.id.tv_product_rating);
+            productReviewCount = itemView.findViewById(R.id.tv_food_review_count);
         }
     }
 

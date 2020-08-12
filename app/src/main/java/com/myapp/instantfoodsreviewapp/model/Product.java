@@ -24,9 +24,9 @@ public class Product {
     private Integer prCategory;
     @SerializedName("pr_review_count")
     @Expose
-    private Object prReviewCount;
+    private Integer prReviewCount;
 
-    public Product(String productPicture, Integer productCategory, String title, Object reviewCount, int productScore) {
+    public Product(String productPicture, Integer productCategory, String title, int reviewCount, int productScore) {
         prImage = productPicture;
         prCategory = productCategory;
         prTitle = title;
@@ -34,7 +34,7 @@ public class Product {
         prScore = productScore;
     }
 
-    private Object checkReviewCount(Object reviewCount) {
+    private Integer checkReviewCount(Integer reviewCount) {
         if (reviewCount == null) {
             reviewCount = 0;
         }
@@ -90,11 +90,11 @@ public class Product {
         this.prCategory = prCategory;
     }
 
-    public Object getPrReviewCount() {
+    public Integer getPrReviewCount() {
         return prReviewCount;
     }
 
-    public void setPrReviewCount(Object prReviewCount) {
+    public void setPrReviewCount(Integer prReviewCount) {
         this.prReviewCount = prReviewCount;
     }
 

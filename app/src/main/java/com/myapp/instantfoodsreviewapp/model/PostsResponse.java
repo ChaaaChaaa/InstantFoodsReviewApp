@@ -1,4 +1,4 @@
-package com.myapp.instantfoodsreviewapp.model.entity;
+package com.myapp.instantfoodsreviewapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.myapp.instantfoodsreviewapp.model.Post;
 
 import java.util.List;
 
-public class PostsDto {
+public class PostsResponse {
     @SerializedName("resultCode")
     @Expose
     private Integer resultCode;
