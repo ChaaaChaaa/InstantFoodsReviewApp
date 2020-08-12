@@ -1,9 +1,8 @@
-package com.myapp.instantfoodsreviewapp.fragment;
+package com.myapp.instantfoodsreviewapp.fragment.product;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -12,7 +11,6 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,44 +18,51 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
+import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
+import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
-public class ProductListFriedRiceFragment extends Fragment {
-    private RecyclerView recyclerViewRice;
-    private CustomRecyclerAdapter adapterRice;
-    private LinearLayoutManager layoutManagerRice;
-    private static final String TAG = ProductListFriedRiceFragment.class.getSimpleName();
+import java.util.ArrayList;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ProductListNoodleFragment extends Fragment {
+    private ArrayList<ListItem> noodleList = new ArrayList<>();
+    private RecyclerView recyclerViewNoodle;
+    private CustomRecyclerAdapter adapterNoodle;
+    private LinearLayoutManager layoutManagerNoodle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_fried_rice, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_noodle, container, false);
         setHasOptionsMenu(true);
-        recyclerViewRice = rootView.findViewById(R.id.recycler_friedRice);
-        recyclerViewRice.setHasFixedSize(true);
-        layoutManagerRice = new LinearLayoutManager(getActivity());
-        recyclerViewRice.setLayoutManager(layoutManagerRice);
-        initRice();
+        recyclerViewNoodle = rootView.findViewById(R.id.recycler_noodle);
+        recyclerViewNoodle.setHasFixedSize(true);
+        layoutManagerNoodle = new LinearLayoutManager(getActivity());
+        recyclerViewNoodle.setLayoutManager(layoutManagerNoodle);
+        initNoodle();
+        // showRecyclerView();
         return rootView;
     }
 
-
-    private void initRice() {
-
+    private void initNoodle() {
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        adapterRice = new CustomRecyclerAdapter();
+        adapterNoodle = new CustomRecyclerAdapter();
         productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
             public void onChanged(PagedList<Product> products) {
-                adapterRice.submitList(products);
+                adapterNoodle.submitList(products);
             }
         });
-        recyclerViewRice.setAdapter(adapterRice);
-
+        recyclerViewNoodle.setAdapter(adapterNoodle);
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {
@@ -75,8 +80,8 @@ public class ProductListFriedRiceFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (adapterRice != null) {
-                    adapterRice.getFilter().filter(newText);
+                if (adapterNoodle != null) {
+                    adapterNoodle.getFilter().filter(newText);
                 }
 
                 return true;
@@ -85,8 +90,4 @@ public class ProductListFriedRiceFragment extends Fragment {
         searchItem.setActionView(searchView);
         super.onCreateOptionsMenu(searchMenu, inflater);
     }
-
-
-
-
 }

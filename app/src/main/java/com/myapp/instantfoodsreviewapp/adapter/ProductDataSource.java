@@ -1,26 +1,20 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PageKeyedDataSource;
-import androidx.paging.PagedList;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.myapp.instantfoodsreviewapp.fragment.ProductListFriedRiceFragment;
-import com.myapp.instantfoodsreviewapp.model.ListItem;
+import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
 import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.model.ProductResponse;
-import com.myapp.instantfoodsreviewapp.model.entity.ProductListDto;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,14 +24,40 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     private static final String TAG = "ProductDataSource";
     public static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
-    private static final int CATEGORY_ID = 1;
+    //private static final int CATEGORY_ID = 1;
+    private int currentCategoryId;
     public ArrayList<Product> productList = new ArrayList<>();
+
+
+    private void getCategoryResult() {
+        ProductListFriedRiceFragment friedRiceFragment = new ProductListFriedRiceFragment();
+        TransferDataCallback<Integer> resultCategory = new TransferDataCallback<Integer>() {
+            @Override
+            public void transfer(Integer categoryId) {
+                Log.e("111 currentCategoryId"," "+currentCategoryId);
+                Log.e("111 categoryId"," "+categoryId);
+                currentCategoryId = categoryId;
+                Log.e("222 currentCategoryId"," "+currentCategoryId);
+                Log.e("222 categoryId"," "+categoryId);
+            }
+        };
+        friedRiceFragment.setCategoryCallback(resultCategory);
+    }
+
+
+
+    ProductDataSource(){
+       // this.currentCategoryId = currentCategoryId;
+        //getCategoryResult();
+        currentCategoryId = 1;
+    }
+
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Product> callback) {
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
 
-        Call<ProductResponse> productResponseCall = retrofitInterface.list(CATEGORY_ID, PAGE_SIZE, FIRST_PAGE);
+        Call<ProductResponse> productResponseCall = retrofitInterface.list(currentCategoryId, PAGE_SIZE, FIRST_PAGE);
         productResponseCall.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
@@ -86,13 +106,12 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     }
 
 
-    private Integer beforePageKey(LoadParams<Integer> params){
+    private Integer beforePageKey(LoadParams<Integer> params) {
         Integer key;
 
-        if(params.key>1){
-            key = params.key -1;
-        }
-        else {
+        if (params.key > 1) {
+            key = params.key - 1;
+        } else {
             key = 0;
         }
 
@@ -103,7 +122,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Product> callback) {
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<ProductResponse> productResponseCall = retrofitInterface.list(CATEGORY_ID, PAGE_SIZE, params.key);
+        Call<ProductResponse> productResponseCall = retrofitInterface.list(currentCategoryId, PAGE_SIZE, params.key);
         productResponseCall.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
@@ -127,8 +146,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                             productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
                             //  productList.add(new ListItem(productPicture,productCategory,title,reviewCount,productScore));
                         }
-                        Log.e("222 params.key "," "+params.key);
-                     callback.onResult(responseItems,params.key);
+                        Log.e("222 params.key ", " " + params.key);
+                        callback.onResult(responseItems, params.key);
 
                     }
 
@@ -146,13 +165,12 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     }
 
 
-    private Integer afterPageKey(LoadParams<Integer> params){
+    private Integer afterPageKey(LoadParams<Integer> params) {
         Integer key;
 
-        if(params.key>1){
-            key = params.key +1;
-        }
-        else {
+        if (params.key > 1) {
+            key = params.key + 1;
+        } else {
             key = 0;
         }
 
@@ -162,7 +180,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Product> callback) {
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<ProductResponse> productResponseCall = retrofitInterface.list(CATEGORY_ID, PAGE_SIZE, params.key);
+        Call<ProductResponse> productResponseCall = retrofitInterface.list(currentCategoryId, PAGE_SIZE, params.key);
         productResponseCall.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
@@ -185,8 +203,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                             //  productList.add(new ListItem(productPicture,productCategory,title,reviewCount,productScore));
                         }
 
-                    callback.onResult(responseItems, params.key );
-                       // Log.e("222 params.key + 1"," "+params.key+1);
+                        callback.onResult(responseItems, params.key);
+                        // Log.e("222 params.key + 1"," "+params.key+1);
                     }
 
                 } catch (JsonIOException e) {

@@ -44,4 +44,14 @@
         <item>@string/take_photo</item>
         <item>@string/picture_cancel</item>
     </string-array>
+
+    <!-- setting error -->
+    <string name="error_msg">Sorry! Couldn\'t fetch posts.</string>
+    <string name="btn_retry">Retry</string>
+    <string name="error_msg_no_internet">Not connected to internet</string>
+    <string name="error_msg_timeout">The server took too long to respond</string>
+    <string name="error_msg_unknown">An unexpected error occurred</string>
+    <string name="tap_to_reload">Tap to reload</string>
+    <string name="menu_refresh">Refresh</string>
+
 </resources>

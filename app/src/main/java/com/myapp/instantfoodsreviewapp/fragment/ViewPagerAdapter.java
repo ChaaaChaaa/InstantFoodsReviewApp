@@ -5,6 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDdokbokkiFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDumplingFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
+
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -17,17 +24,17 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new StewFragment();
+                return new ProductListStewFragment();
             case 1:
-                return new NoodleFragment();
+                return new ProductListNoodleFragment();
             case 2:
-                return new DdokbokkiFragment();
+                return new ProductListDdokbokkiFragment();
             case 3:
-                return new DumplingFragment();
+                return new ProductListDumplingFragment();
             case 4:
                 return new ProductListFriedRiceFragment();
             case 5:
-                return new PizzaFragment();
+                return new ProductListPizzaFragment();
             default:
                 return null;
         }

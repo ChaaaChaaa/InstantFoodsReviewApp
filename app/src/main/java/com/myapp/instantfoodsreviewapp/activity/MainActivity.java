@@ -26,14 +26,14 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
-import com.myapp.instantfoodsreviewapp.fragment.DdokbokkiFragment;
-import com.myapp.instantfoodsreviewapp.fragment.DumplingFragment;
-import com.myapp.instantfoodsreviewapp.fragment.ProductListFriedRiceFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDdokbokkiFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDumplingFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
 import com.myapp.instantfoodsreviewapp.fragment.HomeFragment;
 import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
-import com.myapp.instantfoodsreviewapp.fragment.NoodleFragment;
-import com.myapp.instantfoodsreviewapp.fragment.PizzaFragment;
-import com.myapp.instantfoodsreviewapp.fragment.StewFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
 import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
     private TransferDataCallback<String> profileImageDrawerCallback;
+    private TransferDataCallback<Integer> categoryCallback;
     private String getProfileImagePath = "";
 
 
@@ -86,14 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setToolbar();
         bindView();
         showNavigationUserInfo();
-        //  initProfileDrawerImage();
-        // displayView(0);
-        //setViewPager();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, mainToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.syncState();
-
-        //  adapterCustom = new CustomRecyclerAdapter(adapterCustom.);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -105,10 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-//    private void setViewPager(){
-//        viewPager = activityMainBinding.viewpager;
-//        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
-//    }
 
     private void init() {
         drawerLayout = activityMainBinding.drawerLayout;
@@ -162,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
             backKeyPressedTime = System.currentTimeMillis();
         }
-
-
     }
 
     private void finishLaunchActivity() {
@@ -185,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void bindView() {
-        //initProfileDrawerImage();
         View header = mainNavigationView.getHeaderView(0);
         llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
         navNickName = header.findViewById(R.id.nav_nickname);
@@ -193,10 +182,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showNavigationUserInfo() {
-        // String getProfileImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-        //String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
-        //setNavigationImage(convertThumbnailProfileImagePath);
-
         String getNickName = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
         navNickName.setText(getNickName);
         initProfileDrawerImage();
@@ -204,8 +189,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private String makeThumbnailPath(String originalImagePath) {
-        // String originalImagePath = UserPreference.getInstance().getString("PROFILE_IMAGE_PATH");
-        //Log.e("originalImagePath",""+originalImagePath);
         String thumbNailPath = "";
         if (originalImagePath != null && !originalImagePath.isEmpty()) {
             String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
@@ -240,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Call<AccountDto> call = retrofitInterface.account(getToken);
 
         UserPreference.getInstance().putString(Config.KEY_TOKEN, getToken);
-        Log.e("token", "" + getToken);//null나옴-> 잘나옴->null나옴
+        Log.e("token", "" + getToken);
 
         call.enqueue(new Callback<AccountDto>() {
             public void onResponse(Call<AccountDto> call, Response<AccountDto> response) {
@@ -265,10 +248,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Log.e("userNickName", "" + userNickName);
                         Log.e("userProfileImage", "" + userProfileImage);
 
-                        Log.e("userEmail2", "" + UserPreference.getInstance().getString(Config.KEY_EMAIL));
-                        Log.e("userNickName2", "" + UserPreference.getInstance().getString(Config.KEY_NICKNAME));
-                        Log.e("userProfileImage2", "" + UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE));
-
                     } else {
                         Log.e("getUser", "Account null ");
                     }
@@ -291,27 +270,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    private static final int RICE_CATEGORY = 1;
+    private static final int DDOCK_CATEGORY = 2;
+    private static final int NOODLE_CATEGORY = 3;
+    private static final int DUMPLING_CATEGORY = 4;
+    private static final int PIZZA_CATEGORY = 5;
+    private static final int STEW_CATEGORY = 6;
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_stew:
-                fragment = new StewFragment();
+                fragment = new ProductListStewFragment();
+                categoryCallback.transfer(STEW_CATEGORY);
                 break;
             case R.id.nav_noodle:
-                fragment = new NoodleFragment();
+                fragment = new ProductListNoodleFragment();
+                categoryCallback.transfer(NOODLE_CATEGORY);
                 break;
 
             case R.id.nav_ddokbokki:
-                fragment = new DdokbokkiFragment();
+                fragment = new ProductListDdokbokkiFragment();
+                categoryCallback.transfer(DDOCK_CATEGORY);
                 break;
             case R.id.nav_dumpling:
-                fragment = new DumplingFragment();
+                fragment = new ProductListDumplingFragment();
+                categoryCallback.transfer(DUMPLING_CATEGORY);
                 break;
             case R.id.nav_friedRice:
                 fragment = new ProductListFriedRiceFragment();
+              //  ((ProductListFriedRiceFragment) (fragment)).setCategoryCallback(categoryCallback);
                 break;
             case R.id.nav_pizza:
-                fragment = new PizzaFragment();
+                fragment = new ProductListPizzaFragment();
+                categoryCallback.transfer(PIZZA_CATEGORY);
                 break;
             case R.id.nav_home:
                 fragment = new HomeFragment();
@@ -350,5 +342,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment myPageFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         myPageFragment.onActivityResult(requestCode, resultCode, data);
     }
+
+//    public TransferDataCallback<Integer> getResultCallback() {
+//        return categoryCallback;
+//    }
+//
+//    public void setResultCallback(TransferDataCallback<Integer> categoryCallback) {
+//        this.categoryCallback = categoryCallback;
+//    }
 
 }

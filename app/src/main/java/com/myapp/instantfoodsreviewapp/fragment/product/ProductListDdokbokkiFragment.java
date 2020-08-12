@@ -1,10 +1,13 @@
-package com.myapp.instantfoodsreviewapp.fragment;
+package com.myapp.instantfoodsreviewapp.fragment.product;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,13 +21,15 @@ import android.view.inputmethod.EditorInfo;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
+import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
+import com.myapp.instantfoodsreviewapp.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DdokbokkiFragment extends Fragment {
+public class ProductListDdokbokkiFragment extends Fragment {
     private RecyclerView recyclerViewDdokbokki;
     private CustomRecyclerAdapter adapterDdokbokki;
     private LinearLayoutManager layoutManagerDdokbokki;
@@ -42,49 +47,22 @@ public class DdokbokkiFragment extends Fragment {
         layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
         recyclerViewDdokbokki.setLayoutManager(layoutManagerDdokbokki);
 
-       // initDdokbokki();
+        initDdokbokki();
         //showRecyclerView();
         return rootView;
     }
 
-
-//
-//    private void showRecyclerView() {
-//        adapterDdokbokki = new CustomRecyclerAdapter(getActivity(), ddokbokkiList);
-//        recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
-//    }
-//
-//
-//    private void initDdokbokki() {
-//
-//        ddokbokkiList.add(new ListItem(R.drawable.ddok_oddukki, foodCategoryList.DDOKBOKKI,
-//                "CJ 미정당 매콤까르보나라 누들떡볶이400g",
-//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full));
-//
-//        ddokbokkiList.add(new ListItem(R.drawable.ddok_peacock, foodCategoryList.DDOKBOKKI,
-//                "피콕분식 신당동식떡볶이 970g",
-//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_half));
-//
-//        ddokbokkiList.add(new ListItem(R.drawable.ddok_dongwon, foodCategoryList.DDOKBOKKI,
-//                "동원 떡볶이의신 신당동 즉석쫄볶이397g",
-//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank));
-//
-//        ddokbokkiList.add(new ListItem(R.drawable.ddok_pulmuone, foodCategoryList.DDOKBOKKI,
-//                "[풀무원] 순쌀 떡볶이 480g (2인분)",
-//                "Compiler allocated 4MB to compile void android.view.View.<init>(android.content.Context, android.util.AttributeSet, int, int)",
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank));
-//    }
+    private void initDdokbokki() {
+        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        adapterDdokbokki = new CustomRecyclerAdapter();
+        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+            @Override
+            public void onChanged(PagedList<Product> products) {
+                adapterDdokbokki.submitList(products);
+            }
+        });
+        recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {

@@ -35,18 +35,18 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
     private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
-    private List<Product> listItems;
-    private List<Product> listItemsFull;
+    private List<ListItem> listItems;
+    private List<ListItem> listItemsFull;
     private FoodCategoryList foodCategoryList;
     private Context context;
     private Product product;
 
-    public CustomRecyclerAdapter(List<Product> listItems) {
-        super(DIFF_CALLBACK);
-        // this.context = context;
-        //this.listItems = listItems;
-       // listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
-    }
+//    public CustomRecyclerAdapter(List<Product> listItems) {
+//        super(DIFF_CALLBACK);
+//        // this.context = context;
+//        //this.listItems = listItems;
+//       // listItemsFull = new ArrayList<>(listItems); //독립적으로 사용하기위해 listItems를 복사
+//    }
 
     public CustomRecyclerAdapter() {
         super(DIFF_CALLBACK);
@@ -61,7 +61,6 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                 .inflate(R.layout.item, parent, false);
         return new RecyclerViewHolder(view);
     }
-
 
 
     @Override
@@ -147,20 +146,39 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     }
 
 
+    //    private Filter itemFilter = new Filter() {
+//        @Override
+//        protected FilterResults performFiltering(CharSequence charSequence) {
+//           // ProductDataSource productDataSource = new ProductDataSource();
+//           // productDataSource.productList = new ArrayList<>();
+//           // List<Product> filteredList = productDataSource.productList;
+//
+//            if (charSequence == null || charSequence.length() == 0) {
+//                filteredList.addAll(listItemsFull);
+//            } else {
+//                String filterPattern = charSequence.toString().toLowerCase().trim();
+//                for (Product product : listItemsFull) {
+//                    if (product.getPrTitle().toLowerCase().contains(filterPattern)) {
+//                        filteredList.add(product);
+//                    }
+//                }
+//            }
+//
+//            FilterResults filterResults = new FilterResults();
+//            filterResults.values = filteredList;
+//            return filterResults;
+//        }
     private Filter itemFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            ProductDataSource productDataSource = new ProductDataSource();
-           // productDataSource.productList = new ArrayList<>();
-            List<Product> filteredList = productDataSource.productList;
-
+            List<ListItem> filteredList = new ArrayList<>();
             if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(listItemsFull);
             } else {
                 String filterPattern = charSequence.toString().toLowerCase().trim();
-                for (Product product : listItemsFull) {
-                    if (product.getPrTitle().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(product);
+                for (ListItem item : listItemsFull) {
+                    if (item.getFoodName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
                     }
                 }
             }

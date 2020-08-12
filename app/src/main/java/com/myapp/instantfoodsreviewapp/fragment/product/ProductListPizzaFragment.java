@@ -1,10 +1,13 @@
-package com.myapp.instantfoodsreviewapp.fragment;
+package com.myapp.instantfoodsreviewapp.fragment.product;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,15 +21,17 @@ import android.view.inputmethod.EditorInfo;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
+import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
+import com.myapp.instantfoodsreviewapp.model.Product;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PizzaFragment extends Fragment {
+public class ProductListPizzaFragment extends Fragment {
     private ArrayList<ListItem> pizzaList = new ArrayList<>();
     private RecyclerView recyclerViewPizza;
     private CustomRecyclerAdapter adapterPizza;
@@ -42,49 +47,26 @@ public class PizzaFragment extends Fragment {
         recyclerViewPizza.setHasFixedSize(true);
         layoutManagerPizza = new LinearLayoutManager(getActivity());
         recyclerViewPizza.setLayoutManager(layoutManagerPizza);
-      //  initPizza();
-       // showRecyclerView();
+        initPizza();
+        // showRecyclerView();
         return rootView;
     }
 
-//    private void showRecyclerView() {
-//        adapterPizza = new CustomRecyclerAdapter(getActivity(), pizzaList);
-//        recyclerViewPizza.setAdapter(adapterPizza);
-//    }
-//
-//    private void initPizza() {
-//        pizzaList.add(new ListItem(R.drawable.pizza_odduggi, FoodCategoryList.PIZZA,
-//                "[오뚜기] 콤비네이션피자 415g",
-//                "와....기대이상으로 푸짐하고 맛있네요!!! 제품 조리 안내대로 오븐에서 230도로 13분정도 구웠는데 간도 적당하고 치즈가 ?~늘어나서 으흠~~하면서 먹었어요ㅎㅎㅎ",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full));
-//
-//        pizzaList.add(new ListItem(R.drawable.pizza_droetker, FoodCategoryList.PIZZA,
-//                "닥터오트커 리스토란테 모짜렐라335g",
-//                "냉동피자중에 제일 맛있어요",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_half));
-//
-//        pizzaList.add(new ListItem(R.drawable.pizza_pulmuone, FoodCategoryList.PIZZA,
-//                "풀무원 노엣지피자 베이컨파이브치즈 376g",
-//                "크기는 다른 피자에서 테두리 없어진 크기입니다. 치즈가 다양해서 기대했는데.ㅜㅜ 제 입맛엔 별루였어요ㅜㅜ",
-//                R.drawable.ic_star_full,
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank));
-//
-//        pizzaList.add(new ListItem(R.drawable.pizza_nobrand, FoodCategoryList.PIZZA,
-//                "[노브랜드] 콤비네이션피자 425 g",
-//                "가성비는 좋은데 내용물이 조금 빈약해 조금 더 지불하고 다른제품을 구매하려고요",
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank,
-//                R.drawable.ic_star_blank));
-//    }
+    private void initPizza() {
+        ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+        adapterPizza = new CustomRecyclerAdapter();
+        productViewModel.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
+            @Override
+            public void onChanged(PagedList<Product> products) {
+                adapterPizza.submitList(products);
+            }
+        });
+        recyclerViewPizza.setAdapter(adapterPizza);
+    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu,searchMenu);
+        inflater.inflate(R.menu.search_menu, searchMenu);
         MenuItem searchItem = searchMenu.findItem(R.id.action_search);
         SearchView searchView = new SearchView(getActivity());
         searchView.setQueryHint("Search");
@@ -98,7 +80,7 @@ public class PizzaFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(adapterPizza != null){
+                if (adapterPizza != null) {
                     adapterPizza.getFilter().filter(newText);
                 }
 
@@ -106,6 +88,6 @@ public class PizzaFragment extends Fragment {
             }
         });
         searchItem.setActionView(searchView);
-        super.onCreateOptionsMenu(searchMenu,inflater);
+        super.onCreateOptionsMenu(searchMenu, inflater);
     }
 }
