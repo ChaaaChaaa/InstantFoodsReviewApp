@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
@@ -55,6 +56,7 @@ public class ProductListStewFragment extends Fragment {
     private void initStew() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, STEW_CATEGORY);
         ProductViewModel productViewModelStew = new ViewModelProvider(this).get(ProductViewModel.class);
+
         adapterStew = new CustomRecyclerAdapter();
         productViewModelStew.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override

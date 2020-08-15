@@ -2,8 +2,9 @@ package com.myapp.instantfoodsreviewapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.myapp.instantfoodsreviewapp.adapter.PostMultipleItemTypeInterface;
 
-public class Product {
+public class Product implements PostMultipleItemTypeInterface {
     @SerializedName("pr_id")
     @Expose
     private Integer prId;
@@ -46,33 +47,14 @@ public class Product {
         return prId;
     }
 
-    public void setPrId(Integer prId) {
-        this.prId = prId;
-    }
-
     public String getPrTitle() {
         return prTitle;
-    }
-
-    public void setPrTitle(String prTitle) {
-        this.prTitle = prTitle;
     }
 
     public Integer getPrScore() {
         return prScore;
     }
 
-    public void setPrScore(Integer prScore) {
-        this.prScore = prScore;
-    }
-
-    public String getPrRegistedTime() {
-        return prRegistedTime;
-    }
-
-    public void setPrRegistedTime(String prRegistedTime) {
-        this.prRegistedTime = prRegistedTime;
-    }
 
     public String getPrImage() {
         return prImage;

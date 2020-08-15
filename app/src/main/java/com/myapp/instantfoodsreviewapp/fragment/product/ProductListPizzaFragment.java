@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
@@ -57,6 +58,7 @@ public class ProductListPizzaFragment extends Fragment {
     private void initPizza() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, PIZZA_CATEGORY);
         ProductViewModel productViewModelPizza = new ViewModelProvider(this).get(ProductViewModel.class);
+
         adapterPizza = new CustomRecyclerAdapter();
         productViewModelPizza.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override

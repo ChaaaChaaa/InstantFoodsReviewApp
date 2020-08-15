@@ -3,6 +3,7 @@ package com.myapp.instantfoodsreviewapp.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +25,37 @@ import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.model.Post;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
+import java.util.List;
+
 public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.ViewHolder> {
     private static final int LAYOUT_DETAIL_PRODUCT = 0;
     private static final int LAYOUT_POSTS = 1;
     private static final int LAYOUT_LOADING = 2;
     private boolean retryPageLoad = false;
+    private int productID;
     private String errorMsg;
     private Context context;
     private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
-    public PostsRecyclerAdapter() {
+    private List<PostMultipleItemTypeInterface> data;
+
+//
+//    public PostsRecyclerAdapter() {
+//        super(context);
+//    }
+
+    public PostsRecyclerAdapter(int productID) {
         super(DIFF_CALLBACK);
+        this.productID = productID;
+
     }
 
+    @Nullable
+    @Override
+    protected Post getItem(int position) {
+        Log.e("666", "post getItem(position) : "+position);
+        return super.getItem(position);
+    }
 
     @NonNull
     @Override
@@ -70,7 +89,8 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
 
         switch (getItemViewType(position)) {
             case LAYOUT_DETAIL_PRODUCT:
-                Product product = getItem(position); //product 선언을 위해 Post 클래스에 상속했는데 맞는것인지 모르겠음
+               // Log.e("data.get(productID)"," "+(Product) data.get(productID));
+                Product product = (Product) data.get(productID); //product 선언을 위해 Post 클래스에 상속했는데 맞는것인지 모르겠음
                 DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
                 detailProductViewHolder.detailProductName.setText(product.getPrTitle());
                 detailProductViewHolder.detailProductRating.setText(Integer.toString(product.getPrScore()));
@@ -78,11 +98,12 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
                 break;
 
             case LAYOUT_POSTS:
-                Post post = getItem(position);
+               Post post = (Post) getItem(position);
+                //Post post = (Post) data.get(productID);
                 PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
                 postsViewHolder.postGoodPoint.setText(post.getGoodContents());
                 postsViewHolder.postBadPoint.setText(post.getBadContents());
-                loadingPicture(post.getPrImage()).into(postsViewHolder.postPicture);
+                loadingPicture(post.getStoredPath()).into(postsViewHolder.postPicture);
                 break;
 
             case LAYOUT_LOADING:
@@ -100,6 +121,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
                 break;
         }
     }
+
 
     private RequestBuilder<Drawable> loadingPicture(@NonNull String picturePath){
         return Glide
@@ -124,7 +146,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
             };
 
 
-    protected class DetailProductViewHolder extends RecyclerView.ViewHolder {
+    public static class DetailProductViewHolder extends RecyclerView.ViewHolder {
         private TextView detailProductRating;
         private TextView detailProductName;
         private ImageView detailProductImage;
@@ -139,6 +161,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
             detailProductName = itemView.findViewById(R.id.tv_detail_product_name);
             detailProductRating = itemView.findViewById(R.id.tv_detail_product_rating);
         }
+
     }
 
     protected class LoadingViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

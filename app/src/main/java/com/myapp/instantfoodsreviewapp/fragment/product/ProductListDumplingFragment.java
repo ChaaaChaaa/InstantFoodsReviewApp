@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
@@ -57,6 +58,9 @@ public class ProductListDumplingFragment extends Fragment {
     private void initDumpling() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, DUMPLING_CATEGORY);
         ProductViewModel productViewModelDumpling = new ViewModelProvider(this).get(ProductViewModel.class);
+//        CustomRecyclerAdapter.OnPostsListener listener = (position) -> {
+//            Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
+//        };
         adapterDumpling = new CustomRecyclerAdapter();
         productViewModelDumpling.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override

@@ -8,6 +8,7 @@ import androidx.paging.PageKeyedDataSource;
 import com.google.gson.JsonIOException;
 import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
+import com.myapp.instantfoodsreviewapp.model.Post;
 import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.model.ProductResponse;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
@@ -27,7 +28,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     public static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
     private int currentCategoryId;
-    public ArrayList<Product> productList = new ArrayList<>();
+    public List<Post> productList = new ArrayList<>();
+    public List<PostMultipleItemTypeInterface> postMultipleItemTypeInterfaces = new ArrayList<PostMultipleItemTypeInterface>();
     private UserPreference userPreference;
 
 
@@ -55,13 +57,13 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                         Log.e("444 currentCategoryId"," "+currentCategoryId);
                         Log.e("111 productListSize", " " + productListSize);
 
-                        for (int i = 0; i < productListSize; i++) {
+                       for (int i = 0; i < productListSize; i++) {
                             String productPicture = response.body().getResultData().get(i).getPrImage();
                             int productCategory = response.body().getResultData().get(i).getPrCategory();
                             String title = response.body().getResultData().get(i).getPrTitle();
                             int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
                             int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+                            postMultipleItemTypeInterfaces.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
                             //  productList.add(new ListItem(productPicture,productCategory,title,reviewCount,productScore));
                         }
 
@@ -127,7 +129,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                             String title = response.body().getResultData().get(i).getPrTitle();
                             int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
                             int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+                            postMultipleItemTypeInterfaces.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
                             //  productList.add(new ListItem(productPicture,productCategory,title,reviewCount,productScore));
                         }
                         Log.e("222 params.key ", " " + params.key);
@@ -183,7 +185,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                             String title = response.body().getResultData().get(i).getPrTitle();
                             int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
                             int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+                            postMultipleItemTypeInterfaces.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
                             //  productList.add(new ListItem(productPicture,productCategory,title,reviewCount,productScore));
                         }
 
