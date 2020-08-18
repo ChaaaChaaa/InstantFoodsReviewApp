@@ -17,12 +17,22 @@ import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.PostViewModel;
 import com.myapp.instantfoodsreviewapp.adapter.PostsRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.model.Post;
+import com.myapp.instantfoodsreviewapp.model.Product;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostsListFragment extends Fragment {
     private RecyclerView recyclerViewPostsList;
     private PostsRecyclerAdapter postsRecyclerAdapter;
     private LinearLayoutManager layoutManagerPostsList;
     private int productId;
+    private List<Product> pickProduct = new ArrayList<>();
+
+    public PostsListFragment(List<Product> pickProduct){
+        this.pickProduct = pickProduct;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,20 +42,16 @@ public class PostsListFragment extends Fragment {
         recyclerViewPostsList = rootView.findViewById(R.id.recycler_posts_list);
         layoutManagerPostsList = new LinearLayoutManager(getActivity());
         recyclerViewPostsList.setLayoutManager(layoutManagerPostsList);
-        getBundleInfo();
+//        getBundleInfo();
         initPostsList();
         return rootView;
     }
 
-    private void  getBundleInfo(){
-        Bundle bundle = getArguments();
-        int getProductIdResult = bundle.getInt("productID");
-        productId = getProductIdResult;
-    }
+
 
     private void initPostsList(){
         PostViewModel postViewModel = new ViewModelProvider(this).get(PostViewModel.class);
-        postsRecyclerAdapter = new PostsRecyclerAdapter(productId);
+        postsRecyclerAdapter = new PostsRecyclerAdapter(pickProduct);
         postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Post>>() {
             @Override
             public void onChanged(PagedList<Post> posts) {

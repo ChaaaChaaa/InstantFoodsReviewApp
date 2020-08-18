@@ -25,6 +25,7 @@ import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.model.Post;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.ViewHolder> {
@@ -32,28 +33,55 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
     private static final int LAYOUT_POSTS = 1;
     private static final int LAYOUT_LOADING = 2;
     private boolean retryPageLoad = false;
-    private int productID;
     private String errorMsg;
-    private Context context;
-    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
+    private static String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
-    private List<PostMultipleItemTypeInterface> data;
+    private static final String TAG = PostsRecyclerAdapter.class.getSimpleName();
+    private Product productItem;
+    private Post postItem;
+    private View.OnClickListener onClickListener;
+    private List<Product> pickProduct;
 
 //
 //    public PostsRecyclerAdapter() {
 //        super(context);
 //    }
 
-    public PostsRecyclerAdapter(int productID) {
+    public PostsRecyclerAdapter(List<Product> pickProduct) {
         super(DIFF_CALLBACK);
-        this.productID = productID;
-
+        this.pickProduct = pickProduct;
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        int size = getItemCount();
+        if (size == 0) {
+            return -1;
+        } else {
+            if (position == 0) {
+                return LAYOUT_DETAIL_PRODUCT;
+            } else if (getItemCount() > position) {
+                return LAYOUT_POSTS;
+            } else {
+                return LAYOUT_LOADING;
+            }
+        }
+    }
+
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (position > products.size() - 1) {
+//            return 2;
+//        } else {
+//            return 1;
+//        }
+//    }
 
     @Nullable
     @Override
     protected Post getItem(int position) {
-        Log.e("666", "post getItem(position) : "+position);
+        Log.e("666", "post getItem(position) : " + position);
         return super.getItem(position);
     }
 
@@ -65,6 +93,8 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
+            case -1:
+                break;
             case LAYOUT_DETAIL_PRODUCT:
                 View viewProduct = layoutInflater.inflate(R.layout.item_detail_product, parent, false);
                 recyclerViewHolder = new DetailProductViewHolder(viewProduct);
@@ -86,35 +116,80 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        Log.e("BindViewPosition ", "" + position + " Size Item :" + getItemCount());
+        int viewType = holder.getItemViewType();
+        //productItem = products.get(position);
+        productItem = pickProduct.get(0);
+
+
 
         switch (getItemViewType(position)) {
             case LAYOUT_DETAIL_PRODUCT:
-               // Log.e("data.get(productID)"," "+(Product) data.get(productID));
-                Product product = (Product) data.get(productID); //product 선언을 위해 Post 클래스에 상속했는데 맞는것인지 모르겠음
-                DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
-                detailProductViewHolder.detailProductName.setText(product.getPrTitle());
-                detailProductViewHolder.detailProductRating.setText(Integer.toString(product.getPrScore()));
-                loadingPicture(product.getPrImage()).into(detailProductViewHolder.detailProductImage);
+                // Log.e("data.get(productID)"," "+(Product) data.get(productID));
+                // data.get(product.getPrId())
+                //Product product = (Product) data.get(position);
+//                Product product = (Product) data.get(productID);
+//                DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
+//                detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
+//                detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
+//                ((DetailProductViewHolder) holder).loadPicture(productItem.getPrImage());
+//                ((DetailProductViewHolder) holder).detailProductName.setText(productItem.getPrTitle());
+//                ((DetailProductViewHolder) holder).detailProductRating.setText(productItem.getPrScore());
+//                ((DetailProductViewHolder) holder).loadPicture(productItem.getPrImage());
+
+
+                if (productItem != null) {
+                    DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
+                    detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
+                    detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
+
+                    String productImageUri = IMG_BASE_URL + productItem.getPrImage();
+                    Glide.with(holder.itemView)
+                            .load(productImageUri)
+                            .into(detailProductViewHolder.detailProductImage);
+
+                   // detailProductViewHolder.loadPicture(productItem.getPrImage());
+
+                } else {
+                    Log.d("8888", "productItem 's null");
+                }
+
+
+
                 break;
 
             case LAYOUT_POSTS:
-               Post post = (Post) getItem(position);
-                //Post post = (Post) data.get(productID);
-                PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
-                postsViewHolder.postGoodPoint.setText(post.getGoodContents());
-                postsViewHolder.postBadPoint.setText(post.getBadContents());
-                loadingPicture(post.getStoredPath()).into(postsViewHolder.postPicture);
+//                Post post = (Post) getItem(position);
+//                //Post post = (Post) data.get(productID);
+//                PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
+//                postsViewHolder.postGoodPoint.setText(post.getGoodContents());
+//                postsViewHolder.postBadPoint.setText(post.getBadContents());
+//                postsViewHolder.loadImage(post.getStoredPath());
+
+                if (postItem != null) {
+//                   ((PostsViewHolder) holder).postGoodPoint.setText(postItem.getGoodContents());
+//                   ((PostsViewHolder) holder).postBadPoint.setText(postItem.getBadContents());
+//                   ((PostsViewHolder) holder).loadImage(postItem.getStoredPath());
+                    Post post = getItem(position);
+                    PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
+                    postsViewHolder.postGoodPoint.setText(post.getGoodContents());
+                    postsViewHolder.postBadPoint.setText(post.getBadContents());
+                    postsViewHolder.loadImage(post.getStoredPath());
+                } else {
+                    Log.d("8888", "post item's null");
+
+                }
+
                 break;
 
             case LAYOUT_LOADING:
-                LoadingViewHolder loadingViewHolder = (LoadingViewHolder)holder;
-                if(retryPageLoad){
+                LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+                if (retryPageLoad) {
                     loadingViewHolder.errorLayout.setVisibility(View.VISIBLE);
                     loadingViewHolder.progressBar.setVisibility(View.GONE);
 
-                    loadingViewHolder.errorTxt.setText(errorMsg != null ? errorMsg : context.getString(R.string.error_msg_unknown));
-                }
-                else{
+                    // loadingViewHolder.errorTxt.setText(errorMsg != null ? errorMsg : context.getString(R.string.error_msg_unknown));
+                } else {
                     loadingViewHolder.errorLayout.setVisibility(View.GONE);
                     loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
                 }
@@ -123,11 +198,10 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
     }
 
 
-    private RequestBuilder<Drawable> loadingPicture(@NonNull String picturePath){
+    private static RequestBuilder<Drawable> loadingPicture(Context context, @NonNull String picturePath) {
         return Glide
                 .with(context)
-                .load(IMG_BASE_URL+picturePath);
-
+                .load(IMG_BASE_URL + picturePath);
     }
 
 
@@ -150,6 +224,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
         private TextView detailProductRating;
         private TextView detailProductName;
         private ImageView detailProductImage;
+        private View itemview = null;
 
         public DetailProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -161,6 +236,12 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
             detailProductName = itemView.findViewById(R.id.tv_detail_product_name);
             detailProductRating = itemView.findViewById(R.id.tv_detail_product_rating);
         }
+
+        public void loadPicture(String path) {
+            loadingPicture(itemView.getContext(), path);
+
+        }
+
 
     }
 
@@ -209,6 +290,11 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
         public PostsViewHolder(@NonNull View itemView) {
             super(itemView);
             initPostsViewHolder();
+        }
+
+        public void loadImage(String path) {
+            loadingPicture(itemView.getContext(), path);
+
         }
 
         private void initPostsViewHolder() {

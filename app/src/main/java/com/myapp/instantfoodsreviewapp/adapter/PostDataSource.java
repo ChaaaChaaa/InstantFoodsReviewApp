@@ -24,6 +24,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Post> {
     private static final String TAG = "PostDataSource";
     public static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
+    private int DATE=1594864449;
     public ArrayList<Post> postsList = new ArrayList<>();
     String userToken="";
 
@@ -39,7 +40,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Post> {
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Post> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, FIRST_PAGE);
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, FIRST_PAGE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {

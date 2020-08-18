@@ -33,7 +33,7 @@ import com.myapp.instantfoodsreviewapp.utils.Config;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListDdokbokkiFragment extends Fragment{
+public class ProductListDdokbokkiFragment extends Fragment {
     private RecyclerView recyclerViewDdokbokki;
     private CustomRecyclerAdapter adapterDdokbokki;
     private LinearLayoutManager layoutManagerDdokbokki;
@@ -97,6 +97,8 @@ public class ProductListDdokbokkiFragment extends Fragment{
         searchItem.setActionView(searchView);
         super.onCreateOptionsMenu(searchMenu, inflater);
     }
+
+
 
 //    @Override
 //    public void onPostsClick(int position) {
