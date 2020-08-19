@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.model.Post;
 import com.myapp.instantfoodsreviewapp.model.Product;
@@ -42,6 +45,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
     private Post postItem;
     private View.OnClickListener onClickListener;
     private List<Product> pickProduct;
+    private FloatingActionButton floatingActionButton;
 
     public PostsRecyclerAdapter(List<Product> pickProduct) {
         super(DIFF_CALLBACK);
@@ -233,11 +237,13 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
         public TextView postRating;
         public TextView postGoodPoint;
         public TextView postBadPoint;
+       // public FloatingActionButton floatingActionButton;
 
 
         public PostsViewHolder(@NonNull View itemView) {
             super(itemView);
             initPostsViewHolder();
+            //floatingActionButton.setOnClickListener(this);
         }
 
         private void initPostsViewHolder() {
@@ -246,7 +252,14 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
             postGoodPoint = itemView.findViewById(R.id.tv_post_good_point);
             postBadPoint = itemView.findViewById(R.id.tv_post_bad_point);
             postRating = itemView.findViewById(R.id.tv_post_rating);
+            //floatingActionButton = itemView.findViewById(R.id.btn_post_floating);
         }
+
+//        @Override
+//        public void onClick(View view) {
+//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//        }
     }
 
 }

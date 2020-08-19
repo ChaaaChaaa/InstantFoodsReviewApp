@@ -1,5 +1,6 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +37,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Post> {
         userToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
         return userToken;
     }
+
+//    private String getDate(long time) {
+//        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+//        cal.setTimeInMillis(time * 1000);
+//        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+//        return date;
+//    }
 
 
     @Override

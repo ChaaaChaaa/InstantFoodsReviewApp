@@ -13,6 +13,8 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.PostViewModel;
 import com.myapp.instantfoodsreviewapp.adapter.PostsRecyclerAdapter;
@@ -22,11 +24,12 @@ import com.myapp.instantfoodsreviewapp.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsListFragment extends Fragment {
+public class PostsListFragment extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerViewPostsList;
     private PostsRecyclerAdapter postsRecyclerAdapter;
     private LinearLayoutManager layoutManagerPostsList;
     private List<Product> pickProduct = new ArrayList<>();
+    private FloatingActionButton floatingActionButton;
 
     public PostsListFragment(List<Product> pickProduct){
         this.pickProduct = pickProduct;
@@ -37,11 +40,13 @@ public class PostsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_posts_list,container,false);
+        floatingActionButton = rootView.findViewById(R.id.btn_post_floating);
         recyclerViewPostsList = rootView.findViewById(R.id.recycler_posts_list);
         layoutManagerPostsList = new LinearLayoutManager(getActivity());
         recyclerViewPostsList.setLayoutManager(layoutManagerPostsList);
         recyclerViewPostsList.setHasFixedSize(true);
         initPostsList();
+        floatingActionButton.setOnClickListener(this);
         return rootView;
     }
 
@@ -57,5 +62,11 @@ public class PostsListFragment extends Fragment {
             }
         });
         recyclerViewPostsList.setAdapter(postsRecyclerAdapter);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }
