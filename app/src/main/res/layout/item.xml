@@ -117,7 +117,6 @@
             android:id="@+id/tv_product_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5.0"
             card_view:layout_constraintBottom_toBottomOf="@+id/tv_food_category"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.85"

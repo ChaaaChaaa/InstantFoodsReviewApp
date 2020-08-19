@@ -14,29 +14,19 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.fragment.PostsListFragment;
-import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDdokbokkiFragment;
-import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder>
@@ -47,17 +37,9 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
 
     private List<ListItem> listItems;
     private List<ListItem> listItemsFull;
-    private FoodCategoryList foodCategoryList;
-    private Context context;
-    private Product product;
-    private OnPostsListener onPostsListener;
-    private List<PostMultipleItemTypeInterface> data;
-    private List<Integer> testItem = new ArrayList<>();
-    private View.OnClickListener onClickListener;
 
     public CustomRecyclerAdapter() {
         super(DIFF_CALLBACK);
-        this.onPostsListener = onPostsListener;
     }
 
 
@@ -66,20 +48,8 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item, parent, false);
-        //view.setOnClickListener(onClickListener);
-        return new RecyclerViewHolder(view, onPostsListener);
+        return new RecyclerViewHolder(view);
     }
-
-//    @Nullable
-//    @Override
-//    protected Product getItem(int position) {
-//        Log.e("555", "getItem(position) :" + position);
-//        return super.getItem(position);
-//    }
-
-//    public interface SelectedUser{
-//        void selectedUser(Product product);
-//    }
 
     private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Product>() {
@@ -95,26 +65,10 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                     return oldItem.equals(newItem);
                 }
             };
-   // private AsyncListDiffer<Product> productAsyncListDiffer = new AsyncListDiffer<Product>(this, DIFF_CALLBACK);
-
-//    @Override
-//    public int getItemCount() {
-//        Log.i(LOG_TAG, "getItemCount");
-//        return productAsyncListDiffer.getCurrentList().size();
-//    }
-//
-//    public void submitList(List<Product> products) {
-//        Log.i(LOG_TAG, "submitList: products.size is " + products.size());
-//        productAsyncListDiffer.submitList(products);
-//    }
-
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Product product = getItem(position);
-        // Product product = (Product) data.get(position);
-
-
 
         if (product != null) {
 
@@ -131,41 +85,13 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //int position = product.getPrId();
-                   // Toast.makeText(v.getContext(), "test = " +  getItem(position), Toast.LENGTH_SHORT).show();
-                    // int test = data.get(position);
-                    // Toast.makeText(v.getContext(), "test = " + test, Toast.LENGTH_SHORT).show();
-
-
-                    //selectedUser.selectedUser((Product) data.get(position));
-
-                    //  Product product1 = (Product) data.get(position);
-//                    int test = data.indexOf(product.getPrId());
-
                     ArrayList<Product> pickProduct = new ArrayList<>();
                     pickProduct.add(getItem(position));
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     PostsListFragment postsListFragment = new PostsListFragment(pickProduct);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, postsListFragment).addToBackStack(null).commit();
-
-
-
-
-//                   PostsListFragment postsListFragment = new PostsListFragment();
-//                    Bundle args = new Bundle();
-//                    args.putString("data", "This data has sent to FragmentTwo");
-//                    postsListFragment.setArguments(args);
-//                    FragmentTransaction transaction = fragment.getActivity().getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.fragment_container,postsListFragment);
-//                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                    transaction.addToBackStack(null);
-//                    transaction.commit();
-
-                    //onClickListener.onClick(v,holder.getAdapterPosition(),data);
                 }
             });
-
-
         } else {
             Log.e("item is null", " " + holder.itemView);
             // Toast.makeText(listItems,"item is null",Toast.LENGTH_LONG).show();
@@ -203,7 +129,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     }
 
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder  {
 
         public ImageView imageFood;
         public TextView foodCategory;
@@ -211,13 +137,10 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         public TextView reviewContent;
         public TextView productRating;
         public TextView productReviewCount;
-        private OnPostsListener onPostsListener;
 
 
-        public RecyclerViewHolder(@NonNull View itemView, OnPostsListener onPostsListener) {
+        public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
-            this.onPostsListener = onPostsListener;
             init();
         }
 
@@ -230,18 +153,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             productReviewCount = itemView.findViewById(R.id.tv_food_review_count);
         }
 
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            Toast.makeText(v.getContext(), "position = " + position, Toast.LENGTH_SHORT).show();
-            onPostsListener.onPostsClick(getAdapterPosition());
-        }
     }
-
-    public interface OnPostsListener {
-        void onPostsClick(int position);
-    }
-
 
     @Override
     public Filter getFilter() {

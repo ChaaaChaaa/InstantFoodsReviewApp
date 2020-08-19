@@ -15,17 +15,16 @@ public class PostViewModel extends ViewModel {
     public LiveData<PagedList<Post>> postPagedList;
     private LiveData<PageKeyedDataSource<Integer, Post>> liveDataSource;
 
-    private int currentCategoryId;
+
 
     public PostViewModel() {
         PostDataSourceFactory postDataSourceFactory = new PostDataSourceFactory();
-        liveDataSource = postDataSourceFactory.postLiveDataSource;
+        liveDataSource = postDataSourceFactory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
                         .setPageSize(ProductDataSource.PAGE_SIZE)
                         .build();
         postPagedList = (new LivePagedListBuilder(postDataSourceFactory, config)).build();
-       // Log.e("111 postDataSourceFactory"," "+postPagedList.getValue()); // null
     }
 }

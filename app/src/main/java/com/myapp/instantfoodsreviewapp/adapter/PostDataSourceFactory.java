@@ -15,10 +15,13 @@ public class PostDataSourceFactory extends DataSource.Factory {
 
     @NonNull
     @Override
-    public DataSource create() {
+    public DataSource<Integer, Post> create() {
         PostDataSource postDataSource = new PostDataSource();
-        Log.e("111 ProductDataSource", " " + postDataSource.toString()); //10
         postLiveDataSource.postValue(postDataSource);
         return postDataSource;
+    }
+
+    public MutableLiveData<PageKeyedDataSource<Integer, Post>> getItemLiveDataSource() {
+        return postLiveDataSource;
     }
 }

@@ -36,8 +36,9 @@ public class Post implements PostMultipleItemTypeInterface {
     @Expose
     private Integer prId;
 
-    public Post(String postTitle, String goodPostPoint, String badPostPoint, String postPicture){
+    public Post(String postTitle, int rating, String goodPostPoint, String badPostPoint,  String postPicture){
         this.title = postTitle;
+        this.score = rating;
         this.goodContents = goodPostPoint;
         this.badContents = badPostPoint;
         this.storedPath = postPicture;

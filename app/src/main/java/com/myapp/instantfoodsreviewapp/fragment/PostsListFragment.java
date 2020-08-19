@@ -26,7 +26,6 @@ public class PostsListFragment extends Fragment {
     private RecyclerView recyclerViewPostsList;
     private PostsRecyclerAdapter postsRecyclerAdapter;
     private LinearLayoutManager layoutManagerPostsList;
-    private int productId;
     private List<Product> pickProduct = new ArrayList<>();
 
     public PostsListFragment(List<Product> pickProduct){
@@ -38,11 +37,10 @@ public class PostsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_posts_list,container,false);
-//        recyclerViewPostsList.setHasFixedSize(true);
         recyclerViewPostsList = rootView.findViewById(R.id.recycler_posts_list);
         layoutManagerPostsList = new LinearLayoutManager(getActivity());
         recyclerViewPostsList.setLayoutManager(layoutManagerPostsList);
-//        getBundleInfo();
+        recyclerViewPostsList.setHasFixedSize(true);
         initPostsList();
         return rootView;
     }
@@ -59,7 +57,5 @@ public class PostsListFragment extends Fragment {
             }
         });
         recyclerViewPostsList.setAdapter(postsRecyclerAdapter);
-
     }
-
 }

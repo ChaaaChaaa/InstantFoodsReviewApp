@@ -54,21 +54,20 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Post> {
                         Log.e("111 postListSize", " " + postListSize);
 
                        for(int i=0; i<postListSize; i++){
-                           String postTitle = response.body().getResultData().get(0).getTitle();
-                           String goodPostPoint = response.body().getResultData().get(0).getGoodContents();
-                           String badPostPoint = response.body().getResultData().get(0).getBadContents();
-                           String postPicture = response.body().getResultData().get(0).getStoredPath();
-                           postsList.add(new Post(postTitle,goodPostPoint,badPostPoint,postPicture));
+                           Log.e("111 postListSize", " " + i);
+                           String postTitle = response.body().getResultData().get(i).getTitle();
+                           int postRating = response.body().getResultData().get(i).getScore();
+                           String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                           String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                           String postPicture = response.body().getResultData().get(i).getStoredPath();
+                           postsList.add(new Post(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
                        }
-
-
-                        Log.e("111 postListSize", " " + postsList.size()); //10
 
                         List<Post> responseItems = postsResponse.getResultData();
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {
-                        Log.e("111 Server Error", " " + postsResponse.getResultData());
+                        Log.e("Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {
@@ -98,11 +97,104 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Post> {
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Post> callback) {
+        userToken = getTokenResult();
+        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, params.key);
+        postsResponseCall.enqueue(new Callback<PostsResponse>() {
+            @Override
+            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+                try {
+                    PostsResponse postsResponse = response.body();
+                    if (response.isSuccessful()) {
+                        //ArrayList<Product> productList = new ArrayList<>();
+                        // PagedList<Product> productList = new PagedList<Product>();
+                        List<Post> responseItems = postsResponse.getResultData();
+                        Integer key = beforePageKey(params);
+                        int postListSize = response.body().getResultData().size();
 
+                        for(int i=key; i<postListSize; i++){
+                            Log.e("111 postListSize", " " + i);
+                            String postTitle = response.body().getResultData().get(i).getTitle();
+                            int postRating = response.body().getResultData().get(i).getScore();
+                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                            String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                            String postPicture = response.body().getResultData().get(i).getStoredPath();
+                            postsList.add(new Post(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
+                        }
+
+                        callback.onResult(responseItems, key);
+
+                    } else {
+                        Log.e("111 Server Error", " " + postsResponse.getResultData());
+                    }
+
+                } catch (JsonIOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+            }
+        });
     }
+
+    private Integer afterPageKey(LoadParams<Integer> params) {
+        Integer key;
+
+        if (params.key > 1) {
+            key = params.key + 1;
+        } else {
+            key = 0;
+        }
+
+        return key;
+    }
+
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Post> callback) {
+        userToken = getTokenResult();
+        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, params.key);
+        postsResponseCall.enqueue(new Callback<PostsResponse>() {
+            @Override
+            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+                try {
+                    PostsResponse postsResponse = response.body();
+                    if (response.isSuccessful()) {
+                        List<Post> responseItems = postsResponse.getResultData();
+                        Integer key = afterPageKey(params);
 
+                        int postListSize = response.body().getResultData().size();
+
+                        for(int i=key; i<postListSize; i++){
+                            String postTitle = response.body().getResultData().get(i).getTitle();
+                            int postRating = response.body().getResultData().get(i).getScore();
+                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                            String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                            String postPicture = response.body().getResultData().get(i).getStoredPath();
+                            postsList.add(new Post(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
+                        }
+
+                        Log.e("111 postListSize", " " + postsList.size()); //10
+
+                        callback.onResult(responseItems, key);
+
+                    } else {
+                        Log.e("Server Error", " " + postsResponse.getResultData());
+                    }
+
+                } catch (JsonIOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+            }
+        });
     }
 }
