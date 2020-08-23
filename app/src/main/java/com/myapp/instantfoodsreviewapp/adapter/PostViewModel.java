@@ -1,19 +1,16 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
-import android.app.usage.NetworkStats;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
-import com.myapp.instantfoodsreviewapp.model.Post;
+import com.myapp.instantfoodsreviewapp.model.Posts;
 
 public class PostViewModel extends ViewModel {
-    public LiveData<PagedList<Post>> postPagedList;
-    private LiveData<PageKeyedDataSource<Integer, Post>> liveDataSource;
+    public LiveData<PagedList<Posts>> postPagedList;
+    private LiveData<PageKeyedDataSource<Integer, Posts>> liveDataSource;
 
 
 

@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_container_write_review"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_5dp">
-
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_up"
@@ -27,14 +27,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="29dp" />
+                app:layout_constraintGuide_begin="@dimen/constraintGuide_29dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="29dp" />
+                app:layout_constraintGuide_end="@dimen/constraintGuide_29dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="@dimen/constraintGuide_345dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_below"
@@ -43,148 +50,161 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_end="@dimen/constraintGuide_20dp" />
 
-
-            <EditText
-                android:id="@+id/tv_review_title"
-                android:layout_width="210dp"
-                android:layout_height="50dp"
-                android:hint="브랜드명/제품명"
+            <TextView
+                android:id="@+id/tv_product_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/et_detail_post_title"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/spn_food_category"
-                app:layout_constraintTop_toTopOf="@+id/guideline_up" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_up"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_detail_post_title"
+                android:layout_width="@dimen/width_300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/detail_post_title"
+                app:layout_constraintBottom_toTopOf="@+id/review_rating_bar"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_up"
+                app:layout_constraintVertical_bias="0.73" />
 
             <RatingBar
                 android:id="@+id/review_rating_bar"
                 style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="181dp"
+                android:layout_width="@dimen/width_180dp"
                 android:layout_height="wrap_content"
                 android:numStars="5"
                 android:stepSize=".5"
-                app:layout_constraintBottom_toTopOf="@+id/et_good_point_review"
-                app:layout_constraintEnd_toEndOf="@+id/tv_review_title"
-                app:layout_constraintStart_toStartOf="@+id/spn_food_category"
+                app:layout_constraintBottom_toTopOf="@+id/tv_detail_post_good_point"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
                 app:layout_constraintTop_toTopOf="@+id/guideline_up"
-                app:layout_constraintVertical_bias="0.56" />
+                app:layout_constraintVertical_bias="0.84000003" />
 
             <ImageView
                 android:id="@+id/iv_good_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_good_point"
-                app:layout_constraintEnd_toStartOf="@+id/tv_good_point"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/spn_food_category"
-                app:layout_constraintTop_toTopOf="@+id/tv_good_point"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_detail_post_good_point"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline_up"
+                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/ic_good_point" />
 
             <TextView
                 android:id="@+id/tv_bad_point"
-                android:layout_width="230dp"
-                android:layout_height="20dp"
-                android:minEms="20"
-                android:text="나빴던 점 (20자 이상)"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/et_bad_point_review"
-                app:layout_constraintEnd_toEndOf="@+id/tv_good_point"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_good_point"
-                app:layout_constraintTop_toBottomOf="@+id/et_good_point_review"
-                app:layout_constraintVertical_bias="0.65999997" />
-
-            <ImageView
-                android:id="@+id/iv_bad_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_bad_point"
-                app:layout_constraintEnd_toStartOf="@+id/tv_good_point"
+                android:minEms="20"
+                android:text="@string/detail_post_bad"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/et_bad_point_detail_post"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintHorizontal_bias="0.06"
+                app:layout_constraintStart_toEndOf="@+id/iv_detail_post_bad_point"
+                app:layout_constraintTop_toTopOf="@+id/et_good_point_detail_post"
+                app:layout_constraintVertical_bias="0.95" />
+
+
+            <ImageView
+                android:id="@+id/iv_detail_post_bad_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/et_bad_point_detail_post"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/iv_good_point"
-                app:layout_constraintTop_toTopOf="@+id/tv_bad_point"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_middle"
+                app:layout_constraintVertical_bias="0.69"
                 app:srcCompat="@drawable/ic_bad_point" />
 
             <TextView
-                android:id="@+id/tv_good_point"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:minEms="20"
-                android:text="좋았던 점 (20자 이상)"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/et_good_point_review"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-                app:layout_constraintHorizontal_bias="0.36"
-                app:layout_constraintStart_toStartOf="@+id/guideline_left"
-                app:layout_constraintTop_toBottomOf="@+id/review_rating_bar"
-                app:layout_constraintVertical_bias="0.87" />
-
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_good_point_review"
-                android:layout_width="320dp"
-                android:layout_height="100dp"
-                android:hint="맛,포장, 가격 등 "
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                app:layout_constraintBottom_toTopOf="@+id/guideline_below"
-                app:layout_constraintEnd_toEndOf="@+id/tv_review_title"
-                app:layout_constraintHorizontal_bias="0.545"
-                app:layout_constraintStart_toStartOf="@+id/iv_good_point"
-                app:layout_constraintTop_toTopOf="@+id/guideline_up"
-                app:layout_constraintVertical_bias="0.39999998" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_bad_point_review"
-                android:layout_width="320dp"
-                android:layout_height="100dp"
-                android:hint="맛,포장, 가격 등 "
-                android:ems="10"
-                android:gravity="start|top"
-                android:inputType="textMultiLine"
-                app:layout_constraintBottom_toTopOf="@+id/guideline_below"
-                app:layout_constraintEnd_toEndOf="@+id/et_good_point_review"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/et_good_point_review"
-                app:layout_constraintTop_toBottomOf="@+id/et_good_point_review"
-                app:layout_constraintVertical_bias="0.17" />
-
-            <TextView
-                android:id="@+id/tv_add_review_pictures"
+                android:id="@+id/tv_detail_post_good_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="사진 추가하기 ( 최대 2장 )"
+                android:minEms="20"
+                android:text="@string/detail_post_good"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/iv_review_image_first"
+                app:layout_constraintBottom_toTopOf="@+id/guideline_middle"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/iv_bad_point"
-                app:layout_constraintTop_toBottomOf="@+id/et_bad_point_review"
-                app:layout_constraintVertical_bias="0.62" />
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toEndOf="@+id/iv_good_point"
+                app:layout_constraintTop_toTopOf="@+id/guideline_up"
+                app:layout_constraintVertical_bias="0.55" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_good_point_detail_post"
+                android:layout_width="@dimen/width_300dp"
+                android:layout_height="@dimen/height_100dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/detail_post_hint"
+                android:inputType="textMultiLine"
+                app:layout_constraintBottom_toTopOf="@+id/guideline_middle"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_up"
+                app:layout_constraintVertical_bias="0.89" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_bad_point_detail_post"
+                android:layout_width="@dimen/width_300dp"
+                android:layout_height="@dimen/height_100dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/detail_post_hint"
+                android:inputType="textMultiLine"
+                app:layout_constraintBottom_toTopOf="@+id/btn_detail_post_write_confirm"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@+id/et_good_point_detail_post"
+                app:layout_constraintVertical_bias="0.37" />
+
+            <TextView
+                android:id="@+id/tv_add_detail_post_pictures"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_picture"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_middle" />
 
             <ImageView
-                android:id="@+id/iv_review_image_first"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_review_image_second"
-                app:layout_constraintEnd_toStartOf="@+id/iv_review_image_second"
-                app:layout_constraintStart_toStartOf="@+id/tv_add_review_pictures"
-                app:layout_constraintTop_toTopOf="@+id/iv_review_image_second"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_add_to_photos_black_24dp" />
-
-            <ImageView
-                android:id="@+id/iv_review_image_second"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/iv_detail_post_image"
+                android:layout_width="@dimen/width_100dp"
+                android:layout_height="@dimen/height_100dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline_below"
-                app:layout_constraintEnd_toEndOf="@+id/et_bad_point_review"
-                app:layout_constraintStart_toEndOf="@+id/tv_add_review_pictures"
-                app:layout_constraintTop_toBottomOf="@+id/et_bad_point_review"
-                app:layout_constraintVertical_bias="0.7"
-                app:srcCompat="@drawable/ic_add_to_photos_black_24dp" />
+                app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintStart_toStartOf="@+id/guideline_left"
+                app:layout_constraintTop_toTopOf="@+id/guideline_middle"
+                app:layout_constraintVertical_bias="0.79"
+                app:srcCompat="@drawable/ic_add_picture" />
+
+            <Button
+                android:id="@+id/btn_detail_post_write_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:text="@string/ok"
+                android:textColor="#F1EEEE"
+                app:layout_constraintBottom_toTopOf="@+id/guideline_below"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline_middle"
+                app:layout_constraintVertical_bias="0.94" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

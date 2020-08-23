@@ -27,6 +27,5 @@ public class ProductViewModel extends ViewModel {
                         .setPageSize(ProductDataSource.PAGE_SIZE)
                         .build();
         productPagedList = (new LivePagedListBuilder(productDataSourceFactory, config)).build();
-        Log.e("111 productPagedList"," "+productPagedList.getValue()); // null
     }
 }

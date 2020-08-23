@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
+import com.myapp.instantfoodsreviewapp.fragment.WritePostFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDdokbokkiFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDumplingFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
@@ -34,7 +35,6 @@ import com.myapp.instantfoodsreviewapp.fragment.MyPageFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
-import com.myapp.instantfoodsreviewapp.fragment.WriteReviewFragment;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.BasicAuthInterceptor;
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void transfer(String imagePath) {
                 getProfileImagePath = imagePath;
-                Log.e("getProfileImagePath", " " + getProfileImagePath);
                 String convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
                 setNavigationImage(convertThumbnailProfileImagePath);
             }
@@ -232,8 +231,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     AccountDto.ResultData resultData = accountDto.getResultData();
 
                     if (resultData != null) {
-
-
                         String userEmail = accountDto.getResultData().getUser().getEmail();
                         String userNickName = accountDto.getResultData().getUser().getNickname();
                         String userProfileImage = accountDto.getResultData().getUser().getProfilepath();
@@ -282,20 +279,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.nav_stew:
                 fragment = new ProductListStewFragment();
-                categoryCallback.transfer(STEW_CATEGORY);
                 break;
             case R.id.nav_noodle:
                 fragment = new ProductListNoodleFragment();
-                categoryCallback.transfer(NOODLE_CATEGORY);
                 break;
 
             case R.id.nav_ddokbokki:
                 fragment = new ProductListDdokbokkiFragment();
-                categoryCallback.transfer(DDOCK_CATEGORY);
                 break;
             case R.id.nav_dumpling:
                 fragment = new ProductListDumplingFragment();
-                categoryCallback.transfer(DUMPLING_CATEGORY);
                 break;
             case R.id.nav_friedRice:
                 fragment = new ProductListFriedRiceFragment();
@@ -303,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_pizza:
                 fragment = new ProductListPizzaFragment();
-                categoryCallback.transfer(PIZZA_CATEGORY);
                 break;
             case R.id.nav_home:
                 fragment = new HomeFragment();
@@ -314,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ((MyPageFragment) (fragment)).setProfileImageDrawerCallback(profileImageDrawerCallback);
                 break;
             case R.id.nav_write_review:
-                fragment = new WriteReviewFragment();
+                fragment = new WritePostFragment();
                 break;
             case R.id.nav_logout:
                 userLogOut();

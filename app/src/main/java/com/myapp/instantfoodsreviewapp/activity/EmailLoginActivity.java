@@ -151,7 +151,6 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                             UserPreference.getInstance().putString(Config.KEY_TOKEN, token);
                            // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                             String checkToken = userPreference.getString(Config.KEY_TOKEN);
-                            Log.e("tokenTest2", checkToken);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
                             Bundle bundle = new Bundle();

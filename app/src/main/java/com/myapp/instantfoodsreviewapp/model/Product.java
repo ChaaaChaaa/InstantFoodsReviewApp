@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.myapp.instantfoodsreviewapp.adapter.PostMultipleItemTypeInterface;
 
-public class Product implements PostMultipleItemTypeInterface {
+public class Product {
     @SerializedName("pr_id")
     @Expose
     private Integer prId;

@@ -2,7 +2,6 @@ package com.myapp.instantfoodsreviewapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,17 +19,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.myapp.instantfoodsreviewapp.R;
-import com.myapp.instantfoodsreviewapp.model.Post;
+import com.myapp.instantfoodsreviewapp.model.Posts;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.ViewHolder> {
+public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.ViewHolder> {
     private static final int LAYOUT_DETAIL_PRODUCT = 0;
     private static final int LAYOUT_POSTS = 1;
     private static final int LAYOUT_LOADING = 2;
@@ -42,7 +37,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
 
     private static final String TAG = PostsRecyclerAdapter.class.getSimpleName();
     private Product productItem;
-    private Post postItem;
+    private Posts postsItem;
     private View.OnClickListener onClickListener;
     private List<Product> pickProduct;
     private FloatingActionButton floatingActionButton;
@@ -71,7 +66,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
 
     @Nullable
     @Override
-    protected Post getItem(int position) {
+    protected Posts getItem(int position) {
         Log.e("666", "post getItem(position) : " + position);
         return super.getItem(position);
     }
@@ -109,7 +104,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
 
         Log.e("BindViewPosition ", "" + position + " Size Item :" + getItemCount());
         productItem = pickProduct.get(0);
-        Post post = getItem(position);
+        Posts posts = getItem(position);
 
         switch (getItemViewType(position)) {
             case LAYOUT_DETAIL_PRODUCT:
@@ -131,14 +126,14 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
                 break;
 
             case LAYOUT_POSTS:
-                if (post != null) {
+                if (posts != null) {
                     PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
-                    postsViewHolder.postTitle.setText(post.getTitle());
-                    postsViewHolder.postGoodPoint.setText(post.getGoodContents());
-                    postsViewHolder.postBadPoint.setText(post.getBadContents());
-                    postsViewHolder.postRating.setText(Integer.toString(post.getScore()));
+                    postsViewHolder.postTitle.setText(posts.getTitle());
+                    postsViewHolder.postGoodPoint.setText(posts.getGoodContents());
+                    postsViewHolder.postBadPoint.setText(posts.getBadContents());
+                    postsViewHolder.postRating.setText(Integer.toString(posts.getScore()));
 
-                    String postsImageUri = IMG_BASE_URL + post.getStoredPath();
+                    String postsImageUri = IMG_BASE_URL + posts.getStoredPath();
                     Glide.with(holder.itemView)
                             .load(postsImageUri)
                             .override(100,100)
@@ -164,16 +159,16 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Post, RecyclerView.Vi
         }
     }
 
-    private static DiffUtil.ItemCallback<Post> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Post>() {
+    private static DiffUtil.ItemCallback<Posts> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Posts>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Post oldItem, @NonNull Post newItem) {
+                public boolean areItemsTheSame(@NonNull Posts oldItem, @NonNull Posts newItem) {
                     return oldItem.getPrId() == newItem.getPrId();
                 }
 
                 @SuppressLint("DiffUtilEquals")
                 @Override
-                public boolean areContentsTheSame(@NonNull Post oldItem, @NonNull Post newItem) {
+                public boolean areContentsTheSame(@NonNull Posts oldItem, @NonNull Posts newItem) {
                     return oldItem.equals(newItem);
                 }
             };

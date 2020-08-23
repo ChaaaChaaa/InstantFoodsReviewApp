@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
@@ -18,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.PostViewModel;
 import com.myapp.instantfoodsreviewapp.adapter.PostsRecyclerAdapter;
-import com.myapp.instantfoodsreviewapp.model.Post;
+import com.myapp.instantfoodsreviewapp.model.Posts;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     private List<Product> pickProduct = new ArrayList<>();
     private FloatingActionButton floatingActionButton;
 
-    public PostsListFragment(List<Product> pickProduct){
+    public PostsListFragment(List<Product> pickProduct) {
         this.pickProduct = pickProduct;
     }
 
@@ -39,7 +40,7 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_posts_list,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_posts_list, container, false);
         floatingActionButton = rootView.findViewById(R.id.btn_post_floating);
         recyclerViewPostsList = rootView.findViewById(R.id.recycler_posts_list);
         layoutManagerPostsList = new LinearLayoutManager(getActivity());
@@ -51,13 +52,12 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
-    private void initPostsList(){
+    private void initPostsList() {
         PostViewModel postViewModel = new ViewModelProvider(this).get(PostViewModel.class);
         postsRecyclerAdapter = new PostsRecyclerAdapter(pickProduct);
-        postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Post>>() {
+        postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Posts>>() {
             @Override
-            public void onChanged(PagedList<Post> posts) {
+            public void onChanged(PagedList<Posts> posts) {
                 postsRecyclerAdapter.submitList(posts);
             }
         });
@@ -66,7 +66,17 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Fragment fragment = new WritePostFragment();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        Bundle bundle = new Bundle();
+        String ProductID = String.valueOf(pickProduct.get(0).getPrId());
+        String productName = pickProduct.get(0).getPrTitle();
+        bundle.putString("ProductID", ProductID);
+        bundle.putString("ProductName",productName);
+        fragment.setArguments(bundle);
     }
 }

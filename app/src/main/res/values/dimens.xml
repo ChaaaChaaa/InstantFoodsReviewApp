@@ -17,6 +17,7 @@
     <dimen name="constraintGuide_20dp">20dp</dimen>
     <dimen name="constraintGuide_29dp">29dp</dimen>
     <dimen name="constraintGuide_60dp">60dp</dimen>
+    <dimen name="constraintGuide_345dp">345dp</dimen>
 
     <!-- padding -->
     <dimen name="padding_4dp">4dp</dimen>
@@ -33,6 +34,7 @@
     <dimen name="width_100dp">100dp</dimen>
     <dimen name="width_120dp">120dp</dimen>
     <dimen name="width_130dp">130dp</dimen>
+    <dimen name="width_180dp">180dp</dimen>
     <dimen name="width_250dp">250dp</dimen>
     <dimen name="width_300dp">300dp</dimen>
 
@@ -56,6 +58,8 @@
     <dimen name="text_size_20sp">20sp</dimen>
     <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_30sp">30sp</dimen>
+
+
 
     <!-- radius -->
     <dimen name="radius_8dp">8dp</dimen>

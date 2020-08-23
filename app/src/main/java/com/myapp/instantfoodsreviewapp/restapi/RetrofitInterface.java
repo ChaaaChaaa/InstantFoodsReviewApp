@@ -1,6 +1,7 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
 
+import com.myapp.instantfoodsreviewapp.model.PostResponse;
 import com.myapp.instantfoodsreviewapp.model.PostsResponse;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
@@ -71,5 +72,14 @@ public interface RetrofitInterface {
                               @Query("page") int page,
                               @Query("date") int date,
                               @Query("size") int size);
-
+    @Multipart
+    @POST("v1/post/upload")
+    Call<PostResponse> upload(@Header("authorization") String token,
+                              @Part("title") String title,
+                              @Part("good_contents") String good_contents,
+                              @Part("bad_contents") String bad_contents,
+                              @Part("pr_id") String pr_id,
+                              @Part MultipartBody.Part file1,
+                              @Part MultipartBody.Part file2
+                              );
 }

@@ -20,7 +20,6 @@ public class ProductDataSourceFactory extends DataSource.Factory {
     @Override
     public DataSource create() {
         ProductDataSource productDataSource = new ProductDataSource();
-        Log.e("111 ProductDataSource", " " + productDataSource.toString()); //10
         productLiveDataSource.postValue(productDataSource);
         return productDataSource;
     }

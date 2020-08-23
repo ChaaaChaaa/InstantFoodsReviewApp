@@ -53,7 +53,15 @@
     <string name="error_msg_unknown">An unexpected error occurred</string>
     <string name="tap_to_reload">Tap to reload</string>
     <string name="menu_refresh">Refresh</string>
+
+
+    <!-- write post -->
     <string name="good_point">장점</string>
     <string name="bad_point">단점</string>
+    <string name="detail_post_title">포스트 제목</string>
+    <string name="detail_post_hint">맛,포장, 가격 등</string>
+    <string name="detail_post_bad">나빴던 점 (20자 이상)</string>
+    <string name="detail_post_good">나빴던 점 (20자 이상)</string>
+    <string name="add_picture">사진 추가하기 ( 최대 1장 )</string>
 
 </resources>
