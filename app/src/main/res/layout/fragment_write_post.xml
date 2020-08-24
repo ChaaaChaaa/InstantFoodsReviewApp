@@ -75,11 +75,10 @@
 
             <RatingBar
                 android:id="@+id/review_rating_bar"
-                style="?android:attr/ratingBarStyleIndicator"
-                android:layout_width="@dimen/width_180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:stepSize=".5"
+                android:stepSize="0.1"
                 app:layout_constraintBottom_toTopOf="@+id/tv_detail_post_good_point"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_right"
                 app:layout_constraintStart_toStartOf="@+id/guideline_left"

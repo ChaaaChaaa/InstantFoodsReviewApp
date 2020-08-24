@@ -13,9 +13,14 @@ public class PostRequest {
     @SerializedName("bad_contents")
     @Expose
     private String badContents;
+
+    @SerializedName("score")
+    @Expose
+    private float score;
+
     @SerializedName("pr_id")
     @Expose
-    private String prId;
+    private Integer prId;
     @SerializedName("path")
     @Expose
     private String path;
@@ -44,11 +49,19 @@ public class PostRequest {
         this.badContents = badContents;
     }
 
-    public String getPrId() {
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public Integer getPrId() {
         return prId;
     }
 
-    public void setPrId(String prId) {
+    public void setPrId(Integer prId) {
         this.prId = prId;
     }
 

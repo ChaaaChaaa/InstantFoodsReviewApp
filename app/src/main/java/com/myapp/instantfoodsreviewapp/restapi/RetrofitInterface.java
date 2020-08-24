@@ -78,7 +78,8 @@ public interface RetrofitInterface {
                               @Part("title") String title,
                               @Part("good_contents") String good_contents,
                               @Part("bad_contents") String bad_contents,
-                              @Part("pr_id") String pr_id,
+                              @Part("score") float score,
+                              @Part("pr_id") Integer pr_id,
                               @Part MultipartBody.Part file1,
                               @Part MultipartBody.Part file2
                               );

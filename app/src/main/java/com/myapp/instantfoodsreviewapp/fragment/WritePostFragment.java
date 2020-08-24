@@ -72,7 +72,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     private UserPreference userPreference;
     private Uri imageUri;
     private Bitmap bitmap;
-    private String productId;
+    private int productId;
     private String productName;
 
     String setDetailPostTitle;
@@ -85,10 +85,10 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     private static final int REQUEST_CAMERA = 101;
     private static final int PICK_IMAGE_REQUEST = 102;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
 
 
@@ -100,6 +100,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         getProducts();
         initPreference();
         init(rootView);
+        getRating();
         initButton(rootView);
       //  detailPostConfirm.setOnClickListener(this);
        // detailPostImage.setOnClickListener(this);
@@ -108,7 +109,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init(View view) {
-        ratingBar = view.findViewById(R.id.review_rating_bar);
+        ratingBar = (RatingBar)view.findViewById(R.id.review_rating_bar);
         productTitle = view.findViewById(R.id.tv_product_title);
         productTitle.setText(productName);
         detailPostTitle = (TextInputEditText)view.findViewById(R.id.et_detail_post_title);
@@ -117,9 +118,11 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
     private void getProducts() {
         Bundle bundle = this.getArguments();
-        productId = bundle.getString("ProductID");
+        productId = bundle.getInt("ProductID");
         productName = bundle.getString("ProductName");
     }
+
+
 
     private void initPreference() {
         userPreference = new UserPreference();
@@ -312,6 +315,17 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         return result;
     }
 
+    float rateValue;
+
+    private float getRating(){
+       ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+           @Override
+           public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+               rateValue = ratingBar.getRating();
+           }
+       });
+       return rateValue;
+    }
 
     private void setPostInfo(Bitmap bitmap) {
         setWrite();
@@ -331,7 +345,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         Log.e("888 productId : ", " "+productId);
 
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-         Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, productId, originFile, thumbnailFile);
+         Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, rateValue ,productId, originFile, thumbnailFile);
         postResponseCall.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {

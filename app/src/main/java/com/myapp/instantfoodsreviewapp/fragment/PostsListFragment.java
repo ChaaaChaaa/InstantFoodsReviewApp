@@ -73,9 +73,9 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
         fragmentTransaction.commit();
 
         Bundle bundle = new Bundle();
-        String ProductID = String.valueOf(pickProduct.get(0).getPrId());
+        int ProductID = pickProduct.get(0).getPrId();
         String productName = pickProduct.get(0).getPrTitle();
-        bundle.putString("ProductID", ProductID);
+        bundle.putInt("ProductID", ProductID);
         bundle.putString("ProductName",productName);
         fragment.setArguments(bundle);
     }
