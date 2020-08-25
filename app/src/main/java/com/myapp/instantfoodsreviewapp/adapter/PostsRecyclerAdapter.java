@@ -99,6 +99,15 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         return recyclerViewHolder;
     }
 
+    private boolean isIncludedPost(Posts posts){
+        int productId = pickProduct.get(0).getPrId();
+        if(productId == posts.getPrId()){
+            return true;
+        }
+        else return false;
+    }
+
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
@@ -126,7 +135,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
                 break;
 
             case LAYOUT_POSTS:
-                if (posts != null) {
+                if (isIncludedPost(posts)) {
                     PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
                     postsViewHolder.postTitle.setText(posts.getTitle());
                     postsViewHolder.postGoodPoint.setText(posts.getGoodContents());
