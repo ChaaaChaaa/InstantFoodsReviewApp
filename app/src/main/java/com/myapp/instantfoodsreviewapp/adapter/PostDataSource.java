@@ -1,5 +1,6 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,12 +38,12 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         return userToken;
     }
 
-//    private String getDate(long time) {
-//        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-//        cal.setTimeInMillis(time * 1000);
-//        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
-//        return date;
-//    }
+    private String getDate(long time) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("yyyy-MM-dd hh:mm:ss", calendar).toString();
+        return date;
+    }
 
 
     @Override
@@ -54,14 +57,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
-                        //ArrayList<Product> productList = new ArrayList<>();
-                        // PagedList<Product> productList = new PagedList<Product>();
 
                         int postListSize = response.body().getResultData().size();
-                       // Log.e("111 postListSize", " " + postListSize);
-
                        for(int i=0; i<postListSize; i++){
-                           //Log.e("111 postListSize", " " + i);
                            String postTitle = response.body().getResultData().get(i).getTitle();
                            int postRating = response.body().getResultData().get(i).getScore();
                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
@@ -113,14 +111,11 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
-                        //ArrayList<Product> productList = new ArrayList<>();
-                        // PagedList<Product> productList = new PagedList<Product>();
                         List<Posts> responseItems = postsResponse.getResultData();
                         Integer key = beforePageKey(params);
                         int postListSize = response.body().getResultData().size();
 
                         for(int i=key; i<postListSize; i++){
-                            //Log.e("111 postListSize", " " + i);
                             String postTitle = response.body().getResultData().get(i).getTitle();
                             int postRating = response.body().getResultData().get(i).getScore();
                             String goodPostPoint = response.body().getResultData().get(i).getGoodContents();

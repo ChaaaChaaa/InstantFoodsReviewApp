@@ -83,4 +83,11 @@ public interface RetrofitInterface {
                               @Part MultipartBody.Part file1,
                               @Part MultipartBody.Part file2
                               );
+    @GET("v1/post/search")
+    Call<PostsResponse>search(@Header("authorization") String token,
+                 @Query("page") int page,
+                 @Query("date") int date,
+                 @Query("size") int size,
+                 @Query("keyword") String keyword);
+
 }
