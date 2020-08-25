@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.content.CursorLoader;
 
@@ -150,7 +151,8 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_detail_post_write_confirm:
-                goToBackFragment();
+                setPostInfo(bitmap);
+                //goToBackFragment();
                 break;
             case R.id.iv_detail_post_image:
                 selectImage();
@@ -158,13 +160,6 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    private void goToBackFragment(){
-        WritePostFragment writePostFragment = new WritePostFragment();
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.remove(writePostFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 
 
     private void checkPermission() {
@@ -249,8 +244,8 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
                         e.printStackTrace();
                     }
                     compressImage(uriPath);
-                    //setImageResource(imageUri.toString(), detailPostImage);
-                    setPostInfo(bitmap);
+                    setImageResource(imageUri.toString(), detailPostImage);
+                    //setPostInfo(bitmap);
                     break;
 
                 case REQUEST_CAMERA:
@@ -262,8 +257,8 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
 
                     compressImage(uriPathPicture);
                     String uriPathReal = getRealPathFromURI(imageUri);
-                    //setImageResource(imageUri.toString(), detailPostImage);
-                    setPostInfo(bitmap);
+                    setImageResource(imageUri.toString(), detailPostImage);
+                    //setPostInfo(bitmap);
                     break;
             }
         }
@@ -289,7 +284,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
     private String makeThumbnailPath(String originalImagePath) {
-
+        Log.e("888 originalImagePath", "" + originalImagePath);
         String thumbNailPath = "";
         if (originalImagePath != null && !originalImagePath.isEmpty()) {
             String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
@@ -338,12 +333,6 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         thumbnail.recycle();
 
         String getToken = userPreference.getString(Config.KEY_TOKEN);
-        Log.e("888 getToken: "," "+getToken);
-        Log.e("888 Title: ", " "+setDetailPostTitle);
-        Log.e("888 GoodContents: ", " "+setDetailPostGoodPoint);
-        Log.e("888 BadContents : ", " "+setDetailPostBadPoint);
-        Log.e("888 productId : ", " "+productId);
-
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
          Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, rateValue ,productId, originFile, thumbnailFile);
         postResponseCall.enqueue(new Callback<PostResponse>() {
@@ -351,15 +340,13 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 if (response.isSuccessful()) {
                     PostResponse postResponse = response.body();
-                    Post post = postResponse.getPosts();
+                   Post post = postResponse.getPosts();
 
-                    Log.e("888 GoodContents: ", " "+post.getPostRequest().getGoodContents());
-                    Log.e("888 BadContents : ", " "+post.getPostRequest().getBadContents());
-                    Log.e("888 productId : ", " "+productId);
-
-                    String postPicturePath = post.getStoredPaths();
-                    String storedThumbnail = makeThumbnailPath(postPicturePath);
-                    setImageResource(storedThumbnail, detailPostImage);
+                   // String postPicturePath = post.getStoredPaths();
+                   // Log.e("888 postPicturePath : ", " "+postPicturePath);
+                   // String storedThumbnail = makeThumbnailPath(postPicturePath);
+                   // setImageResource(storedThumbnail, detailPostImage);
+                    goToBackFragment();
                 }
             }
 
@@ -370,6 +357,17 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
         });
 
     }
+
+    private void goToBackFragment(){
+
+        WritePostFragment writePostFragment = new WritePostFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(writePostFragment);
+        fragmentTransaction.commit();
+        fragmentManager.popBackStack();
+    }
+
 
 
 }

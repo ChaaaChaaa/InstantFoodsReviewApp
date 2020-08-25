@@ -241,9 +241,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfileImage);
                         // String UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
 
-                        Log.e("userEmail", "" + userEmail);
-                        Log.e("userNickName", "" + userNickName);
-                        Log.e("userProfileImage", "" + userProfileImage);
+//                        Log.e("userEmail", "" + userEmail);
+//                        Log.e("userNickName", "" + userNickName);
+//                        Log.e("userProfileImage", "" + userProfileImage);
 
                     } else {
                         Log.e("getUser", "Account null ");
