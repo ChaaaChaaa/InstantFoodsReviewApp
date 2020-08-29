@@ -31,6 +31,7 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     private LinearLayoutManager layoutManagerPostsList;
     private List<Product> pickProduct = new ArrayList<>();
     private FloatingActionButton floatingActionButton;
+    private PostViewModel postViewModel;
 
     public PostsListFragment(List<Product> pickProduct) {
         this.pickProduct = pickProduct;
@@ -78,5 +79,16 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
         bundle.putInt("ProductID", ProductID);
         bundle.putString("ProductName",productName);
         fragment.setArguments(bundle);
+    }
+
+    private void performSearch(String searchKey){
+        postViewModel.filterTextAll.setValue(searchKey);
+        postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Posts>>() {
+            @Override
+            public void onChanged(PagedList<Posts> posts) {
+                postsRecyclerAdapter.submitList(posts);
+            }
+        });
+        recyclerViewPostsList.setAdapter(postsRecyclerAdapter);
     }
 }

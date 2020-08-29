@@ -59,14 +59,14 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (response.isSuccessful()) {
 
                         int postListSize = response.body().getResultData().size();
-                       for(int i=0; i<postListSize; i++){
-                           String postTitle = response.body().getResultData().get(i).getTitle();
-                           int postRating = response.body().getResultData().get(i).getScore();
-                           String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
-                           String badPostPoint = response.body().getResultData().get(i).getBadContents();
-                           String postPicture = response.body().getResultData().get(i).getStoredPath();
-                           postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
-                       }
+                        for(int i=0; i<postListSize; i++){
+                            String postTitle = response.body().getResultData().get(i).getTitle();
+                            int postRating = response.body().getResultData().get(i).getScore();
+                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                            String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                            String postPicture = response.body().getResultData().get(i).getStoredPath();
+                            postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
+                        }
 
                         List<Posts> responseItems = postsResponse.getResultData();
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
@@ -180,7 +180,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                             postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
                         }
 
-                       // Log.e("111 postListSize", " " + postsList.size()); //10
+                        // Log.e("111 postListSize", " " + postsList.size()); //10
 
                         callback.onResult(responseItems, key);
 
