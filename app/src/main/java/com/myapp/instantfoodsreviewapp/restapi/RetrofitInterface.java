@@ -70,7 +70,7 @@ public interface RetrofitInterface {
     @GET("v1/post/posts")
     Call<PostsResponse> posts(@Header("authorization") String token,
                               @Query("page") int page,
-                              @Query("date") int date,
+                              @Query("date") long date,
                               @Query("size") int size);
     @Multipart
     @POST("v1/post/upload")

@@ -135,7 +135,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
                 break;
 
             case LAYOUT_POSTS:
-                if (isIncludedPost(posts)) {
+                if (posts != null) {
                     PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
                     postsViewHolder.postTitle.setText(posts.getTitle());
                     postsViewHolder.postGoodPoint.setText(posts.getGoodContents());

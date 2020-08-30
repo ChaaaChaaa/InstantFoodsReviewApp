@@ -14,8 +14,11 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,22 +30,32 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     private static final String TAG = "PostDataSource";
     public static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
-    private int DATE=1594864449;
     public ArrayList<Posts> postsList = new ArrayList<>();
-    String userToken="";
+    String userToken = "";
+    private long currentTimeStamp;
 
-
-    private String getTokenResult(){
+    private String getTokenResult() {
         UserPreference userPreference = new UserPreference();
         userToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
         return userToken;
     }
 
     private String getDate(long time) {
-        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-        calendar.setTimeInMillis(time * 1000);
-        String date = DateFormat.format("yyyy-MM-dd hh:mm:ss", calendar).toString();
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
         return date;
+    }
+
+
+    private Long getTimeStamp() {
+       // long timestamp;
+        Date currentTime = Calendar.getInstance().getTime();
+        long timestamp = currentTime.getTime() / 1000L;
+       // String result = Long.toString(output);
+       // timestamp = Long.parseLong(result) * 1000;
+        Log.e("timestamp 1"," "+timestamp);
+        return timestamp;
     }
 
 
@@ -50,7 +63,10 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, FIRST_PAGE);
+
+        currentTimeStamp = getTimeStamp();
+        Log.e("timestamp 2"," "+currentTimeStamp);
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, FIRST_PAGE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -59,14 +75,26 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (response.isSuccessful()) {
 
                         int postListSize = response.body().getResultData().size();
-                       for(int i=0; i<postListSize; i++){
-                           String postTitle = response.body().getResultData().get(i).getTitle();
-                           int postRating = response.body().getResultData().get(i).getScore();
-                           String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
-                           String badPostPoint = response.body().getResultData().get(i).getBadContents();
-                           String postPicture = response.body().getResultData().get(i).getStoredPath();
-                           postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
-                       }
+                        for (int i = 0; i < postListSize; i++) {
+                            //Log.e("111 postListSize", " " + i);
+                            String postTitle = response.body().getResultData().get(i).getTitle();
+                            int postRating = response.body().getResultData().get(i).getScore();
+                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                            String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                            String postPicture = response.body().getResultData().get(i).getStoredPath();
+                            postsList.add(new Posts(postTitle, postRating, goodPostPoint, badPostPoint, postPicture));
+                        }
+
+
+                        for (int i = 0; i < postListSize; i++) {
+                            //Log.e("111 postListSize", " " + i);
+                            String postTitle = response.body().getResultData().get(i).getTitle();
+                            int postRating = response.body().getResultData().get(i).getScore();
+                            String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
+                            String badPostPoint = response.body().getResultData().get(i).getBadContents();
+                            String postPicture = response.body().getResultData().get(i).getStoredPath();
+                            postsList.add(new Posts(postTitle, postRating, goodPostPoint, badPostPoint, postPicture));
+                        }
 
                         List<Posts> responseItems = postsResponse.getResultData();
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
@@ -104,24 +132,27 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, params.key);
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, params.key);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
+                        //ArrayList<Product> productList = new ArrayList<>();
+                        // PagedList<Product> productList = new PagedList<Product>();
                         List<Posts> responseItems = postsResponse.getResultData();
                         Integer key = beforePageKey(params);
                         int postListSize = response.body().getResultData().size();
 
-                        for(int i=key; i<postListSize; i++){
+                        for (int i = key; i < postListSize; i++) {
+                            //Log.e("111 postListSize", " " + i);
                             String postTitle = response.body().getResultData().get(i).getTitle();
                             int postRating = response.body().getResultData().get(i).getScore();
                             String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
                             String badPostPoint = response.body().getResultData().get(i).getBadContents();
                             String postPicture = response.body().getResultData().get(i).getStoredPath();
-                            postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
+                            postsList.add(new Posts(postTitle, postRating, goodPostPoint, badPostPoint, postPicture));
                         }
 
                         callback.onResult(responseItems, key);
@@ -159,7 +190,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE,DATE, params.key);
+        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, params.key);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -171,16 +202,16 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
 
                         int postListSize = response.body().getResultData().size();
 
-                        for(int i=key; i<postListSize; i++){
+                        for (int i = key; i < postListSize; i++) {
                             String postTitle = response.body().getResultData().get(i).getTitle();
                             int postRating = response.body().getResultData().get(i).getScore();
                             String goodPostPoint = response.body().getResultData().get(i).getGoodContents();
                             String badPostPoint = response.body().getResultData().get(i).getBadContents();
                             String postPicture = response.body().getResultData().get(i).getStoredPath();
-                            postsList.add(new Posts(postTitle,postRating,goodPostPoint,badPostPoint,postPicture));
+                            postsList.add(new Posts(postTitle, postRating, goodPostPoint, badPostPoint, postPicture));
                         }
 
-                       // Log.e("111 postListSize", " " + postsList.size()); //10
+                        // Log.e("111 postListSize", " " + postsList.size()); //10
 
                         callback.onResult(responseItems, key);
 
