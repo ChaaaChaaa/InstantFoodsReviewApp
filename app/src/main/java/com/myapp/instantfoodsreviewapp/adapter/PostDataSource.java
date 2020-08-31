@@ -27,8 +27,9 @@ import retrofit2.Response;
 
 public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     private static final String TAG = "PostDataSource";
-    public static final int PAGE_SIZE = 10;
+    private static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
+    private static final String SORT_TYPE = "updated_time";
     public ArrayList<Product> postsList = new ArrayList<>();
     String userToken = "";
     int productId;
@@ -59,17 +60,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     }
 
 
-
-
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-
-        //productId = test();
         currentTimeStamp = getTimeStamp();
-
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, FIRST_PAGE);
+        Call<PostsResponse> postsResponseCall =
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE,FIRST_PAGE,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -112,7 +109,8 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, params.key);
+        Call<PostsResponse> postsResponseCall =
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -121,7 +119,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (response.isSuccessful()) {
                         List<Posts> responseItems = postsResponse.getResultData();
                         Integer key = beforePageKey(params);
-                        callback.onResult(responseItems, key);
+                        callback.onResult(responseItems, params.key-1);
 
                     } else {
                         Log.e("111 Server Error", " " + postsResponse.getResultData());
@@ -156,7 +154,8 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall = retrofitInterface.posts(userToken, PAGE_SIZE, currentTimeStamp, params.key);
+        Call<PostsResponse> postsResponseCall =
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -165,7 +164,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (response.isSuccessful()) {
                         List<Posts> responseItems = postsResponse.getResultData();
                         Integer key = afterPageKey(params);
-                        callback.onResult(responseItems, key);
+                        callback.onResult(responseItems, params.key+1);
 
                     } else {
                         Log.e("Server Error", " " + postsResponse.getResultData());

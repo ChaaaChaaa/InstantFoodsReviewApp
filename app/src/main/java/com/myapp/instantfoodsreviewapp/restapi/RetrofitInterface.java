@@ -81,9 +81,6 @@ public interface RetrofitInterface {
                               @Query("date") long date,
                               @Query("size") int size);
 
-
-
-
     @Multipart
     @POST("v1/post/upload")
     Call<PostResponse> upload(@Header("authorization") String token,
@@ -95,6 +92,7 @@ public interface RetrofitInterface {
                               @Part MultipartBody.Part file1,
                               @Part MultipartBody.Part file2
                               );
+
     @GET("v1/post/search")
     Call<PostsResponse>search(@Header("authorization") String token,
                  @Query("page") int page,

@@ -50,14 +50,14 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                     if (response.isSuccessful()) {
 
                         int productListSize = response.body().getResultData().size();
-                       for (int i = 0; i < productListSize; i++) {
-                            String productPicture = response.body().getResultData().get(i).getPrImage();
-                            int productCategory = response.body().getResultData().get(i).getPrCategory();
-                            String title = response.body().getResultData().get(i).getPrTitle();
-                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
-                            int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
-                        }
+//                       for (int i = 0; i < productListSize; i++) {
+//                            String productPicture = response.body().getResultData().get(i).getPrImage();
+//                            int productCategory = response.body().getResultData().get(i).getPrCategory();
+//                            String title = response.body().getResultData().get(i).getPrTitle();
+//                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
+//                            int productScore = response.body().getResultData().get(i).getPrScore();
+//                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+//                        }
 
                         List<Product> responseItems = productResponse.getResultData();
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
@@ -109,15 +109,15 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                         Log.e(TAG, " " + productList.size());
                         int productListSize = response.body().getResultData().size();
 
-                        for (int i = key; i < productListSize; i++) {
-                            String productPicture = response.body().getResultData().get(i).getPrImage();
-                            int productCategory = response.body().getResultData().get(i).getPrCategory();
-                            String title = response.body().getResultData().get(i).getPrTitle();
-                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
-                            int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
-                        }
-                        callback.onResult(responseItems, params.key-1);
+//                        for (int i = key; i < productListSize; i++) {
+//                            String productPicture = response.body().getResultData().get(i).getPrImage();
+//                            int productCategory = response.body().getResultData().get(i).getPrCategory();
+//                            String title = response.body().getResultData().get(i).getPrTitle();
+//                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
+//                            int productScore = response.body().getResultData().get(i).getPrScore();
+//                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+//                        }
+//                        callback.onResult(responseItems, params.key-1);
 
                     }
 
@@ -162,14 +162,14 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                         List<Product> responseItems = productResponse.getResultData();
                         int productListSize = response.body().getResultData().size();
 
-                        for (int i = key; i < productListSize; i++) {
-                            String productPicture = response.body().getResultData().get(i).getPrImage();
-                            int productCategory = response.body().getResultData().get(i).getPrCategory();
-                            String title = response.body().getResultData().get(i).getPrTitle();
-                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
-                            int productScore = response.body().getResultData().get(i).getPrScore();
-                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
-                        }
+//                        for (int i = key; i < productListSize; i++) {
+//                            String productPicture = response.body().getResultData().get(i).getPrImage();
+//                            int productCategory = response.body().getResultData().get(i).getPrCategory();
+//                            String title = response.body().getResultData().get(i).getPrTitle();
+//                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
+//                            int productScore = response.body().getResultData().get(i).getPrScore();
+//                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
+//                        }
                         callback.onResult(responseItems, params.key+1);
 
                     }
