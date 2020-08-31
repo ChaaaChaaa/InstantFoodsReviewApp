@@ -39,7 +39,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
     private Product productItem;
     private Posts postsItem;
     private View.OnClickListener onClickListener;
-    private List<Product> pickProduct;
+    public List<Product> pickProduct;
     private FloatingActionButton floatingActionButton;
 
     public PostsRecyclerAdapter(List<Product> pickProduct) {
@@ -99,12 +99,9 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         return recyclerViewHolder;
     }
 
-    private boolean isIncludedPost(Posts posts){
+    public int setPicKProductId(){
         int productId = pickProduct.get(0).getPrId();
-        if(productId == posts.getPrId()){
-            return true;
-        }
-        else return false;
+        return productId;
     }
 
 

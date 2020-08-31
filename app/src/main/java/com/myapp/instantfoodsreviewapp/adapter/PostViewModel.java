@@ -1,5 +1,7 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
@@ -13,9 +15,13 @@ public class PostViewModel extends ViewModel {
     private LiveData<PageKeyedDataSource<Integer, Posts>> liveDataSource;
 
 
+    int productId;
 
-    public PostViewModel() {
-        PostDataSourceFactory postDataSourceFactory = new PostDataSourceFactory();
+
+    public PostViewModel(int productId) {
+        this.productId = productId;
+        Log.e("1 productId"," "+productId);
+        PostDataSourceFactory postDataSourceFactory = new PostDataSourceFactory(productId);
         liveDataSource = postDataSourceFactory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())

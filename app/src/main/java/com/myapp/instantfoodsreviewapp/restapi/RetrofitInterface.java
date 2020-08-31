@@ -72,6 +72,18 @@ public interface RetrofitInterface {
                               @Query("page") int page,
                               @Query("date") long date,
                               @Query("size") int size);
+
+    @GET("v1/post/search/product")
+    Call<PostsResponse> searchProduct(@Header("authorization") String token,
+                              @Query("pr_id") int pr_id,
+                              @Query("sort_type") String sortType,
+                              @Query("page") int page,
+                              @Query("date") long date,
+                              @Query("size") int size);
+
+
+
+
     @Multipart
     @POST("v1/post/upload")
     Call<PostResponse> upload(@Header("authorization") String token,
@@ -89,5 +101,7 @@ public interface RetrofitInterface {
                  @Query("date") int date,
                  @Query("size") int size,
                  @Query("keyword") String keyword);
+
+
 
 }
