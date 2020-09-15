@@ -10,8 +10,7 @@ import com.myapp.instantfoodsreviewapp.model.Posts;
 import java.util.concurrent.Executor;
 
 public class PostDataSourceFactory extends DataSource.Factory {
-    private MutableLiveData<PageKeyedDataSource<Integer, Posts>> postLiveDataSource;
-//    private Executor executor;
+    public MutableLiveData<PageKeyedDataSource<Integer, Posts>> postLiveDataSource = new MutableLiveData<>();//    private Executor executor;
 //    private String searchKey;
 //    private PostDataSource postDataSource= new MutableLiveData<>();
 
