@@ -59,8 +59,6 @@ public class ProductListDdokbokkiFragment extends Fragment {
     private void initDdokbokki() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, DDOCK_CATEGORY);
         ProductViewModel productViewModelDdok = new ViewModelProvider(this).get(ProductViewModel.class);
-
-
         adapterDdokbokki = new CustomRecyclerAdapter();
         productViewModelDdok.productPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Product>>() {
             @Override
@@ -69,33 +67,6 @@ public class ProductListDdokbokkiFragment extends Fragment {
             }
         });
         recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, searchMenu);
-        MenuItem searchItem = searchMenu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(getActivity());
-        searchView.setQueryHint("Search");
-        //SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (adapterDdokbokki != null) {
-                    adapterDdokbokki.getFilter().filter(newText);
-                }
-
-                return true;
-            }
-        });
-        searchItem.setActionView(searchView);
-        super.onCreateOptionsMenu(searchMenu, inflater);
     }
 
 

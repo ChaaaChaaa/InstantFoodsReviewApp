@@ -15,6 +15,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.paging.PagedListAdapter;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder>
-        implements Filterable {
+         {
 
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
     private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
@@ -66,9 +67,17 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                 }
             };
 
+             @Nullable
+             @Override
+             protected Product getItem(int position) {
+                 Log.e("666", "Product getItem(position) : " + position);
+                 return super.getItem(position);
+             }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Product product = getItem(position);
+        Log.e("Product BindPosition ", "" + position + " Size Item :" + getItemCount());
 
         if (product != null) {
 
@@ -155,40 +164,6 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
 
     }
 
-    @Override
-    public Filter getFilter() {
-        return itemFilter;
-    }
-
-
-    private Filter itemFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            List<ListItem> filteredList = new ArrayList<>();
-            if (charSequence == null || charSequence.length() == 0) {
-                filteredList.addAll(listItemsFull);
-            } else {
-                String filterPattern = charSequence.toString().toLowerCase().trim();
-                for (ListItem item : listItemsFull) {
-                    if (item.getFoodName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-
-            listItems.clear();
-            listItems.addAll((List) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
 
 
 }

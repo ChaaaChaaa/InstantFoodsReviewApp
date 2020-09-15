@@ -2,7 +2,6 @@ package com.myapp.instantfoodsreviewapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.myapp.instantfoodsreviewapp.adapter.PostMultipleItemTypeInterface;
 
 public class Posts {
     @SerializedName("id")

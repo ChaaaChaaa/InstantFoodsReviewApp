@@ -68,29 +68,5 @@ public class ProductListStewFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu searchMenu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu, searchMenu);
-        MenuItem searchItem = searchMenu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(getActivity());
-        searchView.setQueryHint("Search");
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (adapterStew != null) {
-                    adapterStew.getFilter().filter(newText);
-                }
-
-                return true;
-            }
-        });
-        searchItem.setActionView(searchView);
-        super.onCreateOptionsMenu(searchMenu, inflater);
-    }
 }

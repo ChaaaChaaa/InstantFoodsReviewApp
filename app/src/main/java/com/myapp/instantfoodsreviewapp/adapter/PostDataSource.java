@@ -65,6 +65,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         currentTimeStamp = getTimeStamp();
+        Log.e("0 currentTimeStamp"," "+currentTimeStamp);
         Call<PostsResponse> postsResponseCall =
                 retrofitInterface.searchProduct(userToken, productId, SORT_TYPE,FIRST_PAGE,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
@@ -73,7 +74,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
+
+//                        List<Posts> responseItems = null;
+//                        if (postsResponse != null) {
+//                            responseItems = postsResponse.getResultData();
+//                        }
                         List<Posts> responseItems = postsResponse.getResultData();
+                        Log.e("0 current page :"," "+FIRST_PAGE);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {
@@ -94,48 +101,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     }
 
 
-    private Integer beforePageKey(LoadParams<Integer> params) {
-        Integer key;
 
-        if (params.key > 1) {
-            key = params.key - 1;
-        } else {
-            key = 0;
-        }
-        return key;
-    }
-
-    @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
-        userToken = getTokenResult();
-        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
-        Call<PostsResponse> postsResponseCall =
-                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
-        postsResponseCall.enqueue(new Callback<PostsResponse>() {
-            @Override
-            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
-                try {
-                    PostsResponse postsResponse = response.body();
-                    if (response.isSuccessful()) {
-                        List<Posts> responseItems = postsResponse.getResultData();
-                        Integer key = beforePageKey(params);
-                        callback.onResult(responseItems, params.key-1);
-
-                    } else {
-                        Log.e("111 Server Error", " " + postsResponse.getResultData());
-                    }
-
-                } catch (JsonIOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostsResponse> call, Throwable t) {
-                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
-            }
-        });
-    }
 
     private Integer afterPageKey(LoadParams<Integer> params) {
         Integer key;
@@ -162,12 +128,62 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
+
+
                         List<Posts> responseItems = postsResponse.getResultData();
+
                         Integer key = afterPageKey(params);
-                        callback.onResult(responseItems, params.key+1);
+                        Log.e("2 current page :"," "+key);
+                        callback.onResult(responseItems, params.key +1);
 
                     } else {
                         Log.e("Server Error", " " + postsResponse.getResultData());
+                    }
+
+                } catch (JsonIOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostsResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
+            }
+        });
+    }
+
+    private Integer beforePageKey(LoadParams<Integer> params) {
+        Integer key;
+
+        if (params.key > 1) {
+            key = params.key - 1;
+        } else {
+            key = 0;
+        }
+        return key;
+    }
+
+    @Override
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
+        userToken = getTokenResult();
+        RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
+        Call<PostsResponse> postsResponseCall =
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
+        postsResponseCall.enqueue(new Callback<PostsResponse>() {
+            @Override
+            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+                try {
+                    PostsResponse postsResponse = response.body();
+                    if (response.isSuccessful()) {
+
+                        List<Posts> responseItems = postsResponse.getResultData();
+
+                        Integer key = beforePageKey(params);
+                        Log.e("1 current page :"," "+key);
+                        callback.onResult(responseItems, params.key - 1);
+
+                    } else {
+                        Log.e("111 Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {

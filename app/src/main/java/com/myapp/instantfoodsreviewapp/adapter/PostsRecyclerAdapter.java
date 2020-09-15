@@ -64,6 +64,8 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
     }
 
 
+
+
     @Nullable
     @Override
     protected Posts getItem(int position) {
@@ -79,8 +81,8 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
-            case -1:
-                break;
+//            case -1:
+//                break;
             case LAYOUT_DETAIL_PRODUCT:
                 View viewProduct = layoutInflater.inflate(R.layout.item_detail_product, parent, false);
                 recyclerViewHolder = new DetailProductViewHolder(viewProduct);
@@ -99,30 +101,24 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         return recyclerViewHolder;
     }
 
-    public int setPicKProductId(){
-        int productId = pickProduct.get(0).getPrId();
-        return productId;
-    }
-
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        Log.e("BindViewPosition ", "" + position + " Size Item :" + getItemCount());
+        Log.e("POST BindPosition ", "" + position + " Size Item :" + getItemCount());
         productItem = pickProduct.get(0);
         Posts posts = getItem(position);
 
         switch (getItemViewType(position)) {
             case LAYOUT_DETAIL_PRODUCT:
                 if (productItem != null) {
-
                     DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
                     detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
                     detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
                     String productImageUri = IMG_BASE_URL + productItem.getPrImage();
                     Glide.with(holder.itemView)
                             .load(productImageUri)
-                            .override(100,100)
+                            .override(100, 100)
                             .into(detailProductViewHolder.detailProductImage);
 
                 } else {
@@ -142,7 +138,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
                     String postsImageUri = IMG_BASE_URL + posts.getStoredPath();
                     Glide.with(holder.itemView)
                             .load(postsImageUri)
-                            .override(100,100)
+                            .override(100, 100)
                             .into(postsViewHolder.postPicture);
                 } else {
                     Log.d("TAG", "post item's null");
@@ -238,7 +234,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         public TextView postRating;
         public TextView postGoodPoint;
         public TextView postBadPoint;
-       // public FloatingActionButton floatingActionButton;
+        // public FloatingActionButton floatingActionButton;
 
 
         public PostsViewHolder(@NonNull View itemView) {

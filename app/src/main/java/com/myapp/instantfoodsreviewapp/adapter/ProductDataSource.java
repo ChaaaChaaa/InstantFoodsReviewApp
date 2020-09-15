@@ -60,6 +60,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
 //                        }
 
                         List<Product> responseItems = productResponse.getResultData();
+                        Log.e("0 current page :"," "+FIRST_PAGE);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {
@@ -105,20 +106,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                     if (response.isSuccessful()) {
                         List<Product> responseItems = productResponse.getResultData();
                         Integer key = beforePageKey(params);
-
-                        Log.e(TAG, " " + productList.size());
-                        int productListSize = response.body().getResultData().size();
-
-//                        for (int i = key; i < productListSize; i++) {
-//                            String productPicture = response.body().getResultData().get(i).getPrImage();
-//                            int productCategory = response.body().getResultData().get(i).getPrCategory();
-//                            String title = response.body().getResultData().get(i).getPrTitle();
-//                            int reviewCount = response.body().getResultData().get(i).getPrReviewCount();
-//                            int productScore = response.body().getResultData().get(i).getPrScore();
-//                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
-//                        }
-//                        callback.onResult(responseItems, params.key-1);
-
+                        Log.e("1 current page :"," "+key);
+                        callback.onResult(responseItems, params.key-1);
                     }
 
                 } catch (JsonIOException e) {
@@ -161,7 +150,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
                         Integer key = afterPageKey(params);
                         List<Product> responseItems = productResponse.getResultData();
                         int productListSize = response.body().getResultData().size();
-
+                        Log.e("2 current page :"," "+key);
 //                        for (int i = key; i < productListSize; i++) {
 //                            String productPicture = response.body().getResultData().get(i).getPrImage();
 //                            int productCategory = response.body().getResultData().get(i).getPrCategory();

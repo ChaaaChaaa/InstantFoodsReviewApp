@@ -59,19 +59,8 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
 
 
     private void initPostsList() {
-        // PostViewModel postViewModel = new PostViewModel(productId);
-
-        //PostViewModel postViewModel = new ViewModelProvider(this).get(PostViewModel.class);
-
-
-//        ViewModelProvider viewModelProvider = new ViewModelProvider(this);
-//        PostViewModel postViewModel = viewModelProvider.get(PostViewModel.class);
-
-        Log.e("0 productId"," "+productId);
         ViewModelProvider viewModelProvider = new ViewModelProvider(this,new PostViewModelFactory(productId));
         PostViewModel postViewModel = viewModelProvider.get(PostViewModel.class);
-
-       //PostViewModel postViewModel = new ViewModelProvider(this).get(PostViewModel.class);
         postsRecyclerAdapter = new PostsRecyclerAdapter(pickProduct);
         postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Posts>>() {
             @Override
