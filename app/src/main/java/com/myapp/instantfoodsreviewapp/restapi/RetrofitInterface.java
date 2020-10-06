@@ -1,12 +1,16 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
 
+import com.myapp.instantfoodsreviewapp.model.PostResponse;
+import com.myapp.instantfoodsreviewapp.model.PostsResponse;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
 <<<<<<< HEAD
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 =======
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
+import com.myapp.instantfoodsreviewapp.model.ProductResponse;
+import com.myapp.instantfoodsreviewapp.model.entity.ProductListDto;
 
 import java.util.List;
 >>>>>>> feature/11
@@ -22,6 +26,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitInterface {
 
@@ -71,8 +76,44 @@ public interface RetrofitInterface {
                                @Part MultipartBody.Part file1,
                                @Part MultipartBody.Part file2);
 
-//    @GET("v1/product/list")
-//    Call<ApiResultDto> list()
+    @GET("v1/product/list/{category_id}")
+    Call<ProductResponse> list (@Path("category_id") int categoryId,
+                               @Query("size") int size,
+                               @Query("page") int page);
+    @GET("v1/post/posts")
+    Call<PostsResponse> posts(@Header("authorization") String token,
+                              @Query("page") int page,
+                              @Query("date") long date,
+                              @Query("size") int size);
+
+    @GET("v1/post/search/product")
+    Call<PostsResponse> searchProduct(@Header("authorization") String token,
+                              @Query("pr_id") int pr_id,
+                              @Query("sort_type") String sortType,
+                              @Query("page") int page,
+                              @Query("date") long date,
+                              @Query("size") int size);
+
+    @Multipart
+    @POST("v1/post/upload")
+    Call<PostResponse> upload(@Header("authorization") String token,
+                              @Part("title") String title,
+                              @Part("good_contents") String good_contents,
+                              @Part("bad_contents") String bad_contents,
+                              @Part("score") float score,
+                              @Part("pr_id") Integer pr_id,
+                              @Part MultipartBody.Part file1,
+                              @Part MultipartBody.Part file2
+                              );
+
+    @GET("v1/post/search")
+    Call<PostsResponse>search(@Header("authorization") String token,
+                 @Query("page") int page,
+                 @Query("date") int date,
+                 @Query("size") int size,
+                 @Query("keyword") String keyword);
+
+
 
 }
 >>>>>>> feature/11

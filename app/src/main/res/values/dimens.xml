@@ -17,6 +17,7 @@
     <dimen name="constraintGuide_20dp">20dp</dimen>
     <dimen name="constraintGuide_29dp">29dp</dimen>
     <dimen name="constraintGuide_60dp">60dp</dimen>
+    <dimen name="constraintGuide_345dp">345dp</dimen>
 
     <!-- padding -->
     <dimen name="padding_4dp">4dp</dimen>
@@ -33,6 +34,7 @@
     <dimen name="width_100dp">100dp</dimen>
     <dimen name="width_120dp">120dp</dimen>
     <dimen name="width_130dp">130dp</dimen>
+    <dimen name="width_180dp">180dp</dimen>
     <dimen name="width_250dp">250dp</dimen>
     <dimen name="width_300dp">300dp</dimen>
 
@@ -44,6 +46,7 @@
     <dimen name="height_95dp">95dp</dimen>
     <dimen name="height_100dp">100dp</dimen>
     <dimen name="height_141dp">141dp</dimen>
+    <dimen name="height_300dp">300dp</dimen>
     <dimen name="height_450dp">450dp</dimen>
     <dimen name="height_2dp">2dp</dimen>
 
@@ -56,6 +59,8 @@
     <dimen name="text_size_24sp">24sp</dimen>
     <dimen name="text_size_30sp">30sp</dimen>
 
+
+
     <!-- radius -->
     <dimen name="radius_8dp">8dp</dimen>
 
@@ -63,7 +68,16 @@
     <dimen name="elevation_4dp">4dp</dimen>
     <dimen name="elevation_8dp">8dp</dimen>
 
-
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="activity_margin_quarter">4dp</dimen>
+    <dimen name="activity_margin_content">24dp</dimen>
+    <dimen name="activity_margin_half">8dp</dimen>
+    <dimen name="paddingItemDecorationDefault">8dp</dimen>
+    <dimen name="paddingItemDecorationEdge">24dp</dimen>
+    <dimen name="poster_thumb_width">72dp</dimen>
+    <dimen name="poster_thumb_height">96dp</dimen>
+    <dimen name="poster_hero_height">192dp</dimen>
 
 
 </resources>

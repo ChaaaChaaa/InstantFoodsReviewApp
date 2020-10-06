@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.myapp.instantfoodsreviewapp">
 
     <uses-feature
@@ -24,7 +25,8 @@
 =======
         android:name=".activity.GlobalActivity"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:targetApi="m">
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

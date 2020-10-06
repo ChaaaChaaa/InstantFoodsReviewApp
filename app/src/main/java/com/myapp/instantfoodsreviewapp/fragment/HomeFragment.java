@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.myapp.instantfoodsreviewapp.R;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDdokbokkiFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListDumplingFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
+import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
 
 
 public class HomeFragment extends Fragment implements CardView.OnClickListener {
@@ -55,21 +61,21 @@ public class HomeFragment extends Fragment implements CardView.OnClickListener {
         switch (view.getId()) {
             case R.id.image_coldNoodle:
                 FragmentTransaction fragmentTransactionNoodle = getFragmentManager().beginTransaction();
-                fragmentTransactionNoodle.replace(R.id.fragment_container, new NoodleFragment());
+                fragmentTransactionNoodle.replace(R.id.fragment_container, new ProductListNoodleFragment());
                 fragmentTransactionNoodle.addToBackStack(null);
                 fragmentTransactionNoodle.commit();
                 break;
 
             case R.id.image_ddokbokki:
                 FragmentTransaction fragmentTransactionddok = getFragmentManager().beginTransaction();
-                fragmentTransactionddok.replace(R.id.fragment_container, new DdokbokkiFragment());
+                fragmentTransactionddok.replace(R.id.fragment_container, new ProductListDdokbokkiFragment());
                 fragmentTransactionddok.addToBackStack(null);
                 fragmentTransactionddok.commit();
                 break;
 
             case R.id.image_dumpling:
                 FragmentTransaction fragmentTransactionDumpling = getFragmentManager().beginTransaction();
-                fragmentTransactionDumpling.replace(R.id.fragment_container, new DumplingFragment());
+                fragmentTransactionDumpling.replace(R.id.fragment_container, new ProductListDumplingFragment());
                 fragmentTransactionDumpling.addToBackStack(null);
                 fragmentTransactionDumpling.commit();
                 break;
@@ -83,14 +89,14 @@ public class HomeFragment extends Fragment implements CardView.OnClickListener {
 
             case R.id.image_pizza:
                 FragmentTransaction fragmentTransactionPizza = getFragmentManager().beginTransaction();
-                fragmentTransactionPizza.replace(R.id.fragment_container, new PizzaFragment());
+                fragmentTransactionPizza.replace(R.id.fragment_container, new ProductListPizzaFragment());
                 fragmentTransactionPizza.addToBackStack(null);
                 fragmentTransactionPizza.commit();
                 break;
 
             case R.id.image_stew:
                 FragmentTransaction fragmentTransactionStew = getFragmentManager().beginTransaction();
-                fragmentTransactionStew.replace(R.id.fragment_container, new StewFragment());
+                fragmentTransactionStew.replace(R.id.fragment_container, new ProductListStewFragment());
                 fragmentTransactionStew.addToBackStack(null);
                 fragmentTransactionStew.commit();
                 break;

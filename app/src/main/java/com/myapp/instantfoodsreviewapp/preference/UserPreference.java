@@ -53,7 +53,20 @@ public class UserPreference {
         return userSharedPreferences.getString(key, null);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> feature/11
+=======
+
+    public void putInt(String key, int value) {
+        sharedPreferencesEditor.putInt(key, value);
+        sharedPreferencesEditor.commit();
+    }
+
+    public int getInt(String key) {
+        return userSharedPreferences.getInt(key, 0);
+    }
+}
+>>>>>>> feature/14
