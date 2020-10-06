@@ -1,9 +1,11 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.paging.PageKeyedDataSource;
 
 import com.google.gson.JsonIOException;
@@ -16,7 +18,10 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,13 +79,10 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
-
-//                        List<Posts> responseItems = null;
-//                        if (postsResponse != null) {
-//                            responseItems = postsResponse.getResultData();
-//                        }
                         List<Posts> responseItems = postsResponse.getResultData();
-                        Log.e("0 current page :"," "+FIRST_PAGE);
+
+
+                        Log.e("00 current page :"," "+FIRST_PAGE);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {
@@ -119,10 +121,12 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
+        currentTimeStamp = getTimeStamp();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<PostsResponse> postsResponseCall =
                 retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
                 try {
@@ -133,7 +137,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         List<Posts> responseItems = postsResponse.getResultData();
 
                         Integer key = afterPageKey(params);
-                        Log.e("2 current page :"," "+key);
+                        Log.e("22 current page :"," "+key);
                         callback.onResult(responseItems, params.key +1);
 
                     } else {
@@ -163,6 +167,14 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         return key;
     }
 
+    private Date convertTime(String updateTime) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(updateTime);
+        return date;
+    }
+
+
+
+
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
@@ -170,6 +182,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         Call<PostsResponse> postsResponseCall =
                 retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
                 try {
@@ -178,8 +191,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
 
                         List<Posts> responseItems = postsResponse.getResultData();
 
+
                         Integer key = beforePageKey(params);
-                        Log.e("1 current page :"," "+key);
+                        Log.e("11 current page :"," "+key);
                         callback.onResult(responseItems, params.key - 1);
 
                     } else {
