@@ -54,7 +54,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         if (size == 0) {
             return -1;
         } else {
-            if (position == size-1) {
+            if (position == 0) {
                 return LAYOUT_DETAIL_PRODUCT;
             } else if (getItemCount() > position) {
                 return LAYOUT_POSTS;
@@ -63,6 +63,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
             }
         }
     }
+
 
     @Nullable
     @Override
