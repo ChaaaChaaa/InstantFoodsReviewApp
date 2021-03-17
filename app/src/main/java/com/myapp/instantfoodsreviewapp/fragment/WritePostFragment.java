@@ -68,7 +68,7 @@ public class WritePostFragment extends Fragment {
     private TextInputEditText detailPostTitle;
     private TextInputEditText detailPostGoodPoint;
     private TextInputEditText detailPostBadPoint;
-    private ImageView detailPostImage =null;
+    private ImageView detailPostImage = null;
     private Button detailPostConfirm;
     private UserPreference userPreference;
     private Uri imageUri;
@@ -92,7 +92,6 @@ public class WritePostFragment extends Fragment {
 //    }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,17 +102,17 @@ public class WritePostFragment extends Fragment {
         init(rootView);
         getRating();
         initButton(rootView);
-      //  detailPostConfirm.setOnClickListener(this);
-       // detailPostImage.setOnClickListener(this);
-       // setImageResource(imageUri.toString(),detailPostImage);
+        //  detailPostConfirm.setOnClickListener(this);
+        // detailPostImage.setOnClickListener(this);
+        // setImageResource(imageUri.toString(),detailPostImage);
         return rootView;
     }
 
     private void init(View view) {
-        ratingBar = (RatingBar)view.findViewById(R.id.review_rating_bar);
+        ratingBar = (RatingBar) view.findViewById(R.id.review_rating_bar);
         productTitle = view.findViewById(R.id.tv_product_title);
         productTitle.setText(productName);
-        detailPostTitle = (TextInputEditText)view.findViewById(R.id.et_detail_post_title);
+        detailPostTitle = (TextInputEditText) view.findViewById(R.id.et_detail_post_title);
         detailPostGoodPoint = (TextInputEditText) view.findViewById(R.id.et_good_point_detail_post);
         detailPostBadPoint = (TextInputEditText) view.findViewById(R.id.et_bad_point_detail_post);
     }
@@ -358,19 +357,18 @@ public class WritePostFragment extends Fragment {
 
     float rateValue;
 
-    private float getRating(){
-       ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-           @Override
-           public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-               rateValue = ratingBar.getRating();
-           }
-       });
-       return rateValue;
+    private float getRating() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                rateValue = ratingBar.getRating();
+            }
+        });
+        return rateValue;
     }
 
     private void setPostInfo(Bitmap bitmap) {
         setWrite();
-
         MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(), bitmap, 0);
         Bitmap thumbnail = Const.resizedThumbnail(bitmap, bitmap.getWidth(), bitmap.getHeight());
         MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(), thumbnail, 1);
@@ -380,18 +378,18 @@ public class WritePostFragment extends Fragment {
 
         String getToken = userPreference.getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-         Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, rateValue ,productId, originFile, thumbnailFile);
+        Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, rateValue, productId, originFile, thumbnailFile);
         postResponseCall.enqueue(new Callback<PostResponse>() {
             @Override
             public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
                 if (response.isSuccessful()) {
                     PostResponse postResponse = response.body();
-                   Post post = postResponse.getPosts();
+                    Post post = postResponse.getPosts();
 
-                   // String postPicturePath = post.getStoredPaths();
-                   // Log.e("888 postPicturePath : ", " "+postPicturePath);
-                   // String storedThumbnail = makeThumbnailPath(postPicturePath);
-                   // setImageResource(storedThumbnail, detailPostImage);
+                    // String postPicturePath = post.getStoredPaths();
+                    // Log.e("888 postPicturePath : ", " "+postPicturePath);
+                    // String storedThumbnail = makeThumbnailPath(postPicturePath);
+                    // setImageResource(storedThumbnail, detailPostImage);
                     goToBackFragment();
                 }
             }
@@ -402,9 +400,13 @@ public class WritePostFragment extends Fragment {
             }
         });
 
+
+//        else{
+//            Toast.makeText(getContext(),"사진을 넣어주세요",Toast.LENGTH_SHORT);
+//        }
     }
 
-    private void goToBackFragment(){
+    private void goToBackFragment() {
 
         WritePostFragment writePostFragment = new WritePostFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -413,7 +415,6 @@ public class WritePostFragment extends Fragment {
         fragmentTransaction.commit();
         fragmentManager.popBackStack();
     }
-
 
 
 }

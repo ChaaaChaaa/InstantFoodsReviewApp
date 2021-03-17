@@ -63,9 +63,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         }
     }
 
-
-
-
     @Nullable
     @Override
     protected Posts getItem(int position) {
@@ -104,7 +101,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         Log.e("POST BindPosition ", "" + position + " Size Item :" + getItemCount());
         productItem = pickProduct.get(0);
         Posts posts = getItem(position);
@@ -120,7 +116,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
                             .load(productImageUri)
                             .override(100, 100)
                             .into(detailProductViewHolder.detailProductImage);
-
                 } else {
                     Log.d("TAG", "productItem 's null");
                 }
@@ -142,7 +137,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
                             .into(postsViewHolder.postPicture);
                 } else {
                     Log.d("TAG", "post item's null");
-
                 }
 
                 break;
@@ -235,7 +229,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         public TextView postGoodPoint;
         public TextView postBadPoint;
         // public FloatingActionButton floatingActionButton;
-
 
         public PostsViewHolder(@NonNull View itemView) {
             super(itemView);
