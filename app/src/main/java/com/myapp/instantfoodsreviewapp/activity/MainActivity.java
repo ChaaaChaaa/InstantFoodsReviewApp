@@ -15,22 +15,13 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-<<<<<<< HEAD
-=======
 import android.view.MenuItem;
->>>>>>> feature/11
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.myapp.instantfoodsreviewapp.model.UserAccountData;
-import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
-=======
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
@@ -45,16 +36,11 @@ import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragmen
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
 import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
->>>>>>> feature/11
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.BasicAuthInterceptor;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
-<<<<<<< HEAD
-import com.myapp.instantfoodsreviewapp.utils.Const;
-=======
->>>>>>> feature/11
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityMainBinding;
 
@@ -70,25 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView navProfileImage;
     private TextView navNickName;
 
-<<<<<<< HEAD
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity implements Button.OnClickListener {
-    private String TAG = EmailLoginActivity.class.getSimpleName();
-
-    private TextView getNickName;
-=======
->>>>>>> feature/11
     private Button logoutButton;
     private ActivityMainBinding activityMainBinding;
     private UserPreference userPreference;
     private String getToken;
     private RetrofitClient retrofitClient;
     private BasicAuthInterceptor basicAuthInterceptor;
-<<<<<<< HEAD
-=======
     private ActionBarDrawerToggle toggle;
     private Toolbar mainToolbar;
     private NavigationView mainNavigationView;
@@ -103,31 +76,12 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     private TransferDataCallback<Integer> categoryCallback;
     private String getProfileImagePath = "";
 
->>>>>>> feature/11
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         initPreference();
-<<<<<<< HEAD
-        getNickName = activityMainBinding.getNickName;
-        logoutButton = activityMainBinding.logoutButton;
-        logoutButton.setOnClickListener(this);
-        getUser();
-    }
-
-//    void bringNickName() {
-//        String nickName = Objects.requireNonNull(getIntent().getExtras()).getString("TOKEN");
-//
-//        if (Const.isNullOrEmptyString(nickName)) {
-//            getNickName.setText(nickName);
-//        } else {
-//            getNickName.setText("입력받은 값이 없습니다.");
-//        }
-//    }
-
-=======
         init();
         setNavigationView();
         setToolbar();
@@ -214,15 +168,11 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         return (fragment != null) && (fragment.getChildFragmentManager().getBackStackEntryCount() > 0);
     }
 
->>>>>>> feature/11
     public void initPreference() {
         userPreference = new UserPreference();
         userPreference.setContext(this);
     }
 
-<<<<<<< HEAD
-    public void userLogOut(View view) {
-=======
     private void bindView() {
         View header = mainNavigationView.getHeaderView(0);
         llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
@@ -259,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
     }
 
     public void userLogOut() {
->>>>>>> feature/11
         userPreference.setLoggedIn(getApplicationContext(), false);
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -343,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
                 break;
             case R.id.nav_friedRice:
                 fragment = new ProductListFriedRiceFragment();
-              //  ((ProductListFriedRiceFragment) (fragment)).setCategoryCallback(categoryCallback);
+                //  ((ProductListFriedRiceFragment) (fragment)).setCategoryCallback(categoryCallback);
                 break;
             case R.id.nav_pizza:
                 fragment = new ProductListPizzaFragment();
@@ -386,54 +335,6 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
         myPageFragment.onActivityResult(requestCode, resultCode, data);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private void getUser() {
-
-        getToken = userPreference.getString(Config.KEY_TOKEN);
-
-        RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-        Call<ApiResultDto> call = retrofitInterface.account(getToken);
-
-        call.enqueue(new Callback<ApiResultDto>() {
-
-            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-                if (response.isSuccessful()) {
-                    ApiResultDto dto = response.body();
-                    JsonObject resultData = dto.getResultData(); //실제 데이터부를 json으로 받고
-                    if(resultData!=null){
-                        //받은 json을 내가만든 UserAccountData 클래스형태로 convert
-                        UserAccountData userAccountData = new Gson().fromJson(resultData,UserAccountData.class);
-                        //String nickName =response.body().getNickname();
-                        // Log.i(TAG, "Responser: " + response.body());
-                        getNickName.setText(userAccountData.getNickname());
-                    }
-                    else{
-                        Log.e("getUser","Account null ");
-
-                    }
-
-
-
-                UserPreference userPreference = new UserPreference();
-                if(getToken != null){
-                     userPreference.putString(Config.KEY_TOKEN,getToken);
-                }
-                    Toast.makeText(getApplicationContext(), "토큰 저장 성공", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResultDto> call, Throwable t) {
-                Toast.makeText(getApplication(), "토큰 저장 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-}
-=======
-}
->>>>>>> feature/11
-=======
 //    public TransferDataCallback<Integer> getResultCallback() {
 //        return categoryCallback;
 //    }
@@ -443,4 +344,3 @@ public class MainActivity extends AppCompatActivity implements Button.OnClickLis
 //    }
 
 }
->>>>>>> feature/14

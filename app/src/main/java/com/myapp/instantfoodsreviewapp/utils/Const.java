@@ -1,7 +1,5 @@
 package com.myapp.instantfoodsreviewapp.utils;
 
-<<<<<<< HEAD
-=======
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +13,6 @@ import java.io.FileOutputStream;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
->>>>>>> feature/11
 
 public class Const {
     private static final String MULTIPART_FORM_JPG = "image/jpg";
@@ -28,15 +25,6 @@ public class Const {
         for (String item : msgs) {
             if (item == null || item.isEmpty()) {
                 return false;
-<<<<<<< HEAD
-            }
-        }
-        return true;
-    }
-
-    //model : 이메일 형식 체크
-    // null empty 공통으로 util로
-=======
             }
         }
         return true;
@@ -137,7 +125,6 @@ public class Const {
     }
 
 
->>>>>>> feature/11
 
 
 }

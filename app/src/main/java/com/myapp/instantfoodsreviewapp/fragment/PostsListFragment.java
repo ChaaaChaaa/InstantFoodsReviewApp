@@ -65,9 +65,13 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
         postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Posts>>() {
             @Override
             public void onChanged(PagedList<Posts> posts) {
-                postsRecyclerAdapter.submitList(posts);
+                postsRecyclerAdapter.submitList(posts); //list
+                postsRecyclerAdapter.notifyDataSetChanged(); //찾아보기
+                Log.e("TAG"," ");
             }
         });
+        //view단에서 update시 adpter에게 알려줌
+        //postsRecyclerAdapter.notifyItemInserted();
         recyclerViewPostsList.setAdapter(postsRecyclerAdapter);
     }
 

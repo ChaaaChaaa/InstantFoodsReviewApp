@@ -42,11 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
 
-<<<<<<< HEAD
-    private String token  = null;
-=======
     private String token = null;
->>>>>>> feature/11
 
 
     @Override

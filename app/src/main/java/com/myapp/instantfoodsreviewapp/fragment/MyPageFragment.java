@@ -98,7 +98,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
     private void init(View view) {
-        String versionName = BuildConfig.VERSION_NAME;
+        String versionName = BuildConfig.BUILD_TYPE;
         currentVersion = view.findViewById(R.id.version_info);
         currentVersion.setText(versionName);
 
@@ -411,10 +411,10 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     JsonObject resultData = apiResultDto.getResultData();
 
                     PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
-                   // Log.e("888 getStoredPath : "," "+pImageData.getStoredPath());
+                    // Log.e("888 getStoredPath : "," "+pImageData.getStoredPath());
                     String originalImage = IMG_BASE_URL + pImageData.getStoredPath();
                     Log.e("888 originalImage : "," "+originalImage);
-                   // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
+                    // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
                     imageResultCallback.transfer(pImageData.getStoredPath());
                     profileImageDrawerCallback.transfer(pImageData.getStoredPath());
 

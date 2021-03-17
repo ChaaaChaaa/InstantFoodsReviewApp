@@ -140,17 +140,8 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
-<<<<<<< HEAD
-                        userPreference.putString(KEY_TOKEN, sendToken);
-                        ApiResultDto loginData = response.body();
-                        String token = loginData.getResultData().get("user_token").getAsString();
-                        if ((Const.isNullOrEmptyString(token))) {
-                            userPreference.putString(Config.KEY_TOKEN, token);
-                            String checkToken = userPreference.getString(Config.KEY_TOKEN);
-                            Log.e("UserToken", checkToken);
-=======
-                       //userPreference.putString(Config.KEY_TOKEN, sendToken);
-                       //Log.e("tokenTest1"," "+ userPreference.getString(Config.KEY_TOKEN));
+                        //userPreference.putString(Config.KEY_TOKEN, sendToken);
+                        //Log.e("tokenTest1"," "+ userPreference.getString(Config.KEY_TOKEN));
 
                         //UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
@@ -158,22 +149,13 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                         if ((Const.isNullOrEmptyString(token))) {
                             //userPreference.putString(Config.KEY_TOKEN, token);
                             UserPreference.getInstance().putString(Config.KEY_TOKEN, token);
-                           // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
+                            // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                             String checkToken = userPreference.getString(Config.KEY_TOKEN);
-<<<<<<< HEAD
-                            Log.e("tokenTest2", checkToken);
->>>>>>> feature/11
-=======
->>>>>>> feature/14
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString(Config.KEY_TOKEN, token);
                             intent.putExtras(bundle);
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/11
                             startActivity(intent);
                             finish();
 
@@ -190,12 +172,8 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onFailure(@NotNull Call<ApiResultDto> call, Throwable t) {
-<<<<<<< HEAD
-                    Log.e("fail error", t.getLocalizedMessage());
-=======
                     Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
 
->>>>>>> feature/11
                 }
             });
         } else {

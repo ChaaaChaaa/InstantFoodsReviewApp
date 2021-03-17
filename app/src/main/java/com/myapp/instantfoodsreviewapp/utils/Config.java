@@ -4,16 +4,9 @@ public class Config {
     public static final String KEY_NICKNAME = "nickname";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
-<<<<<<< HEAD
-    public static final String KEY_TOKEN = "token";
-=======
     public static final String KEY_TOKEN = "user_token";
     public static final String KEY_PROFILE_IMAGE = "profilepath";
-<<<<<<< HEAD
->>>>>>> feature/11
-=======
     public static final String KEY_CATEGORY = "productCategory";
->>>>>>> feature/14
 
     // 인텐트 엑스트라
     public static final String GOUTIL_EXTRA_1 = "GOUTIL_EXTRA_1";

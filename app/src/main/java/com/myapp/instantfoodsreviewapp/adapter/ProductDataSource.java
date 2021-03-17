@@ -32,7 +32,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
 
 
     public void setCurrentCategoryId(){
-      currentCategoryId =  userPreference.getInstance().getInt(Config.KEY_CATEGORY);
+        currentCategoryId =  userPreference.getInstance().getInt(Config.KEY_CATEGORY);
     }
 
 
