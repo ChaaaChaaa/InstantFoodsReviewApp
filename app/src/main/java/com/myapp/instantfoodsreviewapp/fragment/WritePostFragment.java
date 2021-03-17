@@ -117,6 +117,38 @@ public class WritePostFragment extends Fragment {
         detailPostGoodPoint = (TextInputEditText) view.findViewById(R.id.et_good_point_detail_post);
         detailPostBadPoint = (TextInputEditText) view.findViewById(R.id.et_bad_point_detail_post);
     }
+
+
+    private boolean isFillOutContents() {
+        if (bitmap == null) {
+            Toast.makeText(getContext(), "사진을 넣어주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (ratingBar.getRating() == 0.0) {
+            Toast.makeText(getContext(), "별점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (detailPostTitle.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (detailPostGoodPoint.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "장점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (detailPostBadPoint.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "단점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     private void getProducts() {
         Bundle bundle = this.getArguments();
         productId = bundle.getInt("ProductID");
