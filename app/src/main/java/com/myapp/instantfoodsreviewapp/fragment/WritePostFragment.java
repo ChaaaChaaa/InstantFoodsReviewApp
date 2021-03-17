@@ -61,7 +61,7 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_CANCELED;
 
 
-public class WritePostFragment extends Fragment implements View.OnClickListener {
+public class WritePostFragment extends Fragment {
 
     private RatingBar ratingBar;
     private TextView productTitle;
@@ -124,7 +124,6 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
     private void initPreference() {
         userPreference = new UserPreference();
         userPreference.setContext(getContext());
@@ -138,7 +137,6 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
     private void setWrite() {
         setDetailPostTitle = detailPostTitle.getText().toString();
         setDetailPostGoodPoint = detailPostGoodPoint.getText().toString();
@@ -146,20 +144,36 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_detail_post_write_confirm:
-                setPostInfo(bitmap);
-                //goToBackFragment();
-                break;
-            case R.id.iv_detail_post_image:
-                selectImage();
-                break;
+    public void detailPostImageClick(View v) {
+        if (v.getId() == R.id.iv_detail_post_image) {
+            selectImage();
         }
     }
 
+    public void detailPostConfirmClick(View v) {
+
+        if (v.getId() == R.id.btn_detail_post_write_confirm && isFillOutContents()) {
+            setPostInfo(bitmap);
+        }
+
+    }
+
+
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.btn_detail_post_write_confirm:
+//                if(isFillOutContents()){
+//                    setPostInfo(bitmap);
+//                    break;
+//                }
+//                //goToBackFragment();
+//
+//            case R.id.iv_detail_post_image:
+//                selectImage();
+//                break;
+//        }
+//    }
 
 
     private void checkPermission() {
@@ -277,7 +291,7 @@ public class WritePostFragment extends Fragment implements View.OnClickListener 
     }
 
     private void setImageResource(String url, ImageView imageView) {
-        Log.e("888 Glide", " "+url);
+        //Log.e("888 Glide", " "+url);
         Glide.with(this)
                 .load(url)
                 .into(imageView);
