@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +54,7 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         if (size == 0) {
             return -1;
         } else {
-            if (position == 0) {
+            if (position == size-1) {
                 return LAYOUT_DETAIL_PRODUCT;
             } else if (getItemCount() > position) {
                 return LAYOUT_POSTS;
@@ -251,5 +252,18 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 //                        .setAction("Action", null).show();
 //        }
     }
+
+    @Override
+    public void submitList(@Nullable PagedList<Posts> pagedList) {
+        Log.e(TAG, "submitListA: " + pagedList.size() );
+        if(getCurrentList() != null){
+            Log.e(TAG, "submitList: " + getCurrentList().size() );
+        }
+        this.notifyDataSetChanged();
+        super.submitList(pagedList);
+    }
+    //post수가 4개이상 등록되지 않음; list자체가 교체 안되고 있는 문제/
+    //서버에 업로드 시키고 respon -> retrofit받아서 ->  update
+    // 내부 저장공간이 없어서
 
 }
