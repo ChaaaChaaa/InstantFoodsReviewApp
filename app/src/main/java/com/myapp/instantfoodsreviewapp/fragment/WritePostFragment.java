@@ -129,11 +129,11 @@ public class WritePostFragment extends Fragment {
         userPreference.setContext(getContext());
     }
 
-    private void initButton(View view){
-        detailPostConfirm = (Button)view.findViewById(R.id.btn_detail_post_write_confirm);
-        detailPostConfirm.setOnClickListener(this);
-        detailPostImage = (ImageView)view.findViewById(R.id.iv_detail_post_image);
-        detailPostImage.setOnClickListener(this::onClick);
+    private void initButton(View view) {
+        detailPostConfirm = (Button) view.findViewById(R.id.btn_detail_post_write_confirm);
+        detailPostConfirm.setOnClickListener(this::detailPostConfirmClick);
+        detailPostImage = (ImageView) view.findViewById(R.id.iv_detail_post_image);
+        detailPostImage.setOnClickListener(this::detailPostImageClick);
     }
 
 
