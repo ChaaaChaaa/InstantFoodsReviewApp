@@ -137,21 +137,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (count > 0) {
-            for (int i = 0; i < count; i++) {
-                getSupportFragmentManager().popBackStackImmediate();
-            }
-        } else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count < 1) {
-            // getSupportFragmentManager().popBackStack();
-            finishLaunchActivity();
-            super.onBackPressed();
-        } else {
+        }
+
+        else if(count == 1){
             toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
             super.onBackPressed();
             backKeyPressedTime = System.currentTimeMillis();
+        }
+
+         else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count < 1) {
+            // getSupportFragmentManager().popBackStack();
+            finishLaunchActivity();
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 
