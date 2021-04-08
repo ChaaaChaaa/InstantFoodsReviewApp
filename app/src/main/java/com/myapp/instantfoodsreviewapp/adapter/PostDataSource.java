@@ -79,8 +79,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
-                        List<Posts> responseItems = postsResponse.getResultData();
-
+                        List<Posts> responseItems = new ArrayList<>();
+                        responseItems.add(null);
+                        responseItems.addAll(postsResponse.getResultData());
 
                         Log.e("00 current page :"," "+FIRST_PAGE);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
@@ -132,6 +133,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
+                        List<Posts> responseItems = new ArrayList<>();
+                        responseItems.add(null);
+                        responseItems.addAll(postsResponse.getResultData());
 
 
                         List<Posts> responseItems = postsResponse.getResultData();
@@ -188,13 +192,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (response.isSuccessful()) {
-
-                        List<Posts> responseItems = postsResponse.getResultData();
-
-
-                        Integer key = beforePageKey(params);
-                        Log.e("11 current page :"," "+key);
-                        callback.onResult(responseItems, params.key - 1);
+                        List<Posts> responseItems = new ArrayList<>();
+                        responseItems.add(null);
+                        responseItems.addAll(postsResponse.getResultData());
+                        
+                        Integer adjacentKey = (params.key > 1) ? params.key - 1 : null;
+                        Log.e("11 current page :"," "+adjacentKey);
+                        callback.onResult(responseItems, adjacentKey);
 
                     } else {
                         Log.e("111 Server Error", " " + postsResponse.getResultData());
