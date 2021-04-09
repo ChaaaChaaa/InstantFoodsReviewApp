@@ -184,9 +184,25 @@ public class WritePostFragment extends Fragment {
     }
 
     public void detailPostConfirmClick(View v) {
-
         if (v.getId() == R.id.btn_detail_post_write_confirm && isFillOutContents()) {
-            setPostInfo(bitmap);
+            setPostInfo(getBitmap);
+        }
+    }
+
+    private boolean isFillOutContents() {
+        if (getBitmap == null) {
+            Toast.makeText(getContext(), "사진을 넣어주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (ratingBar.getRating() == 0.0) {
+            Toast.makeText(getContext(), "별점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (detailPostTitle.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
     }
