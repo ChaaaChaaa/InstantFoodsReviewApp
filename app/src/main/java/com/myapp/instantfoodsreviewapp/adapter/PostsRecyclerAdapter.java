@@ -107,53 +107,45 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         productItem = pickProduct.get(0);
         Posts posts = getItem(position);
 
-        switch (getItemViewType(position)) {
-            case LAYOUT_DETAIL_PRODUCT:
-                if (productItem != null) {
-                    DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
-                    detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
-                    detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
-                    String productImageUri = IMG_BASE_URL + productItem.getPrImage();
-                    Glide.with(holder.itemView)
-                            .load(productImageUri)
-                            .override(100, 100)
-                            .into(detailProductViewHolder.detailProductImage);
-                } else {
-                    Log.d("TAG", "productItem 's null");
-                }
+        if (holder instanceof DetailProductViewHolder) {
+            DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
+            detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
+            detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
+            String productImageUri = IMG_BASE_URL + productItem.getPrImage();
+            Glide.with(holder.itemView)
+                    .load(productImageUri)
+                    .override(100, 100)
+                    .into(detailProductViewHolder.detailProductImage);
+        } else if (holder instanceof PostsViewHolder) {
+            PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
+            postsViewHolder.postTitle.setText(posts.getTitle());
+            postsViewHolder.postGoodPoint.setText(posts.getGoodContents());
+            postsViewHolder.postBadPoint.setText(posts.getBadContents());
+            postsViewHolder.postRating.setText(Integer.toString(posts.getScore()));
+            //postDataSource.invalidate();
 
-                break;
+//                    if (postDataSource != null) {
+//                        postDataSource.invalidate();
+//                    }
 
-            case LAYOUT_POSTS:
-                if (posts != null) {
-                    PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
-                    postsViewHolder.postTitle.setText(posts.getTitle());
-                    postsViewHolder.postGoodPoint.setText(posts.getGoodContents());
-                    postsViewHolder.postBadPoint.setText(posts.getBadContents());
-                    postsViewHolder.postRating.setText(Integer.toString(posts.getScore()));
+            String postsImageUri = IMG_BASE_URL + posts.getStoredPath();
+            Glide.with(holder.itemView)
+                    .load(postsImageUri)
+                    .override(100, 100)
+                    .into(postsViewHolder.postPicture);
+        } else if (holder instanceof LoadingViewHolder) {
+            LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
+            if (retryPageLoad) {
+                loadingViewHolder.errorLayout.setVisibility(View.VISIBLE);
+                loadingViewHolder.progressBar.setVisibility(View.GONE);
 
-                    String postsImageUri = IMG_BASE_URL + posts.getStoredPath();
-                    Glide.with(holder.itemView)
-                            .load(postsImageUri)
-                            .override(100, 100)
-                            .into(postsViewHolder.postPicture);
-                } else {
-                    Log.d("TAG", "post item's null");
-                }
-
-                break;
-
-            case LAYOUT_LOADING:
-                LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
-                if (retryPageLoad) {
-                    loadingViewHolder.errorLayout.setVisibility(View.VISIBLE);
-                    loadingViewHolder.progressBar.setVisibility(View.GONE);
-                    loadingViewHolder.errorTxt.setText(errorMsg != null ? errorMsg : context.getString(R.string.error_msg_unknown));
-                } else {
-                    loadingViewHolder.errorLayout.setVisibility(View.GONE);
-                    loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
-                }
-                break;
+                loadingViewHolder.errorTxt.setText(errorMsg != null ? errorMsg : context.getString(R.string.error_msg_unknown));
+            } else {
+                loadingViewHolder.errorLayout.setVisibility(View.GONE);
+                loadingViewHolder.progressBar.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Log.e("LOG_TAG", "Error.. Wrong type received");
         }
     }
 
