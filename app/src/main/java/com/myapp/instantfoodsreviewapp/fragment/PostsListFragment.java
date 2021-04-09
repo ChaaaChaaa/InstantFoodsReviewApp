@@ -124,7 +124,7 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         Fragment fragment = new WritePostFragment();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
