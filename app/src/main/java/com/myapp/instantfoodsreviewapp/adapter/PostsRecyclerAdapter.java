@@ -50,18 +50,17 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        int size = getItemCount();
-        if (size == 0) {
-            return -1;
+
+        if (isPositionHeader(position)) {
+            return LAYOUT_DETAIL_PRODUCT;
         } else {
-            if (position == 0) {
-                return LAYOUT_DETAIL_PRODUCT;
-            } else if (getItemCount() > position) {
-                return LAYOUT_POSTS;
-            } else {
-                return LAYOUT_LOADING;
-            }
+            return LAYOUT_POSTS;
         }
+
+    }
+
+    private boolean isPositionHeader(int position) {
+        return position == 0;
     }
 
 
