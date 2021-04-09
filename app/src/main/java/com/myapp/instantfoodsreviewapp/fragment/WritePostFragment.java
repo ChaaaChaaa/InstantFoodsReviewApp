@@ -73,6 +73,7 @@ public class WritePostFragment extends Fragment {
     private UserPreference userPreference;
     private Uri imageUri;
     private Bitmap bitmap;
+    private Bitmap getBitmap;
     private int productId;
     private String productName;
 
@@ -96,6 +97,7 @@ public class WritePostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write_post, container, false);
+        rootView.setDrawingCacheEnabled(false); // clear drawing cache
         super.onViewCreated(rootView, savedInstanceState);
         getProducts();
         initPreference();
@@ -290,7 +292,8 @@ public class WritePostFragment extends Fragment {
                     }
                     compressImage(uriPath);
                     setImageResource(imageUri.toString(), detailPostImage);
-                    //setPostInfo(bitmap);
+                    getBitmap = bitmap;
+                    // setPostInfo(bitmap);
                     break;
 
                 case REQUEST_CAMERA:
@@ -303,6 +306,7 @@ public class WritePostFragment extends Fragment {
                     compressImage(uriPathPicture);
                     String uriPathReal = getRealPathFromURI(imageUri);
                     setImageResource(imageUri.toString(), detailPostImage);
+                    getBitmap = bitmap;
                     //setPostInfo(bitmap);
                     break;
             }
