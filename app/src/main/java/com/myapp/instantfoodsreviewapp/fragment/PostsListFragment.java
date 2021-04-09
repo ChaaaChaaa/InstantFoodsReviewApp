@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +37,9 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     private List<Product> pickProduct = new ArrayList<>();
     private FloatingActionButton floatingActionButton;
     private int productId;
+    PostViewModel postViewModel;
+    SwipeRefreshLayout swipeRefreshLayout;
+    ProgressBar progressBar;
 
     public PostsListFragment(List<Product> pickProduct) {
         this.pickProduct = pickProduct;
@@ -47,8 +51,12 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_posts_list, container, false);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.post_swipe_refresh);
         floatingActionButton = rootView.findViewById(R.id.btn_post_floating);
         recyclerViewPostsList = rootView.findViewById(R.id.recycler_posts_list);
+        progressBar = rootView.findViewById(R.id.loadmore_progress);
+        //swipeRefreshLayout.setOnRefreshListener(this::initPostsList);
+        swipeRefreshLayout.setOnRefreshListener(() -> postViewModel.refresh());
         layoutManagerPostsList = new LinearLayoutManager(getActivity());
         recyclerViewPostsList.setLayoutManager(layoutManagerPostsList);
         recyclerViewPostsList.setHasFixedSize(true);
@@ -59,21 +67,58 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
 
 
     private void initPostsList() {
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this,new PostViewModelFactory(productId));
-        PostViewModel postViewModel = viewModelProvider.get(PostViewModel.class);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new PostViewModelFactory(productId));
+        postViewModel = viewModelProvider.get(PostViewModel.class);
         postsRecyclerAdapter = new PostsRecyclerAdapter(pickProduct);
         postViewModel.postPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Posts>>() {
             @Override
             public void onChanged(PagedList<Posts> posts) {
                 postsRecyclerAdapter.submitList(posts); //list
-                postsRecyclerAdapter.notifyDataSetChanged(); //찾아보기
-                Log.e("TAG"," ");
+                //postsRecyclerAdapter.notifyDataSetChanged(); //찾아보기
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+//        postViewModel.getRefreshState()
+//                .observe(this, new Observer<NetworkState>() {
+//                    // Shows one possible way of triggering a refresh operation.
+//                    @Override
+//                    public void onChanged(@Nullable MyNetworkState networkState) {
+//                        postPagedList.isRefreshing =
+//                                networkState == MyNetworkState.LOADING;
+//                    }
+//                };
+//
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postViewModel.refresh();
+            }
+        });
+
+
         //view단에서 update시 adpter에게 알려줌
         //postsRecyclerAdapter.notifyItemInserted();
         recyclerViewPostsList.setAdapter(postsRecyclerAdapter);
+
+        //postViewModel.postPagedList.setOnRefreshListener(() -> postViewModel.refresh());
+        // postViewModel.refresh();
+        // postViewModel.postPagedList.getValue().getDataSource().invalidate();
     }
+
+
+//    private void doRefresh() {
+//        progressBar.setVisibility(View.VISIBLE);
+//        if (data().isExecuted())
+//            callTopRatedMoviesApi().cancel();
+//
+//        // TODO: Check if data is stale.
+//        //  Execute network request if cache is expired; otherwise do not update data.
+//        postsRecyclerAdapter.getCurrentList().clear();
+//        postsRecyclerAdapter.notifyDataSetChanged();
+//        swipeRefreshLayout.setRefreshing(false);
+//    }
+
 
     @Override
     public void onClick(View view) {
