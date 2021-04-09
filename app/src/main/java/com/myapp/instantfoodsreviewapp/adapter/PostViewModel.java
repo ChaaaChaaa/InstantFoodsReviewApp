@@ -14,7 +14,6 @@ public class PostViewModel extends ViewModel {
     public LiveData<PagedList<Posts>> postPagedList;
     private LiveData<PageKeyedDataSource<Integer, Posts>> liveDataSource;
 
-
     int productId;
     PostDataSourceFactory postDataSourceFactory;
 

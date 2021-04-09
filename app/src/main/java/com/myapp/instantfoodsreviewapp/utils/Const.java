@@ -21,7 +21,7 @@ public class Const {
     private static final int MAX_WIDTH = 640;
     private static final int MAX_HEIGHT = 640;
 
-    public static boolean isNullOrEmptyString( String... msgs) {
+    public static boolean isNullOrEmptyString(String... msgs) {
         for (String item : msgs) {
             if (item == null || item.isEmpty()) {
                 return false;
@@ -33,23 +33,23 @@ public class Const {
     //model : 이메일 형식 체크
     // null empty 공통으로 util로
 
-    public static MultipartBody.Part bitmapConvertToFile(Context context, Bitmap bitmap, int type){
+    public static MultipartBody.Part bitmapConvertToFile(Context context, Bitmap bitmap, int type) {
         FileOutputStream fileOutputStream = null;
         File bitmapFile = null;
 
         try {
             File file = null;
-            file = new File(context.getCacheDir(),"");
-            if (!file.exists()){
+            file = new File(context.getCacheDir(), "");
+            if (!file.exists()) {
                 file.mkdir();
             }
 
-            String fileName = System.currentTimeMillis()+".jpg";
+            String fileName = System.currentTimeMillis() + ".jpg";
             bitmapFile = new File(file, fileName);
 
             fileOutputStream = new FileOutputStream(bitmapFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fileOutputStream);
-            MediaScannerConnection.scanFile(context,new String[]{bitmapFile.getAbsolutePath()}, null, new MediaScannerConnection.MediaScannerConnectionClient() {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+            MediaScannerConnection.scanFile(context, new String[]{bitmapFile.getAbsolutePath()}, null, new MediaScannerConnection.MediaScannerConnectionClient() {
                 @Override
                 public void onMediaScannerConnected() {
 
@@ -60,17 +60,16 @@ public class Const {
 
                 }
             });
-            return Const.prepareFilePart(bitmapFile,type);
+            return Const.prepareFilePart(bitmapFile, type);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        finally {
-            if (fileOutputStream != null){
+        } finally {
+            if (fileOutputStream != null) {
                 try {
                     fileOutputStream.flush();
                     fileOutputStream.close();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -78,29 +77,29 @@ public class Const {
         return null;
     }
 
-    public static MultipartBody.Part prepareFilePart(File file, int type){
+    public static MultipartBody.Part prepareFilePart(File file, int type) {
         try {
             String MULTIPART_FORM_DATA = MULTIPART_FORM_JPG;
             String fileName = file.getName();
             int size = fileName.split(FILE_SPLIT_PART).length;
-            String extension = fileName.split(FILE_SPLIT_PART)[size-1];
-            if(isNullOrEmptyString(fileName) && isContainSmallGif(file)||isContainBigGIF(file)){
+            String extension = fileName.split(FILE_SPLIT_PART)[size - 1];
+            if (isNullOrEmptyString(fileName) && isContainSmallGif(file) || isContainBigGIF(file)) {
                 MULTIPART_FORM_DATA = MULTIPART_FORM_GIF;
             }
             RequestBody requestFile = RequestBody.create(file, MediaType.parse(MULTIPART_FORM_DATA));
-            MultipartBody.Part result =  MultipartBody.Part.createFormData("files", type + "." + extension, requestFile);
+            MultipartBody.Part result = MultipartBody.Part.createFormData("files", type + "." + extension, requestFile);
             return result;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static boolean isContainSmallGif(File file){
+    public static boolean isContainSmallGif(File file) {
         return file.getName().split(FILE_SPLIT_PART)[1].contains("gif");
     }
 
-    private static boolean isContainBigGIF(File file){
+    private static boolean isContainBigGIF(File file) {
         return file.getName().split(FILE_SPLIT_PART)[1].contains("GIF");
     }
 
@@ -123,8 +122,4 @@ public class Const {
             return convertedBitmap;
         }
     }
-
-
-
-
 }

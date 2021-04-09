@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
+import com.myapp.instantfoodsreviewapp.fragment.PostsListFragment;
+import com.myapp.instantfoodsreviewapp.fragment.WritePostFragment;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
 import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
@@ -68,6 +71,16 @@ public class ProductListDdokbokkiFragment extends Fragment {
         });
         recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
     }
+
+//    @Override
+//    public void onClick(View view) {
+//        Fragment fragment = new PostsListFragment();
+//        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, fragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+//
+//    }
 
 
 

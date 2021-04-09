@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView mainNavigationView;
     private DrawerLayout drawerLayout;
     private ConstraintLayout llDrawerHeader;
-    // private ViewPagerAdapter viewPagerAdapter;
-    //  private ViewPager viewPager;
     private CustomRecyclerAdapter adapterCustom;
     private Fragment fragment = null;
     private FragmentManager fragmentManager;
@@ -99,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getUser();
 
     }
-
 
 
     private void init() {
@@ -134,22 +131,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int TIME_INTERVAL = 1000;
     private Toast toast;
 
+
     @Override
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
 
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-
-        else if(count == 1){
+        } else if (count == 1) {
             toast = Toast.makeText(getBaseContext(), "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
             toast.show();
             super.onBackPressed();
             backKeyPressedTime = System.currentTimeMillis();
-        }
-
-         else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count < 1) {
+        } else if ((backKeyPressedTime + TIME_INTERVAL > System.currentTimeMillis()) || count < 1) {
             // getSupportFragmentManager().popBackStack();
             finishLaunchActivity();
             super.onBackPressed();
@@ -305,7 +299,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_my_page:
                 fragment = new MyPageFragment();
-                //((MyPageFragment) (fragment)).setResultCallback(profileImageDrawerCallback);
                 ((MyPageFragment) (fragment)).setProfileImageDrawerCallback(profileImageDrawerCallback);
                 break;
             case R.id.nav_write_review:
@@ -324,8 +317,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(null)
                     .commit();
         }
-
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -1,26 +1,22 @@
 package com.myapp.instantfoodsreviewapp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.myapp.instantfoodsreviewapp.R;
-import com.myapp.instantfoodsreviewapp.adapter.PostDataSourceFactory;
 import com.myapp.instantfoodsreviewapp.adapter.PostViewModel;
 import com.myapp.instantfoodsreviewapp.adapter.PostViewModelFactory;
 import com.myapp.instantfoodsreviewapp.adapter.PostsRecyclerAdapter;
@@ -46,7 +42,6 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
         productId = pickProduct.get(0).getPrId();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +60,11 @@ public class PostsListFragment extends Fragment implements View.OnClickListener 
         return rootView;
     }
 
+
+//    public void onBackPressed(){
+//        PostViewModel postViewModel = viewModelProvider.get(PostViewModel.class);
+//        swipeRefreshLayout.setOnRefreshListener(() -> yourviewModel.refresh());
+//    }
 
     private void initPostsList() {
         ViewModelProvider viewModelProvider = new ViewModelProvider(this, new PostViewModelFactory(productId));

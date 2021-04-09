@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.myapp.instantfoodsreviewapp.R;
+import com.myapp.instantfoodsreviewapp.model.Post;
 import com.myapp.instantfoodsreviewapp.model.Posts;
 import com.myapp.instantfoodsreviewapp.model.Product;
 
@@ -35,13 +36,9 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
     private boolean retryPageLoad = false;
     private String errorMsg;
     private static String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
-
     private static final String TAG = PostsRecyclerAdapter.class.getSimpleName();
     private Product productItem;
-    private Posts postsItem;
-    private View.OnClickListener onClickListener;
     public List<Product> pickProduct;
-    private FloatingActionButton floatingActionButton;
 
     public PostsRecyclerAdapter(List<Product> pickProduct) {
         super(DIFF_CALLBACK);
@@ -74,13 +71,10 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         RecyclerView.ViewHolder recyclerViewHolder = null;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
-//            case -1:
-//                break;
             case LAYOUT_DETAIL_PRODUCT:
                 View viewProduct = layoutInflater.inflate(R.layout.item_detail_product, parent, false);
                 recyclerViewHolder = new DetailProductViewHolder(viewProduct);
@@ -98,7 +92,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         }
         return recyclerViewHolder;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
@@ -215,7 +208,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 
 
     protected class PostsViewHolder extends RecyclerView.ViewHolder {
-
         public ImageView postPicture;
         public TextView postTitle;
         public TextView postRating;
@@ -247,9 +239,9 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 
     @Override
     public void submitList(@Nullable PagedList<Posts> pagedList) {
-        Log.e(TAG, "submitListA: " + pagedList.size() );
-        if(getCurrentList() != null){
-            Log.e(TAG, "submitList: " + getCurrentList().size() );
+        Log.e(TAG, "submitListA: " + pagedList.size());
+        if (getCurrentList() != null) {
+            Log.e(TAG, "submitList: " + getCurrentList().size());
         }
         this.notifyDataSetChanged();
         super.submitList(pagedList);

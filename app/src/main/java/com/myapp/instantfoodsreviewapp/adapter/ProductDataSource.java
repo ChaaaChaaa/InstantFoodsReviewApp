@@ -30,9 +30,8 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
     private UserPreference userPreference;
 
 
-
-    public void setCurrentCategoryId(){
-        currentCategoryId =  userPreference.getInstance().getInt(Config.KEY_CATEGORY);
+    public void setCurrentCategoryId() {
+        currentCategoryId = userPreference.getInstance().getInt(Config.KEY_CATEGORY);
     }
 
 
@@ -60,7 +59,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
 //                        }
 
                         List<Product> responseItems = productResponse.getResultData();
-                        Log.e("0 current page :"," "+FIRST_PAGE);
+                        Log.e("0 current page :", " " + FIRST_PAGE);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {

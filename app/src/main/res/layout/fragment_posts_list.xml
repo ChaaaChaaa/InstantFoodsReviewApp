@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-   >
+    android:layout_height="match_parent">
 
-<!--    <include layout="@layout/item_detail_product"-->
-<!--        android:id="@+id/item_detail_product_layout"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_alignParentTop="true"/>-->
+    <!--    <include layout="@layout/item_detail_product"-->
+    <!--        android:id="@+id/item_detail_product_layout"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_alignParentTop="true"/>-->
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/post_swipe_refresh"
@@ -29,15 +27,14 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-       android:id="@+id/btn_post_floating"
+        android:id="@+id/btn_post_floating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_write"
         android:layout_margin="@dimen/margin_30dp"
+        android:src="@drawable/ic_write"
         app:backgroundTint="@color/yellow"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        app:rippleColor="@color/white"
-        />
-</FrameLayout >
+        app:rippleColor="@color/white" />
+</FrameLayout>

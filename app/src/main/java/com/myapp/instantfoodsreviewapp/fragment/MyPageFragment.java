@@ -101,7 +101,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         String versionName = BuildConfig.BUILD_TYPE;
         currentVersion = view.findViewById(R.id.version_info);
         currentVersion.setText(versionName);
-
         profilePicture = view.findViewById(R.id.profile_image);
         //  String thumbNailPath = makeThumbnailPath();
         //  Log.e("thumbNailPath1",thumbNailPath);
@@ -358,7 +357,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
     private void setImageResource(String url, ImageView imageView) {
-        Log.e("MyPage Glide", " "+url);
+        Log.e("MyPage Glide", " " + url);
         Glide.with(this)
                 .load(url)
                 .circleCrop()
@@ -413,7 +412,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
                     // Log.e("888 getStoredPath : "," "+pImageData.getStoredPath());
                     String originalImage = IMG_BASE_URL + pImageData.getStoredPath();
-                    Log.e("888 originalImage : "," "+originalImage);
+                    Log.e("888 originalImage : ", " " + originalImage);
                     // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
                     imageResultCallback.transfer(pImageData.getStoredPath());
                     profileImageDrawerCallback.transfer(pImageData.getStoredPath());
@@ -430,7 +429,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             }
         });
     }
-
 
 
     public TransferDataCallback<String> getProfileImageDrawerCallback() {

@@ -29,17 +29,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.myapp.instantfoodsreviewapp.R;
-import com.myapp.instantfoodsreviewapp.dialog.TransferDataCallback;
 import com.myapp.instantfoodsreviewapp.model.Post;
-import com.myapp.instantfoodsreviewapp.model.PostRequest;
 import com.myapp.instantfoodsreviewapp.model.PostResponse;
-import com.myapp.instantfoodsreviewapp.model.Posts;
-import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
@@ -50,8 +44,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.LogManager;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -120,35 +112,17 @@ public class WritePostFragment extends Fragment {
     }
 
 
-    private boolean isFillOutContents() {
-        if (bitmap == null) {
-            Toast.makeText(getContext(), "사진을 넣어주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+    float rateValue;
 
-        if (ratingBar.getRating() == 0.0) {
-            Toast.makeText(getContext(), "별점을 입력해주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (detailPostTitle.getText().toString().trim().length() == 0) {
-            Toast.makeText(getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (detailPostGoodPoint.getText().toString().trim().length() == 0) {
-            Toast.makeText(getContext(), "장점을 입력해주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (detailPostBadPoint.getText().toString().trim().length() == 0) {
-            Toast.makeText(getContext(), "단점을 입력해주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            return true;
-        }
+    private float getRating() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                rateValue = ratingBar.getRating();
+            }
+        });
+        return rateValue;
     }
-
 
     private void getProducts() {
         Bundle bundle = this.getArguments();
@@ -163,10 +137,10 @@ public class WritePostFragment extends Fragment {
     }
 
     private void initButton(View view) {
-        detailPostConfirm = (Button) view.findViewById(R.id.btn_detail_post_write_confirm);
-        detailPostConfirm.setOnClickListener(this::detailPostConfirmClick);
         detailPostImage = (ImageView) view.findViewById(R.id.iv_detail_post_image);
         detailPostImage.setOnClickListener(this::detailPostImageClick);
+        detailPostConfirm = (Button) view.findViewById(R.id.btn_detail_post_write_confirm);
+        detailPostConfirm.setOnClickListener(this::detailPostConfirmClick);
     }
 
 
@@ -205,6 +179,17 @@ public class WritePostFragment extends Fragment {
             return false;
         }
 
+        if (detailPostGoodPoint.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "장점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (detailPostBadPoint.getText().toString().trim().length() == 0) {
+            Toast.makeText(getContext(), "단점을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
@@ -342,7 +327,6 @@ public class WritePostFragment extends Fragment {
     }
 
     private void setImageResource(String url, ImageView imageView) {
-        //Log.e("888 Glide", " "+url);
         Glide.with(this)
                 .load(url)
                 .into(imageView);
@@ -375,24 +359,12 @@ public class WritePostFragment extends Fragment {
         return result;
     }
 
-    float rateValue;
-
-    private float getRating() {
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                rateValue = ratingBar.getRating();
-            }
-        });
-        return rateValue;
-    }
 
     private void setPostInfo(Bitmap bitmap) {
         setWrite();
         MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(), bitmap, 0);
         Bitmap thumbnail = Const.resizedThumbnail(bitmap, bitmap.getWidth(), bitmap.getHeight());
         MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(), thumbnail, 1);
-
         bitmap.recycle();
         thumbnail.recycle();
 
@@ -405,7 +377,7 @@ public class WritePostFragment extends Fragment {
                 if (response.isSuccessful()) {
                     PostResponse postResponse = response.body();
                     Post post = postResponse.getPosts();
-
+                    // float test = postResponse.getPosts().getPostRequest().getScore();
                     // String postPicturePath = post.getStoredPaths();
                     // Log.e("888 postPicturePath : ", " "+postPicturePath);
                     // String storedThumbnail = makeThumbnailPath(postPicturePath);
@@ -427,7 +399,6 @@ public class WritePostFragment extends Fragment {
     }
 
     private void goToBackFragment() {
-
         WritePostFragment writePostFragment = new WritePostFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -435,6 +406,4 @@ public class WritePostFragment extends Fragment {
         fragmentTransaction.commit();
         fragmentManager.popBackStack();
     }
-
-
 }

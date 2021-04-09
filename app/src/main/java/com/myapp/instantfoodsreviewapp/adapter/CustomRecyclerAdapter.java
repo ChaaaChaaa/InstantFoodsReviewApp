@@ -1,19 +1,13 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,19 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.fragment.PostsListFragment;
-import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder>
-         {
+import java.util.ArrayList;
+
+public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder> {
 
     private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
     private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
 
-    private List<ListItem> listItems;
-    private List<ListItem> listItemsFull;
 
     public CustomRecyclerAdapter() {
         super(DIFF_CALLBACK);
@@ -67,12 +57,12 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                 }
             };
 
-             @Nullable
-             @Override
-             protected Product getItem(int position) {
-                 Log.e("666", "Product getItem(position) : " + position);
-                 return super.getItem(position);
-             }
+    @Nullable
+    @Override
+    protected Product getItem(int position) {
+        Log.e("666", "Product getItem(position) : " + position);
+        return super.getItem(position);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
@@ -80,7 +70,6 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         Log.e("Product BindPosition ", "" + position + " Size Item :" + getItemCount());
 
         if (product != null) {
-
             String productImageUri = IMG_BASE_URL + product.getPrImage();
             Glide.with(holder.itemView)
                     .load(productImageUri)
@@ -98,7 +87,11 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
                     pickProduct.add(getItem(position));
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     PostsListFragment postsListFragment = new PostsListFragment(pickProduct);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, postsListFragment).addToBackStack(null).commit();
+                    activity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, postsListFragment)
+                            .addToBackStack(null)
+                            .commit();
                 }
             });
         } else {
@@ -138,7 +131,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     }
 
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder  {
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageFood;
         public TextView foodCategory;
@@ -161,9 +154,5 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             productRating = itemView.findViewById(R.id.tv_product_rating);
             productReviewCount = itemView.findViewById(R.id.tv_food_review_count);
         }
-
     }
-
-
-
 }

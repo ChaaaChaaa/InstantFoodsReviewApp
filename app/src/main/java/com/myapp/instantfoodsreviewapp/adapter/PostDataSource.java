@@ -22,7 +22,6 @@ import com.myapp.instantfoodsreviewapp.utils.Config;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -42,14 +41,10 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     private long currentTimeStamp;
     SwipeRefreshLayout swipeRefreshLayout;
 
-//    private int test(){
-//        productId = postsRecyclerAdapter.setPicKProductId();
-//        return productId;
-//    }
 
 
-    PostDataSource(int productId){
-        Log.e("3 productId"," "+productId);
+    PostDataSource(int productId) {
+        Log.e("3 productId", " " + productId);
         this.productId = productId;
     }
 
@@ -71,9 +66,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         currentTimeStamp = getTimeStamp();
-        Log.e("0 currentTimeStamp"," "+currentTimeStamp);
+        Log.e("0 currentTimeStamp", " " + currentTimeStamp);
         Call<PostsResponse> postsResponseCall =
-                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE,FIRST_PAGE,currentTimeStamp,PAGE_SIZE);
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, FIRST_PAGE, currentTimeStamp, PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
             public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
@@ -89,7 +84,8 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
 
-                        Log.e("00 current page :"," "+FIRST_PAGE);
+                        Log.e("00 current page :", " " + FIRST_PAGE);
+                        // swipeRefreshLayout.setRefreshing(false);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
 
                     } else {
@@ -116,8 +112,6 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     }
 
 
-
-
     private Integer afterPageKey(LoadParams<Integer> params) {
         Integer key;
 
@@ -137,7 +131,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         currentTimeStamp = getTimeStamp();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<PostsResponse> postsResponseCall =
-                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key, currentTimeStamp, PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -204,14 +198,12 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     }
 
 
-
-
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<PostsResponse> postsResponseCall =
-                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key,currentTimeStamp,PAGE_SIZE);
+                retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, params.key, currentTimeStamp, PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -225,9 +217,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
-                        
+
                         Integer adjacentKey = (params.key > 1) ? params.key - 1 : null;
-                        Log.e("11 current page :"," "+adjacentKey);
+                        Log.e("11 current page :", " " + adjacentKey);
                         callback.onResult(responseItems, adjacentKey);
 
                     } else {
