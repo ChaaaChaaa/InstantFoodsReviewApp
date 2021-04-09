@@ -152,8 +152,9 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
 
-
-                        List<Posts> responseItems = postsResponse.getResultData();
+                        // Integer key = afterPageKey(params);
+                        // Log.e("22 current page :"," "+key);
+                        Integer key;
 
                         if (response.body() == null) {
                             key = null;
@@ -250,4 +251,6 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
             }
         });
     }
+
+
 }
