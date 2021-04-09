@@ -16,17 +16,17 @@ public class PostViewModel extends ViewModel {
 
 
     int productId;
-
+    PostDataSourceFactory postDataSourceFactory;
 
     public PostViewModel(int productId) {
         this.productId = productId;
-        Log.e("1 productId"," "+productId);
-        PostDataSourceFactory postDataSourceFactory = new PostDataSourceFactory(productId);
+        Log.e("1 productId", " " + productId);
+        postDataSourceFactory = new PostDataSourceFactory(productId);
         liveDataSource = postDataSourceFactory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setPageSize(ProductDataSource.PAGE_SIZE)
+                        .setPageSize(10)
                         .build();
         postPagedList = (new LivePagedListBuilder(postDataSourceFactory, config)).build();
     }
