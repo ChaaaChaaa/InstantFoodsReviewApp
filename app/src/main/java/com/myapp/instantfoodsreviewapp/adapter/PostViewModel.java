@@ -30,4 +30,8 @@ public class PostViewModel extends ViewModel {
                         .build();
         postPagedList = (new LivePagedListBuilder(postDataSourceFactory, config)).build();
     }
+
+    public void refresh() {
+        postDataSourceFactory.getItemLiveDataSource().getValue().invalidate();
+    }
 }
