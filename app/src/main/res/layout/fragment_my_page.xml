@@ -120,10 +120,12 @@
             android:layout_width="@dimen/width_35dp"
             android:layout_height="@dimen/height_35dp"
             android:layout_marginTop="@dimen/margin_20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.045"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/view_setting_underline"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_version_info" />
 
         <TextView
@@ -135,7 +137,7 @@
             android:textSize="@dimen/text_size_15sp"
             app:layout_constraintBottom_toBottomOf="@+id/image_version_info"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintHorizontal_bias="0.062"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/image_version_info"
             app:layout_constraintTop_toTopOf="@+id/image_version_info" />
 
@@ -152,10 +154,11 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/image_notification"
+            android:id="@+id/image_secession"
             android:layout_width="@dimen/width_35dp"
             android:layout_height="@dimen/height_35dp"
-            android:layout_marginTop="@dimen/margin_20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/image_change_password"
             app:layout_constraintStart_toStartOf="@+id/image_change_password"
             app:layout_constraintTop_toBottomOf="@+id/image_change_password"
             app:layout_constraintVertical_bias="0.13"
@@ -169,20 +172,23 @@
             android:gravity="center"
             android:text="탈퇴하기                "
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/guideline4"
-            app:layout_constraintStart_toEndOf="@+id/image_secession"
-            app:layout_constraintTop_toTopOf="@+id/image_secession"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintBottom_toBottomOf="@+id/image_secession"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_change_password"
+            app:layout_constraintTop_toTopOf="@+id/image_secession" />
 
         <ImageView
             android:id="@+id/image_change_password"
             android:layout_width="@dimen/width_35dp"
             android:layout_height="@dimen/height_35dp"
-            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/image_version_info"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/image_version_info"
             app:layout_constraintTop_toBottomOf="@+id/image_version_info"
+            app:layout_constraintVertical_bias="0.100000024"
             app:srcCompat="@drawable/ic_nickname_change" />
 
         <TextView
@@ -196,7 +202,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/image_change_password"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/image_change_password" />
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toTopOf="@+id/image_change_password" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
