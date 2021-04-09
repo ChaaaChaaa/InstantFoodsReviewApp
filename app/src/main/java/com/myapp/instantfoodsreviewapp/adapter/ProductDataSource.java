@@ -102,12 +102,12 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 try {
                     ProductResponse productResponse = response.body();
-
+                    Integer adjacentKey = (params.key > 1) ? params.key - 1 : null;
                     if (response.isSuccessful()) {
                         List<Product> responseItems = productResponse.getResultData();
                         Integer key = beforePageKey(params);
-                        Log.e("1 current page :"," "+key);
-                        callback.onResult(responseItems, params.key-1);
+                        Log.e("1 current page :", " " + key);
+                        callback.onResult(responseItems, adjacentKey);
                     }
 
                 } catch (JsonIOException e) {
@@ -147,10 +147,20 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
 
                 try {
                     if (response.isSuccessful()) {
-                        Integer key = afterPageKey(params);
+                        // Integer key = afterPageKey(params);
                         List<Product> responseItems = productResponse.getResultData();
                         int productListSize = response.body().getResultData().size();
-                        Log.e("2 current page :"," "+key);
+
+                        //Integer key = response.body() =  ? params.key + 1 : null;
+                        Integer key;
+
+                        if (response.body() == null) {
+                            key = null;
+                        } else {
+                            key = params.key + 1;
+                        }
+
+                        Log.e("2 current page :", " " + key);
 //                        for (int i = key; i < productListSize; i++) {
 //                            String productPicture = response.body().getResultData().get(i).getPrImage();
 //                            int productCategory = response.body().getResultData().get(i).getPrCategory();
@@ -159,7 +169,7 @@ public class ProductDataSource extends PageKeyedDataSource<Integer, Product> {
 //                            int productScore = response.body().getResultData().get(i).getPrScore();
 //                            productList.add(new Product(productPicture, productCategory, title, reviewCount, productScore));
 //                        }
-                        callback.onResult(responseItems, params.key+1);
+                        callback.onResult(responseItems, key);
 
                     }
 
