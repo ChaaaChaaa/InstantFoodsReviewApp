@@ -34,6 +34,7 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
     private String newNickName;
     private TextInputEditText editNewNickname;
     private TransferDataCallback<String> resultCallback;
+    private TransferDataCallback<String> nickNameDrawerCallback;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
@@ -114,7 +115,7 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
                         ChangeNickNameData changeNickNameData = new Gson().fromJson(resultData, ChangeNickNameData.class);
                         UserPreference.getInstance().putString(Config.KEY_NICKNAME,newNickName);
                         resultCallback.transfer(changeNickNameData.getNewNickName());
-
+                        //nickNameDrawerCallback.transfer(changeNickNameData.getNewNickName());
                     } else {
                         Log.e("new nickname", "new nickname is null");
                     }
@@ -137,5 +138,13 @@ public class ChangeNickNameDialog extends AppCompatDialogFragment {
 
     public void setResultCallback(TransferDataCallback<String> resultCallback) {
         this.resultCallback = resultCallback;
+    }
+
+    public TransferDataCallback<String> getNickNameDrawerCallback() {
+        return nickNameDrawerCallback;
+    }
+
+    public void setNickNameDrawerCallback(TransferDataCallback<String> nickNameDrawerCallback) {
+        this.nickNameDrawerCallback = nickNameDrawerCallback;
     }
 }
