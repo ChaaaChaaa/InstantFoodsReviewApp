@@ -71,7 +71,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
     private Uri imageUri;
     private Bitmap bitmap;
-
+    private  String userProfileImage;
     private TextView currentVersion;
     private TextView currentNickName;
     private TextView getEmail;
@@ -83,6 +83,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private ImageView profilePicture;
     private TransferDataCallback<String> imageResultCallback;
     private TransferDataCallback<String> profileImageDrawerCallback;
+
 
     @Nullable
     @Override
@@ -111,7 +112,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     private void getInfo(View view) {
         String userNickname = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
         currentNickName = view.findViewById(R.id.tv_setting_nickname);
-        String userProfileImage = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
+        userProfileImage = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
         String userEmail = UserPreference.getInstance().getString(Config.KEY_EMAIL);
         getEmail = view.findViewById(R.id.tv_setting_email);
     }
@@ -202,9 +203,9 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
                 break;
 
-            case R.id.profile_image:
-                setFullImageActivity();
-                break;
+//            case R.id.profile_image:
+//                setFullImageActivity();
+//                break;
 
         }
     }
@@ -225,6 +226,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
             @Override
             public void transfer(String changeNickName) {
                 currentNickName.setText(changeNickName);
+                UserPreference.getInstance().putString(Config.KEY_NICKNAME,changeNickName);
                 Toast.makeText(getContext(), changeNickName, Toast.LENGTH_SHORT).show();
             }
         };
@@ -232,13 +234,14 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
         changeNickNameDialog.show(getFragmentManager(), "change nickname dialog");
     }
 
-    private void setFullImageActivity() {
-        Intent sendOriginalImageIntent = new Intent(getActivity(), FullImageActivity.class);
-        String originalImagePath = UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-        Log.e("setFullImageActivity", " " + originalImagePath);
-        sendOriginalImageIntent.putExtra("originalImage", originalImagePath);
-        startActivity(sendOriginalImageIntent);
-    }
+//
+//    private void setFullImageActivity() {
+//        Intent sendOriginalImageIntent = new Intent(getActivity(), FullImageActivity.class);
+//        String originalImagePath = userProfileImage;
+//        Log.e("setFullImageActivity", " " + originalImagePath);
+//        sendOriginalImageIntent.putExtra("originalImage", originalImagePath);
+//        startActivity(sendOriginalImageIntent);
+//    }
 
     private void selectImage() {
         checkPermission();
@@ -319,7 +322,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
 
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-                        bitmap = fixOrientation(bitmap);
+                       // bitmap = fixOrientation(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -333,7 +336,7 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     String uriPathPicture = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, "title", null);
 
                     imageUri = Uri.parse(uriPathPicture);
-                    bitmap = fixOrientation(bitmap);
+                   // bitmap = fixOrientation(bitmap);
 
                     compressImage(uriPathPicture);
                     String uriPathReal = getRealPathFromURI(imageUri);
@@ -389,7 +392,6 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     }
 
     private void updateData(Bitmap bitmap) {
-
         MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(), bitmap, 0);
         Bitmap thumbnail = Const.resizedThumbnail(bitmap, bitmap.getWidth(), bitmap.getHeight());
         MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(), thumbnail, 1);
@@ -410,10 +412,11 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
                     JsonObject resultData = apiResultDto.getResultData();
 
                     PImageData pImageData = new Gson().fromJson(resultData, PImageData.class);
+
                     // Log.e("888 getStoredPath : "," "+pImageData.getStoredPath());
                     String originalImage = IMG_BASE_URL + pImageData.getStoredPath();
                     Log.e("888 originalImage : ", " " + originalImage);
-                    // UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
+                    UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, pImageData.getStoredPath());
                     imageResultCallback.transfer(pImageData.getStoredPath());
                     profileImageDrawerCallback.transfer(pImageData.getStoredPath());
 
@@ -438,6 +441,4 @@ public class MyPageFragment extends Fragment implements Button.OnClickListener {
     public void setProfileImageDrawerCallback(TransferDataCallback<String> profileImageDrawerCallback) {
         this.profileImageDrawerCallback = profileImageDrawerCallback;
     }
-
-
 }
