@@ -68,7 +68,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Product product = getItem(position);
         Log.e("Product BindPosition ", "" + position + " Size Item :" + getItemCount());
-
+        Log.e("PrReviewCount()", "" + product.getPrReviewCount() + " product.getPrReviewCount()" + product.getPrReviewCount());
         if (product != null) {
             String productImageUri = IMG_BASE_URL + product.getPrImage();
             Glide.with(holder.itemView)
@@ -78,8 +78,6 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             String categoryName = setCategoryResult(product.getPrCategory());
             holder.foodCategory.setText(categoryName);
             holder.foodName.setText(product.getPrTitle());
-            holder.productRating.setText(Integer.toString(product.getPrScore()));
-            holder.productReviewCount.setText(Integer.toString(product.getPrReviewCount()));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -132,14 +130,9 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
 
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
         public ImageView imageFood;
         public TextView foodCategory;
         public TextView foodName;
-        public TextView reviewContent;
-        public TextView productRating;
-        public TextView productReviewCount;
-
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -150,9 +143,6 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
             imageFood = itemView.findViewById(R.id.image_food);
             foodCategory = itemView.findViewById(R.id.tv_food_category);
             foodName = itemView.findViewById(R.id.tv_food_name);
-            reviewContent = itemView.findViewById(R.id.tv_review_content);
-            productRating = itemView.findViewById(R.id.tv_product_rating);
-            productReviewCount = itemView.findViewById(R.id.tv_food_review_count);
         }
     }
 }
