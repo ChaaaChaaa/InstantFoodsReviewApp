@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
+import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityRegisterBinding;
@@ -41,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
+    private boolean conditionRegister = false;
 
     private String token = null;
 
@@ -49,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
-
         init();
         confirmButton.setOnClickListener(this);
 
@@ -66,7 +68,9 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
     @Override
     public void onClick(View view) {
-        confirmInput(view);
+        if (confirmInput(view)) {
+            doRegister();
+        }
     }
 
     private boolean validateEmail() {
@@ -111,12 +115,13 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         }
     }
 
-    public void confirmInput(View v) {
+    public boolean confirmInput(View v) {
         if (!validateEmail() | !validatePassword() | !validateNickName()) {
-        } else {
-            doRegister();
+           return false;
         }
+        return true;
     }
+
 
     void doRegister() {
         String registerEmail = Objects.requireNonNull(userEmail.getText()).toString();
@@ -125,8 +130,6 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
-
-        if (!Const.isNullOrEmptyString(registerEmail, registerNickName, registerPassword)) {
             showLoading(true);
             call.enqueue(new Callback<UserRegisterData>() {
                 @Override
@@ -134,6 +137,12 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
                     if (response.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegisterActivity.this, EmailLoginActivity.class);
+
+                        UserRegisterData userRegisterData = response.body();
+
+                        String userNickName = userRegisterData.getNickName();
+                        UserPreference.getInstance().putString(Config.KEY_NICKNAME, userNickName);
+
                         startActivity(intent);
                         finish();
                         Log.i(TAG, "Responser: " + response.body());
@@ -148,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
                     Log.e("fail error", t.getLocalizedMessage());
                 }
             });
-        }
+
     }
 
     private void showLoading(boolean state) {
