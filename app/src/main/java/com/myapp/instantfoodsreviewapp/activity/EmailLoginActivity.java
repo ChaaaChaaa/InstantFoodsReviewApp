@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
@@ -145,12 +146,14 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
                         //UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
-                        String token = loginData.getResultData().get("user_token").getAsString();
-                        if ((Const.isNullOrEmptyString(token))) {
+
+                        if (loginData.getResultCode() == 200) {
+                            String token = loginData.getResultData().get("user_token").getAsString();
                             //userPreference.putString(Config.KEY_TOKEN, token);
                             UserPreference.getInstance().putString(Config.KEY_TOKEN, token);
                             // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                             String checkToken = userPreference.getString(Config.KEY_TOKEN);
+
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
                             Bundle bundle = new Bundle();
@@ -160,7 +163,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                             finish();
 
                             Log.i(TAG, "Response:" + response.body());
+                        }
 
+                        else{
+                            Toast.makeText(getApplication(), "회원 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
