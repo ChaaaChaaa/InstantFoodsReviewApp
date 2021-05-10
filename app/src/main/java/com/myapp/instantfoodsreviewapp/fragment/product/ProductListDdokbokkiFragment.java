@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
+import com.myapp.instantfoodsreviewapp.databinding.FragmentDdokbokkiBinding;
 import com.myapp.instantfoodsreviewapp.fragment.PostsListFragment;
 import com.myapp.instantfoodsreviewapp.fragment.WritePostFragment;
 import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
@@ -42,13 +44,18 @@ public class ProductListDdokbokkiFragment extends Fragment {
     private LinearLayoutManager layoutManagerDdokbokki;
     private static final Integer DDOCK_CATEGORY = 2;
     private ArrayList<ListItem> ddokbokkiList = new ArrayList<>();
+    private FragmentDdokbokkiBinding fragmentDdokbokkiBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_ddokbokki, container, false);
+        //View rootView = inflater.inflate(R.layout.fragment_ddokbokki, container, false);
         // View rootView = inflater.inflate(R.layout.fragment_ddokbokki, null);
+
+        fragmentDdokbokkiBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_ddokbokki, container, false);
+        View rootView = fragmentDdokbokkiBinding.getRoot();
         setHasOptionsMenu(true);
+        //fragmentDdokbokkiBinding = DataBindingUtil.setContentView(R.id.recycler_ddokbokki)
         recyclerViewDdokbokki = rootView.findViewById(R.id.recycler_ddokbokki);
         recyclerViewDdokbokki.setHasFixedSize(true);
         layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
