@@ -22,7 +22,6 @@ android {
 
     dataBinding {
         enabled = true;
-
     }
 
     buildTypes {
