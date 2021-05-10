@@ -18,9 +18,6 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +32,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     private static final int PAGE_SIZE = 10;
     private static final int FIRST_PAGE = 1;
     private static final String SORT_TYPE = "updated_time";
-    public ArrayList<Product> postsList = new ArrayList<>();
+
     String userToken = "";
     int productId;
     private long currentTimeStamp;
@@ -79,7 +76,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         swipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() && postsResponse.getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
@@ -87,9 +84,10 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         Log.e("00 current page :", " " + FIRST_PAGE);
                         // swipeRefreshLayout.setRefreshing(false);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
-
                     } else {
-                        Log.e("Server Error", " " + postsResponse.getResultData());
+                        List<Posts> responseItems = new ArrayList<>();
+                        responseItems.add(null);
+                        //Log.e("Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {
@@ -111,20 +109,6 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         });
     }
 
-
-    private Integer afterPageKey(LoadParams<Integer> params) {
-        Integer key;
-
-        if (params.key > 1) {
-            key = params.key + 1;
-        } else {
-            key = 0;
-        }
-
-        return key;
-    }
-
-
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
@@ -141,7 +125,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful()&&  postsResponse.getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
@@ -159,7 +143,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         callback.onResult(responseItems, key);
 
 
-                    } else {
+                    }
+                 else if( postsResponse.getResultData().size() == 0) {
+                    List<Posts> responseItems = new ArrayList<>();
+                    responseItems.add(null);
+                    //Log.e("Server Error", " " + postsResponse.getResultData());
+                }
+                    else {
                         if (swipeRefreshLayout != null) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -181,23 +171,6 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         });
     }
 
-    private Integer beforePageKey(LoadParams<Integer> params) {
-        Integer key;
-
-        if (params.key > 1) {
-            key = params.key - 1;
-        } else {
-            key = 0;
-        }
-        return key;
-    }
-
-    private Date convertTime(String updateTime) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(updateTime);
-        return date;
-    }
-
-
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Posts> callback) {
         userToken = getTokenResult();
@@ -213,7 +186,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful()&&  postsResponse.getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
@@ -222,7 +195,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         Log.e("11 current page :", " " + adjacentKey);
                         callback.onResult(responseItems, adjacentKey);
 
-                    } else {
+                    }
+
+                    else if(postsResponse.getResultData().size() != 0) {
+                        List<Posts> responseItems = new ArrayList<>();
+                        responseItems.add(null);
+                    }
+                    else {
                         if (swipeRefreshLayout != null) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -243,6 +222,4 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
             }
         });
     }
-
-
 }
