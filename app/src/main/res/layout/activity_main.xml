@@ -5,6 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="mainActivity"
+            type="com.myapp.instantfoodsreviewapp.activity.MainActivity" />
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -57,7 +64,6 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/drawer_menu" />
-
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
