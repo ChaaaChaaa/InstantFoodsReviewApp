@@ -102,20 +102,19 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         if (holder instanceof DetailProductViewHolder) {
             DetailProductViewHolder detailProductViewHolder = (DetailProductViewHolder) holder;
             detailProductViewHolder.detailProductName.setText(productItem.getPrTitle());
-            detailProductViewHolder.detailProductRating.setText(Integer.toString(productItem.getPrScore()));
             String productImageUri = IMG_BASE_URL + productItem.getPrImage();
             Glide.with(holder.itemView)
                     .load(productImageUri)
                     .override(100, 100)
                     .into(detailProductViewHolder.detailProductImage);
-        } else if (holder instanceof PostsViewHolder) {
+        } else if (holder instanceof PostsViewHolder ) {
             PostsViewHolder postsViewHolder = (PostsViewHolder) holder;
             postsViewHolder.postTitle.setText(posts.getTitle());
             postsViewHolder.postGoodPoint.setText(posts.getGoodContents());
             postsViewHolder.postBadPoint.setText(posts.getBadContents());
             postsViewHolder.postRating.setText(Integer.toString(posts.getScore()));
-            //postDataSource.invalidate();
-
+//            postDataSource.invalidate();
+//
 //                    if (postDataSource != null) {
 //                        postDataSource.invalidate();
 //                    }
@@ -130,7 +129,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
             if (retryPageLoad) {
                 loadingViewHolder.errorLayout.setVisibility(View.VISIBLE);
                 loadingViewHolder.progressBar.setVisibility(View.GONE);
-
                 loadingViewHolder.errorTxt.setText(errorMsg != null ? errorMsg : context.getString(R.string.error_msg_unknown));
             } else {
                 loadingViewHolder.errorLayout.setVisibility(View.GONE);
@@ -157,7 +155,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
 
 
     public static class DetailProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView detailProductRating;
         private TextView detailProductName;
         private ImageView detailProductImage;
 
@@ -169,7 +166,6 @@ public class PostsRecyclerAdapter extends PagedListAdapter<Posts, RecyclerView.V
         private void initDetailProductViewHolder() {
             detailProductImage = itemView.findViewById(R.id.iv_detail_product_image);
             detailProductName = itemView.findViewById(R.id.tv_detail_product_name);
-            detailProductRating = itemView.findViewById(R.id.tv_detail_product_rating);
         }
     }
 
