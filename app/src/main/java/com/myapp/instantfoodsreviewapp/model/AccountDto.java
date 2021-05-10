@@ -1,9 +1,7 @@
-package com.myapp.instantfoodsreviewapp.model.entity;
+package com.myapp.instantfoodsreviewapp.model;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.myapp.instantfoodsreviewapp.model.User;
 
 public class AccountDto {
     @SerializedName("resultCode")
@@ -13,28 +11,20 @@ public class AccountDto {
     @SerializedName("message")
     private String message;
 
-    public int getResultCode(){
+    public int getResultCode() {
         return resultCode;
     }
 
-    public void setResultCode(int resultCode){
+    public void setResultCode(int resultCode) {
         this.resultCode = resultCode;
     }
 
-    public ResultData getResultData(){
+    public ResultData getResultData() {
         return resultData;
     }
 
-    public void setResultData(ResultData resultData){
+    public void setResultData(ResultData resultData) {
         this.resultData = resultData;
-    }
-
-    public String getMessage(){
-        return message;
-    }
-
-    public void setMessage(String message){
-        this.message = message;
     }
 
     public static class ResultData {
@@ -45,6 +35,7 @@ public class AccountDto {
             return user;
         }
     }
+
     public static class User {
         @SerializedName("uid")
         @Expose
@@ -70,14 +61,8 @@ public class AccountDto {
         @SerializedName("secession")
         @Expose
         private String secession;
+
         @SerializedName("noti_state")
-        @Expose
-        private String notiState;
-
-        public Integer getUid() {
-            return uid;
-        }
-
         public String getEmail() {
             return email;
         }
@@ -92,22 +77,6 @@ public class AccountDto {
 
         public String getPassword() {
             return password;
-        }
-
-        public String getRegistedDt() {
-            return registedDt;
-        }
-
-        public String getUpdatedDt() {
-            return updatedDt;
-        }
-
-        public String getSecession() {
-            return secession;
-        }
-
-        public String getNotiState() {
-            return notiState;
         }
     }
 }

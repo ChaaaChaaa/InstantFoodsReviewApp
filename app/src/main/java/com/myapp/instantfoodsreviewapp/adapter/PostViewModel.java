@@ -12,8 +12,6 @@ import com.myapp.instantfoodsreviewapp.model.Posts;
 
 public class PostViewModel extends ViewModel {
     public LiveData<PagedList<Posts>> postPagedList;
-    private LiveData<PageKeyedDataSource<Integer, Posts>> liveDataSource;
-
     int productId;
     PostDataSourceFactory postDataSourceFactory;
 
@@ -21,7 +19,7 @@ public class PostViewModel extends ViewModel {
         this.productId = productId;
         Log.e("1 productId", " " + productId);
         postDataSourceFactory = new PostDataSourceFactory(productId);
-        liveDataSource = postDataSourceFactory.getItemLiveDataSource();
+        LiveData<PageKeyedDataSource<Integer, Posts>> liveDataSource = postDataSourceFactory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)

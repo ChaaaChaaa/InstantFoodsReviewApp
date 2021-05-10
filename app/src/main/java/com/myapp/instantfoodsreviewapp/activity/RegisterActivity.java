@@ -13,10 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
-import com.myapp.instantfoodsreviewapp.utils.Const;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.databinding.ActivityRegisterBinding;
 import com.myapp.instantfoodsreviewapp.model.UserRegisterData;
@@ -32,21 +30,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity implements Button.OnClickListener {
-    private String TAG = RegisterActivity.class.getSimpleName();
+    private final String TAG = RegisterActivity.class.getSimpleName();
 
     private Button confirmButton;
     private ActivityRegisterBinding registerBinding;
-
     ProgressBar progressBar;
-
-
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
     private TextInputEditText userNickName;
-    private boolean conditionRegister = false;
-
-    private String token = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
     @Override
     public void onClick(View view) {
-        if (confirmInput(view)) {
+        if (confirmInput()) {
             doRegister();
         }
     }
@@ -115,11 +106,8 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
         }
     }
 
-    public boolean confirmInput(View v) {
-        if (!validateEmail() | !validatePassword() | !validateNickName()) {
-           return false;
-        }
-        return true;
+    public boolean confirmInput() {
+        return !(!validateEmail() | !validatePassword() | !validateNickName());
     }
 
 
@@ -130,33 +118,34 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
 
         RetrofitInterface retrofitInterface = RetrofitClient.getRestMethods();
         Call<UserRegisterData> call = retrofitInterface.regist(registerEmail, registerNickName, registerPassword);
-            showLoading(true);
-            call.enqueue(new Callback<UserRegisterData>() {
-                @Override
-                public void onResponse(@NotNull Call<UserRegisterData> call, @NotNull Response<UserRegisterData> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, EmailLoginActivity.class);
+        showLoading(true);
+        call.enqueue(new Callback<UserRegisterData>() {
+            @Override
+            public void onResponse(@NotNull Call<UserRegisterData> call, @NotNull Response<UserRegisterData> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, EmailLoginActivity.class);
 
-                        UserRegisterData userRegisterData = response.body();
+                    UserRegisterData userRegisterData = response.body();
 
-                        String userNickName = userRegisterData.getNickName();
-                        UserPreference.getInstance().putString(Config.KEY_NICKNAME, userNickName);
+                    assert userRegisterData != null;
+                    String userNickName = userRegisterData.getNickName();
+                    UserPreference.getInstance().putString(Config.KEY_NICKNAME, userNickName);
 
-                        startActivity(intent);
-                        finish();
-                        Log.i(TAG, "Responser: " + response.body());
-                    } else {
-                        Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
-                    }
-                    showLoading(false);
+                    startActivity(intent);
+                    finish();
+                    Log.i(TAG, "Responser: " + response.body());
+                } else {
+                    Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
                 }
+                showLoading(false);
+            }
 
-                @Override
-                public void onFailure(@NotNull Call<UserRegisterData> call, @NotNull Throwable t) {
-                    Log.e("fail error", t.getLocalizedMessage());
-                }
-            });
+            @Override
+            public void onFailure(@NotNull Call<UserRegisterData> call, @NotNull Throwable t) {
+                Log.e("fail error", t.getLocalizedMessage());
+            }
+        });
 
     }
 
@@ -167,6 +156,4 @@ public class RegisterActivity extends AppCompatActivity implements Button.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
-
-
 }

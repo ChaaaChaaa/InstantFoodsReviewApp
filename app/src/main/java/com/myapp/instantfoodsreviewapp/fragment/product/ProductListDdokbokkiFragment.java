@@ -1,13 +1,9 @@
 package com.myapp.instantfoodsreviewapp.fragment.product;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
@@ -15,54 +11,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
-import com.myapp.instantfoodsreviewapp.databinding.FragmentDdokbokkiBinding;
-import com.myapp.instantfoodsreviewapp.fragment.PostsListFragment;
-import com.myapp.instantfoodsreviewapp.fragment.WritePostFragment;
-import com.myapp.instantfoodsreviewapp.model.FoodCategoryList;
-import com.myapp.instantfoodsreviewapp.model.ListItem;
 import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class ProductListDdokbokkiFragment extends Fragment {
     private RecyclerView recyclerViewDdokbokki;
     private CustomRecyclerAdapter adapterDdokbokki;
-    private LinearLayoutManager layoutManagerDdokbokki;
     private static final Integer DDOCK_CATEGORY = 2;
-    private ArrayList<ListItem> ddokbokkiList = new ArrayList<>();
-    private FragmentDdokbokkiBinding fragmentDdokbokkiBinding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View rootView = inflater.inflate(R.layout.fragment_ddokbokki, container, false);
-        // View rootView = inflater.inflate(R.layout.fragment_ddokbokki, null);
-
-        fragmentDdokbokkiBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_ddokbokki, container, false);
+        com.myapp.instantfoodsreviewapp.databinding.FragmentDdokbokkiBinding fragmentDdokbokkiBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ddokbokki, container, false);
         View rootView = fragmentDdokbokkiBinding.getRoot();
         setHasOptionsMenu(true);
-        //fragmentDdokbokkiBinding = DataBindingUtil.setContentView(R.id.recycler_ddokbokki)
         recyclerViewDdokbokki = rootView.findViewById(R.id.recycler_ddokbokki);
         recyclerViewDdokbokki.setHasFixedSize(true);
-        layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManagerDdokbokki = new LinearLayoutManager(getActivity());
         recyclerViewDdokbokki.setLayoutManager(layoutManagerDdokbokki);
 
         initDdokbokki();
-        //showRecyclerView();
         return rootView;
     }
 
@@ -78,22 +55,4 @@ public class ProductListDdokbokkiFragment extends Fragment {
         });
         recyclerViewDdokbokki.setAdapter(adapterDdokbokki);
     }
-
-//    @Override
-//    public void onClick(View view) {
-//        Fragment fragment = new PostsListFragment();
-//        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container, fragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
-//
-//    }
-
-
-
-//    @Override
-//    public void onPostsClick(int position) {
-//        Intent intent = new Intent(this);
-//        startActivity(intent);
-//    }
 }

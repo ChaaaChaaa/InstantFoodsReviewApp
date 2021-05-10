@@ -1,8 +1,5 @@
 package com.myapp.instantfoodsreviewapp.adapter;
 
-
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
@@ -14,8 +11,6 @@ public class ProductDataSourceFactory extends DataSource.Factory {
 
     public MutableLiveData<PageKeyedDataSource<Integer, Product>> productLiveDataSource = new MutableLiveData<>();
 
-
-
     @NonNull
     @Override
     public DataSource create() {
@@ -23,5 +18,4 @@ public class ProductDataSourceFactory extends DataSource.Factory {
         productLiveDataSource.postValue(productDataSource);
         return productDataSource;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.myapp.instantfoodsreviewapp.dialog;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,15 +12,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.myapp.instantfoodsreviewapp.R;
-import com.myapp.instantfoodsreviewapp.model.ChangePasswordData;
-import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
+import com.myapp.instantfoodsreviewapp.model.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,11 +36,14 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
     private EditText editNewPassword;
     private String oldPassword;
     private String newPassword;
+    private UserPreference userPreference;
+    private String getToken;
 
+    @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_change_password, null);
         init(view);
         initPreference();
@@ -47,32 +51,20 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
                 .setView(view)
                 .setTitle(R.string.change_password)
                 .setPositiveButton(R.string.ok, null)
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dismiss())
                 .create();
 
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
+        alertDialog.setOnShowListener(dialog -> {
 
-                Button okButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        oldPassword = editCurrentPassword.getText().toString();
-                        newPassword = editNewPassword.getText().toString();
+            Button okButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            okButton.setOnClickListener(v -> {
+                oldPassword = editCurrentPassword.getText().toString();
+                newPassword = editNewPassword.getText().toString();
 
-                        checkPasswordCondition(alertDialog);
+                checkPasswordCondition(alertDialog);
 
-                    }
+            });
 
-                });
-
-            }
         });
 
         return alertDialog;
@@ -85,10 +77,7 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
 
 
     private void checkPasswordCondition(AlertDialog dialog) {
-        if (flagPasswordCondition()) {
-
-            //Toast.makeText(getActivity(), R.string.success_change_password, Toast.LENGTH_SHORT).show();
-        } else {
+        if (!flagPasswordCondition()) {
             getUserPassword();
             Toast.makeText(getActivity(), R.string.success_change_password, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
@@ -115,7 +104,7 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
     }
 
     private boolean checkPasswordMaxLength() {
-      if (newPassword.length() > MAX_PASSWORD_LENGTH || newPassword.length() < MIN_PASSWORD_LENGTH) {
+        if (newPassword.length() > MAX_PASSWORD_LENGTH || newPassword.length() < MIN_PASSWORD_LENGTH) {
             Toast.makeText(getActivity(), R.string.wrong_length_password, Toast.LENGTH_SHORT).show();
             editNewPassword.setError("Unable Password");
             return false;
@@ -134,36 +123,30 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
         }
     }
 
-
-    private UserPreference userPreference;
-    private String getToken;
-
-
     private void initPreference() {
         userPreference = new UserPreference();
         userPreference.setContext(getActivity());
     }
+
     private void getUserPassword() {
         getToken = userPreference.getString(Config.KEY_TOKEN);
         RetrofitInterface retrofitInterface = RetrofitClient.buildHTTPClient();
-        Call<ApiResultDto> call = retrofitInterface.change(getToken,oldPassword,newPassword);
+        Call<ApiResultDto> call = retrofitInterface.change(getToken, oldPassword, newPassword);
         call.enqueue(new Callback<ApiResultDto>() {
             @Override
-            public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
-                if(response.isSuccessful()){
+            public void onResponse(@NotNull Call<ApiResultDto> call, @NotNull Response<ApiResultDto> response) {
+                if (response.isSuccessful()) {
                     ApiResultDto apiResultDto = response.body();
+                    assert apiResultDto != null;
                     JsonObject resultData = apiResultDto.getResultData();
-                    if(resultData != null){
-                        ChangePasswordData changePasswordData = new Gson().fromJson(resultData,ChangePasswordData.class);
-
+                    if (resultData != null) {
                         String realOldPassword = resultData.get("original_password").getAsString();
                         String realNewPassword = resultData.get("request_password").getAsString();
-                        Log.e("original password",realOldPassword);
-                        Log.e("request_password",realNewPassword);
-                       // Toast.makeText(getActivity(), R.string.success_change_password, Toast.LENGTH_SHORT).show();
+                        Log.e("original password", realOldPassword);
+                        Log.e("request_password", realNewPassword);
+                        // Toast.makeText(getActivity(), R.string.success_change_password, Toast.LENGTH_SHORT).show();
 
-                    }
-                    else {
+                    } else {
                         Log.e("getUser", "Account null ");
                     }
 
@@ -175,12 +158,10 @@ public class ChangePasswordDialog extends AppCompatDialogFragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResultDto> call, Throwable t) {
+            public void onFailure(@NotNull Call<ApiResultDto> call, @NotNull Throwable t) {
                 editCurrentPassword.setError("Wrong Password");
                 Toast.makeText(getActivity(), "기존 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 }

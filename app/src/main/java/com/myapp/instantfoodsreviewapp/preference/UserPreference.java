@@ -18,29 +18,24 @@ public class UserPreference {
 
     public void setContext(Context context) {
         userSharedPreferences = getPreference(context);
-        sharedPreferencesEditor = getPreferenceEditor(context);
+        sharedPreferencesEditor = getPreferenceEditor();
     }
 
     private SharedPreferences getPreference(Context context) {
         return context.getSharedPreferences(USER_PREFERENCES, Activity.MODE_PRIVATE);
     }
 
-    private SharedPreferences.Editor getPreferenceEditor(Context context) {
+    private SharedPreferences.Editor getPreferenceEditor() {
         return userSharedPreferences.edit();
     }
 
-    public void setLoggedIn(Context context, boolean loggedIn) {
+    public void setLoggedIn(Context applicationContext, boolean loggedIn) {
         sharedPreferencesEditor.putBoolean(LOGGED_IN_PREF, loggedIn);
         sharedPreferencesEditor.apply();
     }
 
     public boolean getLoggedStatus() {
         return userSharedPreferences.getBoolean(LOGGED_IN_PREF, false);
-    }
-
-    public void clearUserLogin() {
-        sharedPreferencesEditor.clear();
-        sharedPreferencesEditor.commit();
     }
 
     public void putString(String key, String value) {

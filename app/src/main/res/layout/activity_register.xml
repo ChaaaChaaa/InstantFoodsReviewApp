@@ -60,8 +60,7 @@
                 android:minEms="5"
                 android:maxLength="15"
                 android:hint="@string/password"
-                android:inputType="textPassword"
-                 />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

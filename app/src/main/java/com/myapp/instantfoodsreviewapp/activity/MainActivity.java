@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,7 +34,7 @@ import com.myapp.instantfoodsreviewapp.fragment.product.ProductListFriedRiceFrag
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListNoodleFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListPizzaFragment;
 import com.myapp.instantfoodsreviewapp.fragment.product.ProductListStewFragment;
-import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
+import com.myapp.instantfoodsreviewapp.model.AccountDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
@@ -60,13 +59,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView mainNavigationView;
     private DrawerLayout drawerLayout;
     private Fragment fragment = null;
-    private FragmentManager fragmentManager;
     private TransferDataCallback<String> profileImageDrawerCallback;
     private TransferDataCallback<String> nickNameDrawerCallback;
     private String getProfileImagePath = "";
-    private String getCurrentNickName = "";
-    private ConstraintLayout llDrawerHeader;
-    private ChangeNickNameDialog changeNickNameDialog;
 
 
     @Override
@@ -98,59 +93,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initProfileDrawerImage() {
-        profileImageDrawerCallback = new TransferDataCallback<String>() {
-            @Override
-            public void transfer(String imagePath) {
-                String convertThumbnailProfileImagePath = null;
-                if (imagePath != null) {
-                    getProfileImagePath = imagePath;
-                    convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
-                    //setNavigationImage(convertThumbnailProfileImagePath);
-                }
-
-                setNavigationImage(convertThumbnailProfileImagePath);
+        profileImageDrawerCallback = imagePath -> {
+            String convertThumbnailProfileImagePath = null;
+            if (imagePath != null) {
+                getProfileImagePath = imagePath;
+                convertThumbnailProfileImagePath = makeThumbnailPath(getProfileImagePath);
             }
+            setNavigationImage(convertThumbnailProfileImagePath);
         };
     }
 
-//    private void openChangeNickNameDialog() {
-//        ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog();
-//        nickNameDrawerCallback = new TransferDataCallback<String>() {
-//            @Override
-//            public void transfer(String currentNickName) {
-//              if(currentNickName != null){
-//                  navNickName.setText(currentNickName);
-//              }
-//            }
-//        };
-//        changeNickNameDialog.setResultCallback(resultNickNameCallBack);
-//    }
-
-
     private void openChangeNickNameDialog() {
-        changeNickNameDialog = new ChangeNickNameDialog();
-        nickNameDrawerCallback = new TransferDataCallback<String>() {
-            @Override
-            public void transfer(String changeNickName) {
-                navNickName.setText(changeNickName);
-                UserPreference.getInstance().putString(Config.KEY_NICKNAME, changeNickName);
-            }
+        ChangeNickNameDialog changeNickNameDialog = new ChangeNickNameDialog();
+        nickNameDrawerCallback = changeNickName -> {
+            navNickName.setText(changeNickName);
+            UserPreference.getInstance().putString(Config.KEY_NICKNAME, changeNickName);
         };
         changeNickNameDialog.setNickNameDrawerCallback(nickNameDrawerCallback);
     }
 
 
     private void showNavigationUserInfo() {
-        //String getNickName = UserPreference.getInstance().getString(Config.KEY_NICKNAME);
-        //navNickName.setText(getNickName);
         openChangeNickNameDialog();
         initProfileDrawerImage();
     }
 
-    public int getImage(String imageName) {
-        int drawableResourceId = this.getResources().getIdentifier(imageName, "R.id.nav_profile_image", this.getPackageName());
-        return drawableResourceId;
-    }
 
     private void setNavigationView() {
         mainNavigationView.setNavigationItemSelectedListener(this);
@@ -202,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void bindView() {
         View header = mainNavigationView.getHeaderView(0);
-        //Header
-        llDrawerHeader = header.findViewById(R.id.llDrawerHeader);
         navNickName = header.findViewById(R.id.nav_nickname);
         navProfileImage = header.findViewById(R.id.nav_profile_image);
     }
@@ -258,21 +223,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         String userEmail = accountDto.getResultData().getUser().getEmail();
                         String userNickName = accountDto.getResultData().getUser().getNickname();
-                        Log.e("1userNickName", "" + userNickName);
                         String userProfileImage = accountDto.getResultData().getUser().getProfilepath();
-                        Log.e("1userProfileImage", "" + userProfileImage);
 
                         profileImageDrawerCallback.transfer(userProfileImage);
                         nickNameDrawerCallback.transfer(userNickName);
 
                         UserPreference.getInstance().putString(Config.KEY_EMAIL, userEmail);
-                        //UserPreference.getInstance().putString(Config.KEY_NICKNAME, userNickName);
                         UserPreference.getInstance().putString(Config.KEY_PROFILE_IMAGE, userProfileImage);
-                        // String UserPreference.getInstance().getString(Config.KEY_PROFILE_IMAGE);
-
-                        Log.e("userEmail", "" + userEmail);
-                        Log.e("2userNickName", "" + userNickName);
-                        Log.e("2userProfileImage", "" + userProfileImage);
 
                     } else {
                         Log.e("getUser", "Account null ");
@@ -289,63 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         });
     }
-
-
-    private static final int RICE_CATEGORY = R.id.nav_friedRice;
-    private static final int DDOCK_CATEGORY = R.id.nav_ddokbokki;
-    private static final int NOODLE_CATEGORY = R.id.nav_noodle;
-    private static final int DUMPLING_CATEGORY = R.id.nav_dumpling;
-    private static final int PIZZA_CATEGORY = R.id.nav_pizza;
-    private static final int STEW_CATEGORY = R.id.nav_stew;
-    private static final int HOME_CATEGORY = R.id.nav_home;
-    private static final int MyPage_CATEGORY = R.id.nav_my_page;
-    private static final int LogOut_CATEGORY = R.id.nav_logout;
-
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//        int menuItemId = menuItem.getItemId();
-//
-//        if(menuItemId == RICE_CATEGORY ){
-//            fragment = new ProductListStewFragment();
-//        }
-//        else if(menuItemId == DDOCK_CATEGORY){
-//            fragment = new ProductListDdokbokkiFragment();
-//        }
-//        else if(menuItemId ==NOODLE_CATEGORY ){
-//            fragment = new ProductListNoodleFragment();
-//        }
-//        else if(menuItemId == DUMPLING_CATEGORY){
-//            fragment = new ProductListDumplingFragment();
-//        }
-//        else if(menuItemId ==PIZZA_CATEGORY ){
-//            fragment = new ProductListPizzaFragment();
-//        }
-//        else if(menuItemId == STEW_CATEGORY){
-//            fragment = new ProductListStewFragment();
-//        }
-//        else if(menuItemId == HOME_CATEGORY){
-//            fragment = new HomeFragment();
-//        }
-//        else if(menuItemId == MyPage_CATEGORY){
-//            fragment = new MyPageFragment();
-//            ((MyPageFragment) (fragment)).setProfileImageDrawerCallback(profileImageDrawerCallback);
-//        }
-//        else if(menuItemId == LogOut_CATEGORY){
-//            userLogOut();
-//        }
-//
-//
-//        if (fragment != null) {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, fragment, fragment.getTag())
-//                    .addToBackStack(null)
-//                    .commit();
-//        }
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 
 
     @Override
@@ -386,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (fragment != null) {
-            fragmentManager = getSupportFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment, fragment.getTag())
@@ -397,7 +297,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -405,13 +304,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         assert myPageFragment != null;
         myPageFragment.onActivityResult(requestCode, resultCode, data);
     }
-
-//    public TransferDataCallback<Integer> getResultCallback() {
-//        return categoryCallback;
-//    }
-//
-//    public void setResultCallback(TransferDataCallback<Integer> categoryCallback) {
-//        this.categoryCallback = categoryCallback;
-//    }
-
 }

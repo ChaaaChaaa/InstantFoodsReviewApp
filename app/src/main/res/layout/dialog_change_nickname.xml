@@ -34,8 +34,7 @@
                     android:backgroundTint="#FFC107"
                     android:maxLines="1"
                     android:hint="@string/new_nickname"
-                    android:inputType="textPersonName"
-                     />
+                    android:inputType="textPersonName" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

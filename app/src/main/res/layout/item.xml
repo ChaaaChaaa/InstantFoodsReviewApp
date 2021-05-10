@@ -11,13 +11,13 @@
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="5dp">
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/movie_progress"-->
-<!--        style="@style/Widget.AppCompat.ProgressBar"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:theme="@style/Theme.AppCompat.Light"/>-->
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/movie_progress"-->
+    <!--        style="@style/Widget.AppCompat.ProgressBar"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:theme="@style/Theme.AppCompat.Light"/>-->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

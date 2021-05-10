@@ -5,9 +5,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
-import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
@@ -27,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 public class ProductListFriedRiceFragment extends Fragment {
     private RecyclerView recyclerViewRice;
     private CustomRecyclerAdapter adapterRice;
-    //private static final String TAG = ProductListFriedRiceFragment.class.getSimpleName();
     private static final Integer RICE_CATEGORY = 1;
 
     @Override
@@ -48,17 +44,8 @@ public class ProductListFriedRiceFragment extends Fragment {
     private void initRice() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, RICE_CATEGORY);
         ProductViewModel productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-//        CustomRecyclerAdapter.OnPostsListener listener = (position) -> {
-//            Toast.makeText(getContext(), "Position " + position, Toast.LENGTH_SHORT).show();
-//        };
-       adapterRice = new CustomRecyclerAdapter();
+        adapterRice = new CustomRecyclerAdapter();
         productViewModel.productPagedList.observe(getViewLifecycleOwner(), products -> adapterRice.submitList(products));
         recyclerViewRice.setAdapter(adapterRice);
     }
-
-
-
-
-
-
 }

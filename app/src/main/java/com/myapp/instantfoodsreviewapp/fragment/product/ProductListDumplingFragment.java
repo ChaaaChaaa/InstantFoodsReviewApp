@@ -17,22 +17,21 @@ import android.view.ViewGroup;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
-import com.myapp.instantfoodsreviewapp.databinding.FragmentDumplingBinding;
 import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
-public class ProductListDumplingFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
 
+public class ProductListDumplingFragment extends Fragment {
     private RecyclerView recyclerViewDumpling;
     private CustomRecyclerAdapter adapterDumpling;
-    private FragmentDumplingBinding fragmentDumplingBinding;
     private static final Integer DUMPLING_CATEGORY = 4;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentDumplingBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_dumpling, container, false);
+        com.myapp.instantfoodsreviewapp.databinding.FragmentDumplingBinding fragmentDumplingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dumpling, container, false);
         View rootView = fragmentDumplingBinding.getRoot();
         setHasOptionsMenu(true);
         recyclerViewDumpling = rootView.findViewById(R.id.recycler_dumpling);

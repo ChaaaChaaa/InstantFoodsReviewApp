@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_container_profile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_5dp">
 
 
@@ -81,7 +81,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8dp"
-            android:text="TextView"
             android:textColor="#EAE3E3"
             app:layout_constraintEnd_toEndOf="@+id/tv_setting_nickname"
             app:layout_constraintHorizontal_bias="0.529"
@@ -94,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24dp"
             android:fontFamily="sans-serif"
-            android:text="Setting"
+            android:text="@string/setting"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/text_size_24sp"
@@ -132,7 +131,7 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="버전 정보 :"
+            android:text="@string/versionInfo"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/text_size_15sp"
             app:layout_constraintBottom_toBottomOf="@+id/image_version_info"
@@ -171,7 +170,7 @@
             android:layout_height="@dimen/height_35dp"
             android:clickable="false"
             android:gravity="center"
-            android:text="탈퇴하기                "
+            android:text="@string/userOut"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/image_secession"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"

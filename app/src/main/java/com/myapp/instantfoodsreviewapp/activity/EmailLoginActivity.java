@@ -15,8 +15,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.myapp.instantfoodsreviewapp.model.entity.AccountDto;
-import com.myapp.instantfoodsreviewapp.model.entity.ApiResultDto;
+import com.myapp.instantfoodsreviewapp.model.ApiResultDto;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
@@ -33,26 +32,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.myapp.instantfoodsreviewapp.utils.Config.KEY_TOKEN;
 
 public class EmailLoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private String TAG = EmailLoginActivity.class.getSimpleName();
+    private final String TAG = EmailLoginActivity.class.getSimpleName();
     private TextInputLayout textLoginEmail;
     private TextInputLayout textLoginPassword;
     private ProgressBar progressBar;
     private Button loginButton;
     private CheckBox checkBox;
 
-
     private ActivityEmailLoginBinding activityEmailLoginBinding;
     private RetrofitInterface retrofitInterface;
     private UserPreference userPreference;
-
-    private String userEmail;
-    private String userPwd;
-
-    private String sendToken;
-
 
     private TextInputEditText loginEmail;
     private TextInputEditText loginPassword;
@@ -100,29 +91,21 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
         if (userPreference.getLoggedStatus()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-        } else {
-            return;
         }
     }
 
 
     public void onCheckboxClicked(View view) {
-        switch (view.getId()) {
-            case R.id.autoLoginCheck:
-                if (checkBox.isChecked()) {
-                    userPreference.setLoggedIn(getApplicationContext(), true);
-                } else {
-                    userPreference.setLoggedIn(getApplicationContext(), false);
-                }
-                break;
+        if (view.getId() == R.id.autoLoginCheck) {
+            userPreference.setLoggedIn(getApplicationContext(), checkBox.isChecked());
         }
     }
 
     @Override
     public void onClick(View view) {
-        if (!Patterns.EMAIL_ADDRESS.matcher(loginEmail.getText().toString()).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(Objects.requireNonNull(loginEmail.getText()).toString()).matches()) {
             Toast.makeText(getApplicationContext(), "이메일 형식이 잘못되었습니다.", Toast.LENGTH_LONG).show();
-        } else if (loginPassword.getText().toString().length() == 0) {
+        } else if (Objects.requireNonNull(loginPassword.getText()).toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "비밀번호를 입력하세요", Toast.LENGTH_LONG).show();
             loginPassword.setError("Password Blank");
 
@@ -133,13 +116,13 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
 
     void doLogin() {
-        userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
-        userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
+        String userEmail = Objects.requireNonNull(loginEmail.getText()).toString();
+        String userPwd = Objects.requireNonNull(loginPassword.getText()).toString();
         if (Const.isNullOrEmptyString(userEmail, userPwd)) {
             showLoading(true);
             retrofitInterface.login(userEmail, userPwd).enqueue(new Callback<ApiResultDto>() {
                 @Override
-                public void onResponse(Call<ApiResultDto> call, Response<ApiResultDto> response) {
+                public void onResponse(@NotNull Call<ApiResultDto> call, @NotNull Response<ApiResultDto> response) {
                     if (response.isSuccessful()) {
                         //userPreference.putString(Config.KEY_TOKEN, sendToken);
                         //Log.e("tokenTest1"," "+ userPreference.getString(Config.KEY_TOKEN));
@@ -147,12 +130,10 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                         //UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
                         ApiResultDto loginData = response.body();
 
+                        assert loginData != null;
                         if (loginData.getResultCode() == 200) {
                             String token = loginData.getResultData().get("user_token").getAsString();
-                            //userPreference.putString(Config.KEY_TOKEN, token);
                             UserPreference.getInstance().putString(Config.KEY_TOKEN, token);
-                            // UserPreference.getInstance().putString(Config.KEY_TOKEN, sendToken);
-                            String checkToken = userPreference.getString(Config.KEY_TOKEN);
 
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EmailLoginActivity.this, MainActivity.class);
@@ -163,9 +144,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                             finish();
 
                             Log.i(TAG, "Response:" + response.body());
-                        }
-
-                        else{
+                        } else {
                             Toast.makeText(getApplication(), "회원 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                         }
 
@@ -177,7 +156,7 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 @Override
-                public void onFailure(@NotNull Call<ApiResultDto> call, Throwable t) {
+                public void onFailure(@NotNull Call<ApiResultDto> call, @NotNull Throwable t) {
                     Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
 
                 }
@@ -196,7 +175,6 @@ public class EmailLoginActivity extends AppCompatActivity implements View.OnClic
 
         if (!Const.isNullOrEmptyString(Objects.requireNonNull(textLoginPassword.getEditText()).toString())) {
             textLoginPassword.setError("비밀번호가 입력되지 않았습니다.");
-            return;
         }
     }
 

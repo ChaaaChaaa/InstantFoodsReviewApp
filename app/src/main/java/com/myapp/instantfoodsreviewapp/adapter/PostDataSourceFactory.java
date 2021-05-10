@@ -13,7 +13,7 @@ public class PostDataSourceFactory extends DataSource.Factory {
     public MutableLiveData<PageKeyedDataSource<Integer, Posts>> postLiveDataSource = new MutableLiveData<>();
     int productId;
 
-    PostDataSourceFactory(int productId){
+    PostDataSourceFactory(int productId) {
         this.productId = productId;
     }
 
@@ -21,7 +21,7 @@ public class PostDataSourceFactory extends DataSource.Factory {
     @NonNull
     @Override
     public DataSource<Integer, Posts> create() {
-        Log.e("2 productId"," "+productId);
+        Log.e("2 productId", " " + productId);
         PostDataSource postDataSource = new PostDataSource(productId);
         postLiveDataSource.postValue(postDataSource);
         return postDataSource;

@@ -72,5 +72,9 @@
     <string name="friedRice">볶음밥/덮밥류</string>
     <string name="dumpling">만두/튀김류</string>
     <string name="navDdokbokki">떡볶이</string>
+    <string name="stews">찌개류</string>
+    <string name="setting">Setting</string>
+    <string name="versionInfo">버전 정보 :</string>
+    <string name="userOut">탈퇴하기</string>
 
 </resources>

@@ -5,12 +5,6 @@ public class UserRegisterData {
     private String password;
     private String nickname;
 
-//    public UserRegisterData(String email, String nickname,String password){
-//        this.email = email;
-//        this.password = password;
-//        this.nickname = nickname;
-//    }
-
     public String getEmail() {
         return email;
     }

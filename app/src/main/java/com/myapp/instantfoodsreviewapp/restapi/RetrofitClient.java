@@ -1,12 +1,5 @@
 package com.myapp.instantfoodsreviewapp.restapi;
 
-
-import android.util.Log;
-
-
-import org.jetbrains.annotations.NotNull;
-
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -32,19 +25,7 @@ public class RetrofitClient {
         return new OkHttpClient.Builder()
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(bodyInterceptor)
-                //.addInterceptor(new BasicAuthInterceptor())
                 .build();
-    }
-
-    private static HttpLoggingInterceptor provideHttpLoggingInterceptor() {
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(@NotNull String message) {
-                Log.d("HTTP", message);
-            }
-        });
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return httpLoggingInterceptor;
     }
 
     public static RetrofitInterface getRestMethods() {

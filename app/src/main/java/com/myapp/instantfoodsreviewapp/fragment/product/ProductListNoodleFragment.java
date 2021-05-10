@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.myapp.instantfoodsreviewapp.R;
 import com.myapp.instantfoodsreviewapp.adapter.CustomRecyclerAdapter;
 import com.myapp.instantfoodsreviewapp.adapter.ProductViewModel;
-import com.myapp.instantfoodsreviewapp.databinding.FragmentNoodleBinding;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
@@ -26,12 +25,11 @@ public class ProductListNoodleFragment extends Fragment {
     private RecyclerView recyclerViewNoodle;
     private CustomRecyclerAdapter adapterNoodle;
     private static final Integer NOODLE_CATEGORY = 3;
-    private FragmentNoodleBinding fragmentNoodleBinding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentNoodleBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_noodle, container, false);
+        com.myapp.instantfoodsreviewapp.databinding.FragmentNoodleBinding fragmentNoodleBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_noodle, container, false);
         View rootView = fragmentNoodleBinding.getRoot();
         setHasOptionsMenu(true);
         recyclerViewNoodle = rootView.findViewById(R.id.recycler_noodle);
@@ -39,14 +37,12 @@ public class ProductListNoodleFragment extends Fragment {
         LinearLayoutManager layoutManagerNoodle = new LinearLayoutManager(getActivity());
         recyclerViewNoodle.setLayoutManager(layoutManagerNoodle);
         initNoodle();
-        // showRecyclerView();
         return rootView;
     }
 
     private void initNoodle() {
         UserPreference.getInstance().putInt(Config.KEY_CATEGORY, NOODLE_CATEGORY);
         ProductViewModel productViewModelNoodle = new ViewModelProvider(this).get(ProductViewModel.class);
-
         adapterNoodle = new CustomRecyclerAdapter();
         productViewModelNoodle.productPagedList.observe(getViewLifecycleOwner(), products -> adapterNoodle.submitList(products));
         recyclerViewNoodle.setAdapter(adapterNoodle);

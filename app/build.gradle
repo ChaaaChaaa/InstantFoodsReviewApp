@@ -29,11 +29,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String","BASEURL","\"http://www.mogacko.kro.kr/\""
+            buildConfigField "String", "BASEURL", "\"http://www.mogacko.kro.kr/\""
         }
 
-        debug{
-            buildConfigField "String","BASEURL","\"http://www.mogacko.kro.kr/\""
+        debug {
+            buildConfigField "String", "BASEURL", "\"http://www.mogacko.kro.kr/\""
         }
     }
 

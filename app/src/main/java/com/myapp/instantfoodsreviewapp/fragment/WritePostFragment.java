@@ -40,10 +40,13 @@ import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 import com.myapp.instantfoodsreviewapp.utils.Const;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -56,76 +59,54 @@ import static android.app.Activity.RESULT_CANCELED;
 public class WritePostFragment extends Fragment {
 
     private RatingBar ratingBar;
-    private TextView productTitle;
     private TextInputEditText detailPostTitle;
     private TextInputEditText detailPostGoodPoint;
     private TextInputEditText detailPostBadPoint;
     private ImageView detailPostImage = null;
-    private Button detailPostConfirm;
     private UserPreference userPreference;
-    private Uri imageUri;
-    private Bitmap bitmap;
     private Bitmap getBitmap;
     private int productId;
     private String productName;
-
+    private float rateValue;
     String setDetailPostTitle;
     String setDetailPostGoodPoint;
     String setDetailPostBadPoint;
 
-    private String TAG = "WritePostFragment";
-    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
+    private final String TAG = "WritePostFragment";
     private static final String FILE_SPLIT_PART = "\\.";
     private static final int REQUEST_CAMERA = 101;
     private static final int PICK_IMAGE_REQUEST = 102;
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_write_post, container, false);
-        rootView.setDrawingCacheEnabled(false); // clear drawing cache
+        rootView.setDrawingCacheEnabled(false);
         super.onViewCreated(rootView, savedInstanceState);
         getProducts();
         initPreference();
         init(rootView);
         getRating();
         initButton(rootView);
-        //  detailPostConfirm.setOnClickListener(this);
-        // detailPostImage.setOnClickListener(this);
-        // setImageResource(imageUri.toString(),detailPostImage);
         return rootView;
     }
 
     private void init(View view) {
-        ratingBar = (RatingBar) view.findViewById(R.id.review_rating_bar);
-        productTitle = view.findViewById(R.id.tv_product_title);
+        ratingBar = view.findViewById(R.id.review_rating_bar);
+        TextView productTitle = view.findViewById(R.id.tv_product_title);
         productTitle.setText(productName);
-        detailPostTitle = (TextInputEditText) view.findViewById(R.id.et_detail_post_title);
-        detailPostGoodPoint = (TextInputEditText) view.findViewById(R.id.et_good_point_detail_post);
-        detailPostBadPoint = (TextInputEditText) view.findViewById(R.id.et_bad_point_detail_post);
+        detailPostTitle = view.findViewById(R.id.et_detail_post_title);
+        detailPostGoodPoint = view.findViewById(R.id.et_good_point_detail_post);
+        detailPostBadPoint = view.findViewById(R.id.et_bad_point_detail_post);
     }
 
-
-    float rateValue;
-
-    private float getRating() {
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                rateValue = ratingBar.getRating();
-            }
-        });
-        return rateValue;
+    private void getRating() {
+        ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> rateValue = ratingBar.getRating());
     }
 
     private void getProducts() {
         Bundle bundle = this.getArguments();
+        assert bundle != null;
         productId = bundle.getInt("ProductID");
         productName = bundle.getString("ProductName");
     }
@@ -137,17 +118,17 @@ public class WritePostFragment extends Fragment {
     }
 
     private void initButton(View view) {
-        detailPostImage = (ImageView) view.findViewById(R.id.iv_detail_post_image);
+        detailPostImage = view.findViewById(R.id.iv_detail_post_image);
         detailPostImage.setOnClickListener(this::detailPostImageClick);
-        detailPostConfirm = (Button) view.findViewById(R.id.btn_detail_post_write_confirm);
+        Button detailPostConfirm = view.findViewById(R.id.btn_detail_post_write_confirm);
         detailPostConfirm.setOnClickListener(this::detailPostConfirmClick);
     }
 
 
     private void setWrite() {
-        setDetailPostTitle = detailPostTitle.getText().toString();
-        setDetailPostGoodPoint = detailPostGoodPoint.getText().toString();
-        setDetailPostBadPoint = detailPostBadPoint.getText().toString();
+        setDetailPostTitle = Objects.requireNonNull(detailPostTitle.getText()).toString();
+        setDetailPostGoodPoint = Objects.requireNonNull(detailPostGoodPoint.getText()).toString();
+        setDetailPostBadPoint = Objects.requireNonNull(detailPostBadPoint.getText()).toString();
     }
 
 
@@ -174,41 +155,23 @@ public class WritePostFragment extends Fragment {
             return false;
         }
 
-        if (detailPostTitle.getText().toString().trim().length() == 0) {
+        if (Objects.requireNonNull(detailPostTitle.getText()).toString().trim().length() == 0) {
             Toast.makeText(getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (detailPostGoodPoint.getText().toString().trim().length() == 0) {
+        if (Objects.requireNonNull(detailPostGoodPoint.getText()).toString().trim().length() == 0) {
             Toast.makeText(getContext(), "장점을 입력해주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if (detailPostBadPoint.getText().toString().trim().length() == 0) {
+        if (Objects.requireNonNull(detailPostBadPoint.getText()).toString().trim().length() == 0) {
             Toast.makeText(getContext(), "단점을 입력해주세요", Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
         }
     }
-
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.btn_detail_post_write_confirm:
-//                if(isFillOutContents()){
-//                    setPostInfo(bitmap);
-//                    break;
-//                }
-//                //goToBackFragment();
-//
-//            case R.id.iv_detail_post_image:
-//                selectImage();
-//                break;
-//        }
-//    }
-
 
     private void checkPermission() {
         PermissionListener permissionListener = new PermissionListener() {
@@ -223,7 +186,7 @@ public class WritePostFragment extends Fragment {
             }
         };
 
-        TedPermission.with(getActivity())
+        TedPermission.with(Objects.requireNonNull(getActivity()))
                 .setPermissionListener(permissionListener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
                 .setPermissions(Manifest.permission.CAMERA,
@@ -236,18 +199,15 @@ public class WritePostFragment extends Fragment {
     private void selectImage() {
         checkPermission();
         final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        androidx.appcompat.app.AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()));
         builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take Photo")) {
-                    cameraIntent();
-                } else if (items[item].equals("Choose from Library")) {
-                    galleryIntent();
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
+        builder.setItems(items, (dialog, item) -> {
+            if (items[item].equals("Take Photo")) {
+                cameraIntent();
+            } else if (items[item].equals("Choose from Library")) {
+                galleryIntent();
+            } else if (items[item].equals("Cancel")) {
+                dialog.dismiss();
             }
         });
         builder.show();
@@ -256,13 +216,13 @@ public class WritePostFragment extends Fragment {
 
     private void cameraIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        getActivity().startActivityForResult(cameraIntent, REQUEST_CAMERA);
+        Objects.requireNonNull(getActivity()).startActivityForResult(cameraIntent, REQUEST_CAMERA);
 
     }
 
     private void galleryIntent() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        getActivity().startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+        Objects.requireNonNull(getActivity()).startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
     }
 
 
@@ -283,10 +243,10 @@ public class WritePostFragment extends Fragment {
             Bitmap bitmap = null;
             switch (requestCode) {
                 case PICK_IMAGE_REQUEST:
-                    imageUri = data.getData();
+                    Uri imageUri = data.getData();
                     String uriPath = getRealPathFromURI(imageUri);
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                        bitmap = MediaStore.Images.Media.getBitmap(Objects.requireNonNull(getActivity()).getContentResolver(), imageUri);
                         bitmap = fixOrientation(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -294,21 +254,18 @@ public class WritePostFragment extends Fragment {
                     compressImage(uriPath);
                     setImageResource(imageUri.toString(), detailPostImage);
                     getBitmap = bitmap;
-                    // setPostInfo(bitmap);
                     break;
 
                 case REQUEST_CAMERA:
                     bitmap = (Bitmap) data.getExtras().get("data");
-                    String uriPathPicture = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, "title", null);
+                    String uriPathPicture = MediaStore.Images.Media.insertImage(Objects.requireNonNull(getActivity()).getContentResolver(), bitmap, "title", null);
 
                     imageUri = Uri.parse(uriPathPicture);
                     bitmap = fixOrientation(bitmap);
 
                     compressImage(uriPathPicture);
-                    String uriPathReal = getRealPathFromURI(imageUri);
                     setImageResource(imageUri.toString(), detailPostImage);
                     getBitmap = bitmap;
-                    //setPostInfo(bitmap);
                     break;
             }
         }
@@ -317,7 +274,7 @@ public class WritePostFragment extends Fragment {
     private void compressImage(String uriPath) {
         File file = new File(uriPath);
         try {
-            bitmap = BitmapFactory.decodeFile(file.getPath());
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
         } catch (Throwable t) {
@@ -332,25 +289,11 @@ public class WritePostFragment extends Fragment {
                 .into(imageView);
     }
 
-    private String makeThumbnailPath(String originalImagePath) {
-        Log.e("888 originalImagePath", "" + originalImagePath);
-        String thumbNailPath = "";
-        if (originalImagePath != null && !originalImagePath.isEmpty()) {
-            String[] pathNames = originalImagePath.split(FILE_SPLIT_PART);
-            thumbNailPath = IMG_BASE_URL + pathNames[0] + "Thumbnail";
-            Log.e("thumbNailPath", "" + thumbNailPath);
-        } else {
-            Log.d(TAG, "onFailure()");
-        }
-        Log.e("thumbNailPath2", "" + thumbNailPath);
-        return thumbNailPath;
-    }
-
-
     private String getRealPathFromURI(Uri contentUri) {
         String[] filePathColumn = {MediaStore.Images.Thumbnails.DATA};
-        CursorLoader loader = new CursorLoader(getContext(), contentUri, filePathColumn, null, null, null);
+        CursorLoader loader = new CursorLoader(Objects.requireNonNull(getContext()), contentUri, filePathColumn, null, null, null);
         Cursor cursor = loader.loadInBackground();
+        assert cursor != null;
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         String result = cursor.getString(column_index);
@@ -362,7 +305,7 @@ public class WritePostFragment extends Fragment {
 
     private void setPostInfo(Bitmap bitmap) {
         setWrite();
-        MultipartBody.Part originFile = Const.bitmapConvertToFile(getContext(), bitmap, 0);
+        MultipartBody.Part originFile = Const.bitmapConvertToFile(Objects.requireNonNull(getContext()), bitmap, 0);
         Bitmap thumbnail = Const.resizedThumbnail(bitmap, bitmap.getWidth(), bitmap.getHeight());
         MultipartBody.Part thumbnailFile = Const.bitmapConvertToFile(getContext(), thumbnail, 1);
         bitmap.recycle();
@@ -373,34 +316,24 @@ public class WritePostFragment extends Fragment {
         Call<PostResponse> postResponseCall = retrofitInterface.upload(getToken, setDetailPostTitle, setDetailPostGoodPoint, setDetailPostBadPoint, rateValue, productId, originFile, thumbnailFile);
         postResponseCall.enqueue(new Callback<PostResponse>() {
             @Override
-            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+            public void onResponse(@NotNull Call<PostResponse> call, @NotNull Response<PostResponse> response) {
                 if (response.isSuccessful()) {
                     PostResponse postResponse = response.body();
-                    Post post = postResponse.getPosts();
-                    // float test = postResponse.getPosts().getPostRequest().getScore();
-                    // String postPicturePath = post.getStoredPaths();
-                    // Log.e("888 postPicturePath : ", " "+postPicturePath);
-                    // String storedThumbnail = makeThumbnailPath(postPicturePath);
-                    // setImageResource(storedThumbnail, detailPostImage);
+                    Log.e("postResponse", "" + postResponse);
                     goToBackFragment();
                 }
             }
 
             @Override
-            public void onFailure(Call<PostResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<PostResponse> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
             }
         });
-
-
-//        else{
-//            Toast.makeText(getContext(),"사진을 넣어주세요",Toast.LENGTH_SHORT);
-//        }
     }
 
     private void goToBackFragment() {
         WritePostFragment writePostFragment = new WritePostFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(writePostFragment);
         fragmentTransaction.commit();

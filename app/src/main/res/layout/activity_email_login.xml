@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +24,9 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginBottom="@dimen/margin_58dp"
-            android:visibility="gone"
-            android:layout_gravity="center"/>
+            android:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_login_email"
@@ -43,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFC107"
                 android:hint="@string/email"
-                android:maxLines="1"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,11 +59,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#FFC107"
-                android:minEms="5"
-                android:maxLines="1"
-                android:maxEms="15"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxEms="15"
+                android:maxLines="1"
+                android:minEms="5" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +71,7 @@
             android:id="@+id/autoLoginCheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/autoLogin"/>
+            android:text="@string/autoLogin" />
 
         <Button
             android:id="@+id/btn_login"

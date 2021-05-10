@@ -10,20 +10,4 @@ public class Post {
     @SerializedName("stored_paths")
     @Expose
     private String storedPaths;
-
-    public PostRequest getPostRequest() {
-        return postRequest;
-    }
-
-    public void setPostRequest(PostRequest postRequest) {
-        this.postRequest = postRequest;
-    }
-
-    public String getStoredPaths() {
-        return storedPaths;
-    }
-
-    public void setStoredPaths(String storedPaths) {
-        this.storedPaths = storedPaths;
-    }
 }

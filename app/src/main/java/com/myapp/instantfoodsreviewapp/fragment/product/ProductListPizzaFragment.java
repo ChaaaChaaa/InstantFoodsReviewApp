@@ -37,7 +37,6 @@ public class ProductListPizzaFragment extends Fragment {
         LinearLayoutManager layoutManagerPizza = new LinearLayoutManager(getActivity());
         recyclerViewPizza.setLayoutManager(layoutManagerPizza);
         initPizza();
-        // showRecyclerView();
         return rootView;
     }
 
@@ -49,6 +48,4 @@ public class ProductListPizzaFragment extends Fragment {
         productViewModelPizza.productPagedList.observe(getViewLifecycleOwner(), products -> adapterPizza.submitList(products));
         recyclerViewPizza.setAdapter(adapterPizza);
     }
-
-
 }

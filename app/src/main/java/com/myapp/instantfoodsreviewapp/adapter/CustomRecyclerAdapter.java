@@ -24,15 +24,9 @@ import com.myapp.instantfoodsreviewapp.model.Product;
 import java.util.ArrayList;
 
 public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyclerAdapter.RecyclerViewHolder> {
-
-    private static final String LOG_TAG = CustomRecyclerAdapter.class.getSimpleName();
-    private String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
-
-
     public CustomRecyclerAdapter() {
         super(DIFF_CALLBACK);
     }
-
 
     @NonNull
     @Override
@@ -42,12 +36,11 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
         return new RecyclerViewHolder(view);
     }
 
-    private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
+    private static final DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Product>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Product oldItem, @NonNull Product newItem) {
-                    // return oldItem.getPrId().equals(newItem.getPrId());
-                    return oldItem.getPrId() == newItem.getPrId();
+                    return oldItem.getPrId().equals(newItem.getPrId());
                 }
 
                 @SuppressLint("DiffUtilEquals")
@@ -68,34 +61,28 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Product product = getItem(position);
         Log.e("Product BindPosition ", "" + position + " Size Item :" + getItemCount());
+        assert product != null;
         Log.e("PrReviewCount()", "" + product.getPrReviewCount() + " product.getPrReviewCount()" + product.getPrReviewCount());
-        if (product != null) {
-            String productImageUri = IMG_BASE_URL + product.getPrImage();
-            Glide.with(holder.itemView)
-                    .load(productImageUri)
-                    .into(holder.imageFood);
+        String IMG_BASE_URL = "https://s3.ap-northeast-2.amazonaws.com/ppizil.app.review/";
+        String productImageUri = IMG_BASE_URL + product.getPrImage();
+        Glide.with(holder.itemView)
+                .load(productImageUri)
+                .into(holder.imageFood);
 
-            String categoryName = setCategoryResult(product.getPrCategory());
-            holder.foodCategory.setText(categoryName);
-            holder.foodName.setText(product.getPrTitle());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ArrayList<Product> pickProduct = new ArrayList<>();
-                    pickProduct.add(getItem(position));
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    PostsListFragment postsListFragment = new PostsListFragment(pickProduct);
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, postsListFragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });
-        } else {
-            Log.e("item is null", " " + holder.itemView);
-            // Toast.makeText(listItems,"item is null",Toast.LENGTH_LONG).show();
-        }
+        String categoryName = setCategoryResult(product.getPrCategory());
+        holder.foodCategory.setText(categoryName);
+        holder.foodName.setText(product.getPrTitle());
+        holder.itemView.setOnClickListener(v -> {
+            ArrayList<Product> pickProduct = new ArrayList<>();
+            pickProduct.add(getItem(position));
+            AppCompatActivity activity = (AppCompatActivity) v.getContext();
+            PostsListFragment postsListFragment = new PostsListFragment(pickProduct);
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, postsListFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
 
@@ -129,7 +116,7 @@ public class CustomRecyclerAdapter extends PagedListAdapter<Product, CustomRecyc
     }
 
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageFood;
         public TextView foodCategory;
         public TextView foodName;

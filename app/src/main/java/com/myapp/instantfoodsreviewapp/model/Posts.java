@@ -35,7 +35,7 @@ public class Posts {
     @Expose
     private Integer prId;
 
-    public Posts(String postTitle, int rating, String goodPostPoint, String badPostPoint, String postPicture){
+    public Posts(String postTitle, int rating, String goodPostPoint, String badPostPoint, String postPicture) {
         this.title = postTitle;
         this.score = rating;
         this.goodContents = goodPostPoint;

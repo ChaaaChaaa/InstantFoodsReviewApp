@@ -12,16 +12,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.gson.JsonIOException;
 import com.myapp.instantfoodsreviewapp.model.Posts;
 import com.myapp.instantfoodsreviewapp.model.PostsResponse;
-import com.myapp.instantfoodsreviewapp.model.Product;
 import com.myapp.instantfoodsreviewapp.preference.UserPreference;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitClient;
 import com.myapp.instantfoodsreviewapp.restapi.RetrofitInterface;
 import com.myapp.instantfoodsreviewapp.utils.Config;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,22 +41,19 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
     SwipeRefreshLayout swipeRefreshLayout;
 
 
-
     PostDataSource(int productId) {
         Log.e("3 productId", " " + productId);
         this.productId = productId;
     }
 
     private String getTokenResult() {
-        UserPreference userPreference = new UserPreference();
-        userToken = userPreference.getInstance().getString(Config.KEY_TOKEN);
+        userToken = UserPreference.getInstance().getString(Config.KEY_TOKEN);
         return userToken;
     }
 
     private Long getTimeStamp() {
         Date currentTime = Calendar.getInstance().getTime();
-        long timestamp = currentTime.getTime() / 1000L;
-        return timestamp;
+        return currentTime.getTime() / 1000L;
     }
 
 
@@ -68,7 +67,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                 retrofitInterface.searchProduct(userToken, productId, SORT_TYPE, FIRST_PAGE, currentTimeStamp, PAGE_SIZE);
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @Override
-            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+            public void onResponse(@NotNull Call<PostsResponse> call, @NotNull Response<PostsResponse> response) {
                 try {
                     PostsResponse postsResponse = response.body();
 
@@ -76,18 +75,16 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         swipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (response.isSuccessful() && postsResponse.getResultData().size() != 0) {
+                    if (response.isSuccessful() && Objects.requireNonNull(postsResponse).getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
 
                         Log.e("00 current page :", " " + FIRST_PAGE);
-                        // swipeRefreshLayout.setRefreshing(false);
                         callback.onResult(responseItems, null, FIRST_PAGE + 1);
                     } else {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
-                        //Log.e("Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {
@@ -99,7 +96,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
             }
 
             @Override
-            public void onFailure(Call<PostsResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<PostsResponse> call, @NotNull Throwable t) {
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
@@ -119,13 +116,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+            public void onResponse(@NotNull Call<PostsResponse> call, @NotNull Response<PostsResponse> response) {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    if (response.isSuccessful()&&  postsResponse.getResultData().size() != 0) {
+                    if (response.isSuccessful() && Objects.requireNonNull(postsResponse).getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
@@ -143,17 +140,18 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         callback.onResult(responseItems, key);
 
 
-                    }
-                 else if( postsResponse.getResultData().size() == 0) {
-                    List<Posts> responseItems = new ArrayList<>();
-                    responseItems.add(null);
-                    //Log.e("Server Error", " " + postsResponse.getResultData());
-                }
-                    else {
-                        if (swipeRefreshLayout != null) {
-                            swipeRefreshLayout.setRefreshing(false);
+                    } else {
+                        assert postsResponse != null;
+                        if (postsResponse.getResultData().size() == 0) {
+                            List<Posts> responseItems = new ArrayList<>();
+                            responseItems.add(null);
+                            //Log.e("Server Error", " " + postsResponse.getResultData());
+                        } else {
+                            if (swipeRefreshLayout != null) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                            Log.e("Server Error", " " + postsResponse.getResultData());
                         }
-                        Log.e("Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {
@@ -165,7 +163,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
             }
 
             @Override
-            public void onFailure(Call<PostsResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<PostsResponse> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
             }
         });
@@ -180,13 +178,13 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
         postsResponseCall.enqueue(new Callback<PostsResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
-            public void onResponse(Call<PostsResponse> call, Response<PostsResponse> response) {
+            public void onResponse(@NotNull Call<PostsResponse> call, @NotNull Response<PostsResponse> response) {
                 try {
                     PostsResponse postsResponse = response.body();
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    if (response.isSuccessful()&&  postsResponse.getResultData().size() != 0) {
+                    if (response.isSuccessful() && Objects.requireNonNull(postsResponse).getResultData().size() != 0) {
                         List<Posts> responseItems = new ArrayList<>();
                         responseItems.add(null);
                         responseItems.addAll(postsResponse.getResultData());
@@ -195,17 +193,17 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
                         Log.e("11 current page :", " " + adjacentKey);
                         callback.onResult(responseItems, adjacentKey);
 
-                    }
-
-                    else if(postsResponse.getResultData().size() != 0) {
-                        List<Posts> responseItems = new ArrayList<>();
-                        responseItems.add(null);
-                    }
-                    else {
-                        if (swipeRefreshLayout != null) {
-                            swipeRefreshLayout.setRefreshing(false);
+                    } else {
+                        assert postsResponse != null;
+                        if (postsResponse.getResultData().size() != 0) {
+                            List<Posts> responseItems = new ArrayList<>();
+                            responseItems.add(null);
+                        } else {
+                            if (swipeRefreshLayout != null) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                            Log.e("111 Server Error", " " + postsResponse.getResultData());
                         }
-                        Log.e("111 Server Error", " " + postsResponse.getResultData());
                     }
 
                 } catch (JsonIOException e) {
@@ -217,7 +215,7 @@ public class PostDataSource extends PageKeyedDataSource<Integer, Posts> {
             }
 
             @Override
-            public void onFailure(Call<PostsResponse> call, Throwable t) {
+            public void onFailure(@NotNull Call<PostsResponse> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure() called with: call = [" + call + "], t = [" + t + "]");
             }
         });
